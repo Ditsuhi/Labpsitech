@@ -1,0 +1,10 @@
+{
+  "development": {
+    "apiUrl": "https://metrics-api.geotecuji.org/api/v1",
+    "appId": "app-36437104577c4432"
+  },
+  "production": {
+    "apiUrl": "https://metrics-api.geotecuji.org/api/v1",
+    "appId": "app-36437104577c4432"
+  }
+}

@@ -1,0 +1,74 @@
+<div class="row">
+  <div class="col-lg-6">
+    <nb-card>
+      <nb-card-header>Max Time Consecutive</nb-card-header>
+      <nb-card-body>
+        <ngx-d3-pie
+          [results]="maxTimeConsecutive"
+        ></ngx-d3-pie>
+      </nb-card-body>
+    </nb-card>
+  </div>
+  <div class="col-lg-6">
+    <nb-card>
+      <nb-card-header>Time (Inside/Outside)</nb-card-header>
+      <nb-card-body>
+        <ngx-d3-pie
+          [results]="timeInOut"
+        ></ngx-d3-pie>
+      </nb-card-body>
+    </nb-card>
+  </div>
+  <div class="col-lg-6">
+    <nb-card>
+      <nb-card-header>Count</nb-card-header>
+      <nb-card-body>
+        <ngx-d3-pie
+          [results]="countInOut"
+        ></ngx-d3-pie>
+      </nb-card-body>
+    </nb-card>
+  </div>
+  <div class="col-lg-6">
+    <nb-card>
+      <nb-card-header>Time (Max/Min)</nb-card-header>
+      <nb-card-body>
+        <ngx-d3-pie
+          [results]="timeMinMax"
+        ></ngx-d3-pie>
+      </nb-card-body>
+    </nb-card>
+  </div>
+  <div class="col-lg-6">
+    <nb-card>
+      <nb-card-header>Speed</nb-card-header>
+      <nb-card-body>
+        <ngx-d3-pie
+          [results]="speedMinMax"
+        ></ngx-d3-pie>
+      </nb-card-body>
+    </nb-card>
+  </div>
+  <div class="col-lg-6">
+    <nb-card>
+      <nb-card-header>Distance</nb-card-header>
+      <nb-card-body>
+        <ngx-d3-bar
+          [showLegend]="true"
+          [results]="distance"
+        ></ngx-d3-bar>
+      </nb-card-body>
+    </nb-card>
+  </div>
+  <div class="col-lg-6">
+    <nb-card>
+      <nb-card-header>Count Location</nb-card-header>
+      <nb-card-body>
+        <ngx-d3-bar
+          [showLegend]="false"
+          [results]="countLoc"
+        ></ngx-d3-bar>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>
