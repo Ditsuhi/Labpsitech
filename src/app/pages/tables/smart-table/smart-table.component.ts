@@ -40,11 +40,15 @@ export class SmartTableComponent {
         type: 'string',
       },
       experimentDate: {
-        title: 'experimentDate',
+        title: 'ExperimentDate',
         type: 'number',
       },
       baseline: {
         title: 'Baseline',
+        type: 'number',
+      },
+      repeatedLocations: {
+        title: 'RepeatedLocations',
         type: 'number',
       },
     },
@@ -56,20 +60,38 @@ export class SmartTableComponent {
     private service: SmartTableService,
     private leafletService: LeafletService,
   ) {
-    leafletService.getUsersConfigs()
-      .subscribe((results) => {
-        const data = results;
-        data.forEach((result, idx) => {
-          result.id = idx + 1;
-        });
-        this.source.load(data);
-      });
+    // leafletService.getUsersConfigs()
+    //   .subscribe((results) => {
+    //     const data = results;
+    //     data.forEach((result, idx) => {
+    //       result.id = idx + 1;
+    //     });
+    //     this.source.load(data);
+    //   });
     // const data = this.service.getData();
     // this.source.load(data);
-  }
+    //
+    //   this.leafletService.getUsersConfig().subscribe((data) => {
+    //     const res = JSON.parse(data[0].value);
+    //     res.forEach(( idx ) => {
+    //       res.id = idx + 1;
+    //     });
+    //    this.source.load(res);
+    //    // console.log(res) ;
+    //
+    // })
+    this.leafletService.getFromFile().subscribe((data) => {
+      const res = data[0].value;
+      res.forEach((idx) => {
+        res.id = idx + 1;
+      });
+      this.source.load(res);
+      console.log(data);
+    });
 
+  };
   onSelectConfirm(event) {
     console.log('rr', event);
-    localStorage.setItem('selectedUser', event.selected[0].user);
+    localStorage.setItem('selectedUser', JSON.stringify(event.selected[0]));
   }
 }

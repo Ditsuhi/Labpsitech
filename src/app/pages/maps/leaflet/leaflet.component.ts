@@ -3,6 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import * as L from 'leaflet';
 import 'style-loader!leaflet/dist/leaflet.css';
 import { LeafletService } from './leaflet.service';
+import latLng = L.latLng;
+
+const currentUser = JSON.parse(localStorage.getItem('selectedUser'));
 
 @Component({
   selector: 'ngx-leaflet',
@@ -12,7 +15,6 @@ import { LeafletService } from './leaflet.service';
       <nb-card-header>Leaflet Maps</nb-card-header>
       <nb-card-body>
         <div leaflet [leafletOptions]="options" (leafletMapReady)="onReadyMap($event)" [leafletLayers]="layers"></div>
-        <!--<p><button (click)="getradius()"></button></p>-->
       </nb-card-body>
     </nb-card>
   `,
@@ -29,10 +31,11 @@ export class LeafletComponent implements OnInit {
   };
   layers = [];
   userDatas = [];
-  userName = 'luis';
+  // userName = 'luis';
   constructor(public leafletService: LeafletService) {}
   ngOnInit() {
-    this.getUserDatas();
+   //   this.getUserDatas();
+    this.getUserLatLngs();
   }
 
 
@@ -93,8 +96,10 @@ export class LeafletComponent implements OnInit {
         position: 'topleft'
       },
 
+      // radius: this.getradius,
+
       onAdd: function (map) {
-        const container1 = L.DomUtil.create('button', ' leaflet-bar leaflet-control leaflet-control-custom ');
+        const container1 = L.DomUtil.create('div', ' leaflet-bar leaflet-control leaflet-control-custom ');
 
         function getradius() {
           console.log('Hello');
@@ -102,15 +107,14 @@ export class LeafletComponent implements OnInit {
 
         container1.style.backgroundColor = 'white';
         container1.style.backgroundSize = '32px 32px';
-        container1.style.width = '320px';
+        container1.style.width = '32px';
         container1.style.height = '32px';
         container1.title = 'Path';
-        container1.innerHTML = '<button (click)="function(){console.log(\'Hello\');}">fff</button>';
-        // container1.innerHTML = '<i class="ion-arrow-graph-up-right" aria-hidden="true"></i>';
+        container1.innerHTML = '<i class="ion-arrow-graph-up-right" aria-hidden="true"></i>';
         container1.style.fontSize = '28px';
         container1.style.lineHeight = '32px';
         container1.style.color = '#171717';
-         // container1.onclick = this.getradius();
+         // container1.onclick = this.radius;
         return container1;
       },
     });
@@ -158,25 +162,73 @@ export class LeafletComponent implements OnInit {
     this.initIcons();
 
   }
-  getradius(){
-    console.log("Hello");
-  }
-  getUserDatas() {
-    // this.leafletService.getUsersLocation()
-    //   .subscribe((data) => {
-    //     this.userDatas = data.filter((d) => {
-    //       return d.user === this.userName;
+  // getradius() {
+  //   this.leafletService.getUsersConfig().subscribe((data) => {
+  //     this.userDatas = data.filter((d) => {
+  //      return d.user === this.userName;
+  //           });
+  //     console.log( 'uegfug' );
+  //   });
+  // }
+
+  // getUserData() {
+    //   // console.log(this.leafletService.getSelectedUser());
+    //
+    //   this.leafletService.getUsersLocation()
+    //     .subscribe((data) => {
+    //       this.userDatas = data.filter((d) => {
+    //         return d.user === selectedUser;
+    //
+    //       });
+    //       this.getUserLatLngs();
     //     });
-    //     this.getUserLatLngs();
+    // }
+    // getUserLatLngs() {
+    //   this.userDatas.forEach((user) => {
+    //     this.latlngs.push([
+    //       user.location.latitude,
+    //       user.location.longitude,
+    //     ]);
     //   });
-  }
+    //
+    //  //  apushutyun if( onclick()){}
+    //   this.map.addLayer(L.polyline([...this.latlngs]));
+// }
+//   }
+//   getUserDatas() {
+//     this.leafletService.getUsersConfigData(currentUser)
+//       .subscribe((result) => {
+//         //
+//       return this.userDatas.push(result.locations);
+//       });
+//     this.getUserLatLngs();
+//     // console.log(result);
+ //  }
   getUserLatLngs() {
-    this.userDatas.forEach((user) => {
+    this.leafletService.getUsersConfigData(currentUser).subscribe((result) => {
+      const res = result;
+      console.log('GET USER LATLON');
+      console.log(res);
+      res.locations.forEach((user) => {
+      // res.forEach((user) => {
         this.latlngs.push([
-        user.location.latitude,
-        user.location.longitude,
-      ]);
+          user.latitude,
+          user.longitude,
+        ]);
+        console.log('location');
+      });
+      this.map.addLayer(L.polyline([...this.latlngs]));
+      // this.map.addLayer(L.polyline([...latlngs]));
     });
-    this.map.addLayer(L.polyline([...this.latlngs]));
   }
+
+// getUserDatas() {
+//   this.leafletService.getUsersConfig()
+//     .subscribe((data) => {
+//       this.userDatas = data.filter((d) => {
+//         return d.user === selectedUser;
+//       });
+//       console.log(data[0].value);
+//       // this.getUserLatLngs();
+//     });
 }
