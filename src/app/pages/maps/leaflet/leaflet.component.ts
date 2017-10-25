@@ -34,7 +34,8 @@ export class LeafletComponent implements OnInit {
   // userName = 'luis';
   constructor(public leafletService: LeafletService) {}
   ngOnInit() {
-   //   this.getUserDatas();
+    // const currentUser = JSON.parse(localStorage.getItem('selectedUser'));
+   //  this.getUserDatas();
     this.getUserLatLngs();
   }
 
@@ -96,14 +97,11 @@ export class LeafletComponent implements OnInit {
         position: 'topleft'
       },
 
-      // radius: this.getradius,
+      // radius: this.getUserLatLngs,
+      // that: this,
 
       onAdd: function (map) {
         const container1 = L.DomUtil.create('div', ' leaflet-bar leaflet-control leaflet-control-custom ');
-
-        function getradius() {
-          console.log('Hello');
-        }
 
         container1.style.backgroundColor = 'white';
         container1.style.backgroundSize = '32px 32px';
@@ -114,7 +112,7 @@ export class LeafletComponent implements OnInit {
         container1.style.fontSize = '28px';
         container1.style.lineHeight = '32px';
         container1.style.color = '#171717';
-         // container1.onclick = this.radius;
+       // container1.onclick = this.radius;
         return container1;
       },
     });
@@ -160,6 +158,7 @@ export class LeafletComponent implements OnInit {
     this.map = map;
     // this.initButtons();
     this.initIcons();
+    // this.getUserLatLngs();
 
   }
   // getradius() {
@@ -205,19 +204,26 @@ export class LeafletComponent implements OnInit {
 //     // console.log(result);
  //  }
   getUserLatLngs() {
+
     this.leafletService.getUsersConfigData(currentUser).subscribe((result) => {
-      const res = result;
+      // const res = result;
       console.log('GET USER LATLON');
-      console.log(res);
-      res.locations.forEach((user) => {
-      // res.forEach((user) => {
+      console.log(result.locations[2].lat);
+      for (let i = 0; i < result.locations.length; i++) {
         this.latlngs.push([
-          user.latitude,
-          user.longitude,
+          result.locations[i].lat,
+          result.locations[i].lon,
         ]);
-        console.log('location');
-      });
-      this.map.addLayer(L.polyline([...this.latlngs]));
+      }
+      // result.locations.forEach((user) => {
+      // // res.forEach((user) => {
+      //   this.latlngs.push([
+      //     result.locations.lat,
+      //     result.locations.lon,
+      //   ]);
+       console.log(this.latlngs);
+      // });
+     this.map.addLayer(L.polyline([...this.latlngs]));
       // this.map.addLayer(L.polyline([...latlngs]));
     });
   }

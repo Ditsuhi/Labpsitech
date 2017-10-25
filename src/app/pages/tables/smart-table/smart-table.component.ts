@@ -43,12 +43,28 @@ export class SmartTableComponent {
         title: 'ExperimentDate',
         type: 'number',
       },
-      baseline: {
-        title: 'Baseline',
-        type: 'number',
-      },
+      // baseline: {
+      //   title: 'Baseline',
+      //   type: 'number',
+      // },
       repeatedLocations: {
         title: 'RepeatedLocations',
+        type: 'number',
+      },
+      min_time: {
+        title: 'MinTime',
+        type: 'string',
+      },
+      max_time: {
+        title: 'MaxTime',
+        type: 'string',
+      },
+      minSpeed: {
+        title: 'MinSpeed',
+        type: 'number',
+      },
+      maxSpeed: {
+        title: 'MaxSpeed',
         type: 'number',
       },
     },
@@ -80,15 +96,15 @@ export class SmartTableComponent {
     //    // console.log(res) ;
     //
     // })
+
     this.leafletService.getFromFile().subscribe((data) => {
       const res = data[0].value;
       res.forEach((idx) => {
         res.id = idx + 1;
       });
       this.source.load(res);
-      console.log(data);
+     //  console.log(data);
     });
-
   };
   onSelectConfirm(event) {
     console.log('rr', event);

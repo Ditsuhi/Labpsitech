@@ -10,7 +10,7 @@ export class D3Component implements OnInit {
 
   maxTimeConsecutive = [];
   timeInOut = [];
-  timeMinMax = [];
+ //  timeMinMax = [];
   speedMinMax = [];
   countInOut = [];
   distance = [];
@@ -20,12 +20,6 @@ export class D3Component implements OnInit {
   ngOnInit() {
 
     const currentUser = JSON.parse(localStorage.getItem('selectedUser'));
-    // const currentUser = JSON.parse(localStorage.getItem('selectedUser')).user;
-    // const expDate = JSON.parse(localStorage.getItem('selectedUser')).experimentDate;
-    // const newBatch = JSON.parse(localStorage.getItem('selectedUser')).batch;
-    //  console.log(currentUser);
-    //  console.log(expDate);
-    //  console.log(newBatch);
   this.leafletService.getUsersConfigData(currentUser)
     .subscribe((result) => {
        console.log(result.maxTimeConsecutiveOutside);
@@ -37,18 +31,18 @@ export class D3Component implements OnInit {
           { name: 'Inside', value: result.timeInside },
           { name: 'Outside', value: result.timeInside },
         ];
-        this.timeMinMax = [
-          { name: 'Min', value: result.min_time },
-          { name: 'Max', value: result.max_time },
-        ];
+        // this.timeMinMax = [
+        //   { name: 'Min', value: result.min_time },
+        //   { name: 'Max', value: result.max_time },
+        // ];
         this.countInOut = [
           { name: 'Enter', value: result.countEntering },
           { name: 'Exit', value: result.countExiting },
         ];
-        this.speedMinMax = [
-          { name: 'Min', value: result.minSpeed },
-          { name: 'Max', value: result.maxSpeed },
-        ];
+        // this.speedMinMax = [
+        //   { name: 'Min', value: result.minSpeed },
+        //   { name: 'Max', value: result.maxSpeed },
+        // ];
         this.distance = [
           { name: 'Inside', value: result.totalDistanceInside },
           { name: 'Outside', value: result.totalDistanceOutside },
