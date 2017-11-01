@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 import * as L from 'leaflet';
 import 'style-loader!leaflet/dist/leaflet.css';
@@ -22,6 +22,8 @@ const currentUser = JSON.parse(localStorage.getItem('selectedUser'));
 export class LeafletComponent implements OnInit {
   map: L.Map;
   latlngs = [];
+ //  curLoc: any;
+  curLoc = [];
   options = {
     layers: [
       L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '...' }),
@@ -34,11 +36,9 @@ export class LeafletComponent implements OnInit {
   // userName = 'luis';
   constructor(public leafletService: LeafletService) {}
   ngOnInit() {
-    // const currentUser = JSON.parse(localStorage.getItem('selectedUser'));
-   //  this.getUserDatas();
-    this.getUserLatLngs();
+   this.getUserLatLngs();
+   this.getCurrentLocation();
   }
-
 
   initIcons() {
     const customContro0 = L.Control.extend({
@@ -46,6 +46,8 @@ export class LeafletComponent implements OnInit {
       options: {
         position: 'topleft'
       },
+
+     //  loc: this.getCurrentLocation(),
 
       onAdd: function (map) {
         const container0 = L.DomUtil.create('div', ' leaflet-bar leaflet-control leaflet-control-custom text-center ');
@@ -60,7 +62,7 @@ export class LeafletComponent implements OnInit {
         container0.style.lineHeight = '32px';
         container0.style.color = '#171717';
 
-        //  container0.onclick =  currentLocation();
+     //   container0.onclick =  this.loc;
 
         return container0;
       }
@@ -97,8 +99,7 @@ export class LeafletComponent implements OnInit {
         position: 'topleft'
       },
 
-      // radius: this.getUserLatLngs,
-      // that: this,
+       // radius: this.getUserLatLngs(),
 
       onAdd: function (map) {
         const container1 = L.DomUtil.create('div', ' leaflet-bar leaflet-control leaflet-control-custom ');
@@ -112,12 +113,14 @@ export class LeafletComponent implements OnInit {
         container1.style.fontSize = '28px';
         container1.style.lineHeight = '32px';
         container1.style.color = '#171717';
-       // container1.onclick = this.radius;
+        // container1.onclick = this.radius;
         return container1;
       },
     });
     this.map.addControl(new customControl1());
   }
+
+
   //
   // initButtons() {
   //   const customControl =  L.Control.extend({ options: { position: 'topleft' },
@@ -161,73 +164,49 @@ export class LeafletComponent implements OnInit {
     // this.getUserLatLngs();
 
   }
-  // getradius() {
-  //   this.leafletService.getUsersConfig().subscribe((data) => {
-  //     this.userDatas = data.filter((d) => {
-  //      return d.user === this.userName;
-  //           });
-  //     console.log( 'uegfug' );
-  //   });
-  // }
-
-  // getUserData() {
-    //   // console.log(this.leafletService.getSelectedUser());
-    //
-    //   this.leafletService.getUsersLocation()
-    //     .subscribe((data) => {
-    //       this.userDatas = data.filter((d) => {
-    //         return d.user === selectedUser;
-    //
-    //       });
-    //       this.getUserLatLngs();
-    //     });
-    // }
-    // getUserLatLngs() {
-    //   this.userDatas.forEach((user) => {
-    //     this.latlngs.push([
-    //       user.location.latitude,
-    //       user.location.longitude,
-    //     ]);
-    //   });
-    //
-    //  //  apushutyun if( onclick()){}
-    //   this.map.addLayer(L.polyline([...this.latlngs]));
-// }
-//   }
-//   getUserDatas() {
-//     this.leafletService.getUsersConfigData(currentUser)
-//       .subscribe((result) => {
-//         //
-//       return this.userDatas.push(result.locations);
-//       });
-//     this.getUserLatLngs();
-//     // console.log(result);
- //  }
   getUserLatLngs() {
 
     this.leafletService.getUsersConfigData(currentUser).subscribe((result) => {
       // const res = result;
       console.log('GET USER LATLON');
-      console.log(result.locations[2].lat);
-      for (let i = 0; i < result.locations.length; i++) {
-        this.latlngs.push([
-          result.locations[i].lat,
-          result.locations[i].lon,
-        ]);
-      }
-      // result.locations.forEach((user) => {
-      // // res.forEach((user) => {
-      //   this.latlngs.push([
-      //     result.locations.lat,
-      //     result.locations.lon,
-      //   ]);
-       console.log(this.latlngs);
-      // });
-     this.map.addLayer(L.polyline([...this.latlngs]));
-      // this.map.addLayer(L.polyline([...latlngs]));
-    });
+      console.log(result.locations);
+       result.locations.sort(result.locations.time);
+       console.log(result.locations);
+       for (let i = 0; i < result.locations.length; i++) {
+         //   // result.locations.sort(() => {
+         //
+         //   //  if ( result.locations[i + 1].time < result.locations[i + 1].time ) {
+         this.latlngs.push([
+           result.locations[i].lat,
+           result.locations[i].lon,
+         ]);
+       }
+          this.map.addLayer(L.polyline([...this.latlngs]));
+       });
   }
 
+  getCurrentLocation() {
+
+    this.leafletService.getUsersConfigData(currentUser).subscribe((result) => {
+      const loc = result.locations;
+      console.log(loc);
+      for (let i = 0; i < loc.length; i++) {
+          if (typeof loc[i].previd === 'undefined') {
+            this.curLoc.push([
+              result.locations[i].lat,
+              result.locations[i].lon,
+            ])
+          }
+        }
+        L.marker([this.curLoc[0][0], this.curLoc[0][1]], {
+          icon: L.icon({
+            iconSize: [41, 41],
+            iconAnchor: [10, 0],
+            iconUrl: 'assets/images/Location.png'
+          })
+        }).addTo(this.map);
+      })
+  }
 // getUserDatas() {
 //   this.leafletService.getUsersConfig()
 //     .subscribe((data) => {
