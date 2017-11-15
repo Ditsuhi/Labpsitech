@@ -45,7 +45,7 @@ export class LeafletService {
         const userData = results.filter((d) => {
           return d.user === user.user && d.experimentDate === user.experimentDate && d.batch === user.batch
         });
-        console.log(userData);
+       //  console.log(userData);
         return userData[0];
       })
   }
@@ -61,7 +61,8 @@ export class LeafletService {
   // }
   //
   // getUsersConfData(user) {
-  //   return this.http.get(`${this.apiUrl}/metrics-data/${this.appId}/calculateMetrics?application=${this.appId}&session=session1&user=admin`)
+  //   return this.http.get(`${this.apiUrl}/metrics-data/${this.appId}
+  //  /calculateMetrics?application=${this.appId}&session=session1&user=admin`)
   //     .map((res) => {
   //       const results = res.json().result.results;
   //       const userData = results.filter((d) => {

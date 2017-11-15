@@ -4,7 +4,7 @@
   ],
   "rules": {
     "trailing-comma": [
-      true,
+      false,
       {
         "multiline": "always",
         "singleline": "never"
@@ -33,7 +33,7 @@
     "label-position": true,
     "max-line-length": [
       true,
-      120
+      250
     ],
     "member-access": false,
     "no-arg": true,
