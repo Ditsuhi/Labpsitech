@@ -53,8 +53,8 @@ const NB_MODULES = [
 
 const COMPONENTS = [
   ThemeSwitcherComponent,
-  FooterComponent,
   HeaderComponent,
+  FooterComponent,
   SearchInputComponent,
   ThemeSettingsComponent,
   TinyMCEComponent,

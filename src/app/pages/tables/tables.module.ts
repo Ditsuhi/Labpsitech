@@ -5,6 +5,7 @@ import { ThemeModule } from '../../@theme/theme.module';
 import { TablesRoutingModule, routedComponents } from './tables-routing.module';
 import { SmartTableService } from '../../@core/data/smart-table.service';
 import { LeafletService } from '../maps/leaflet/leaflet.service';
+import { UserService } from '../../@core/data/user.service';
 
 @NgModule({
   imports: [
@@ -18,6 +19,7 @@ import { LeafletService } from '../maps/leaflet/leaflet.service';
   providers: [
     SmartTableService,
     LeafletService,
+    UserService,
   ],
 })
 export class TablesModule { }
