@@ -18,6 +18,7 @@ import {
 } from '@nebular/theme';
 
 import {
+  FooterComponent,
   HeaderComponent,
   SearchInputComponent,
   ThemeSettingsComponent,
@@ -52,6 +53,7 @@ const NB_MODULES = [
 
 const COMPONENTS = [
   ThemeSwitcherComponent,
+  FooterComponent,
   HeaderComponent,
   SearchInputComponent,
   ThemeSettingsComponent,

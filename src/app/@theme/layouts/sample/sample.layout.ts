@@ -43,6 +43,10 @@ import 'rxjs/add/operator/delay';
         <nb-menu [items]="subMenu"></nb-menu>
       </nb-layout-column>
 
+      <nb-layout-footer fixed>
+        <ngx-footer></ngx-footer>
+      </nb-layout-footer>
+      
       <nb-sidebar class="settings-sidebar"
                    tag="settings-sidebar"
                    state="collapsed"

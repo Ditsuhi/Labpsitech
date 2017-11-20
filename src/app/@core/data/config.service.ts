@@ -1,15 +1,14 @@
 import { Injectable } from '@angular/core';
 
 const config = {
+  dd: 'https://metrics-api.geotecuji.org/api/v1/metrics-data/app-36437104577c4432/calculateMetrics?application=app-36437104577c4432&user=admin&session=session2',
   apiUrl: 'https://metrics-api.geotecuji.org/api/v1',
   appId: 'app-36437104577c4432',
-  // url: 'https://metrics-api.geotecuji.org/api/v1/metrics-data/app-36437104577c4432/calculateMetrics?',
-  // // application=app-36437104577c4432&session=session1&user=admin',
+  calcMtrxUrl: 'https://metrics-api.geotecuji.org/api/v1/metrics-data/app-36437104577c4432/calculateMetrics',
 };
 
 
-// Davidin nash tali heti, ays namboxj commen@ erkalaca smart-table-components-ic;
-//
+
 // this.leafletService.getUsersConfig().subscribe((data) => {
 //   const res = JSON.parse(data[0].value);
 //   const user = 'aaa';
