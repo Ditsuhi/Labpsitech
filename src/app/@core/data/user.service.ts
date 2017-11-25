@@ -4,7 +4,7 @@ import * as _ from 'underscore'
 
 @Injectable()
 export class UserService {
-
+  selectedUser: any;
   constructor(private http: Http) {}
 
   getAllUsers() {

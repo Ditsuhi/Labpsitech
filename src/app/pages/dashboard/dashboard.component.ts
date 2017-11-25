@@ -6,4 +6,21 @@ import { Component } from '@angular/core';
   templateUrl: './dashboard.component.html',
 })
 export class DashboardComponent {
+  users = [
+    {
+      user: 'qwerty'
+    },
+    {
+      user: 'dfg'
+    },
+    {
+      user: 'vdfvdfv'
+    },
+    {
+      user: 'vdd'
+    },
+    {
+      user: 'vdfv'
+    }
+  ]
 }

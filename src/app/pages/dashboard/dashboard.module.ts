@@ -10,6 +10,8 @@ import { ElectricityChartComponent } from './electricity/electricity-chart/elect
 import { WeatherComponent } from './weather/weather.component';
 import { TrafficComponent } from './traffic/traffic.component';
 import { TrafficChartComponent } from './traffic/traffic-chart.component';
+import { UserCardComponent } from './user-card/user-card.component';
+import { UserService } from '../../@core/data/user.service';
 
 
 @NgModule({
@@ -26,6 +28,10 @@ import { TrafficChartComponent } from './traffic/traffic-chart.component';
     WeatherComponent,
     TrafficComponent,
     TrafficChartComponent,
+    UserCardComponent
   ],
+  providers: [
+    UserService
+  ]
 })
 export class DashboardModule { }
