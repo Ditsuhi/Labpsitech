@@ -10,10 +10,7 @@ export class UserService {
   getAllUsers() {
       return this.http.get('assets/data/calculateMetrics.json')
         .map((res) => res.json().result.results)
-        .map((data) => {
-          console.log(data[0].value);
-      return  data[0].value
-        });
+        .map((data) => data[0].value);
   }
 
   getUserData(user) {
