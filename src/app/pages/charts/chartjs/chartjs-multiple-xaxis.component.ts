@@ -15,36 +15,20 @@ export class ChartjsMultipleXaxisComponent implements OnDestroy, OnInit {
   options: any;
   themeSubscription: any;
 
-  constructor(private theme: NbThemeService, private userService: UserService, private leafletService: LeafletService) {
+  constructor(
+    private theme: NbThemeService,
+    private userService: UserService
+  ) {
     this.themeSubscription = this.theme.getJsTheme().subscribe(config => {
 
       const colors: any = config.variables;
       const chartjs: any = config.variables.chartjs;
 
       this.data = {
-        labels: ['January'],
+        labels: [],
         datasets: [
-          //   {
-          //   label: 'dataset - big points',
-          //   data: [this.random(), this.random(), this.random(), this.random(), this.random(), this.random()],
-          //   borderColor: colors.primary,
-          //   backgroundColor: colors.primary,
-          //   fill: false,
-          //   borderDash: [5, 5],
-          //   pointRadius: 8,
-          //   pointHoverRadius: 10,
-          // }, {
-          //   label: 'dataset - individual point sizes',
-          //   data: [this.random(), this.random(), this.random(), this.random(), this.random(), this.random()],
-          //   borderColor: colors.dangerLight,
-          //   backgroundColor: colors.dangerLight,
-          //   fill: false,
-          //   borderDash: [5, 5],
-          //   pointRadius: 8,
-          //   pointHoverRadius: 10,
-          // },
           {
-            label: 'dataset - large pointHoverRadius',
+            label: 'Inside',
             data: [],
             borderColor: colors.info,
             backgroundColor: colors.info,
@@ -52,7 +36,7 @@ export class ChartjsMultipleXaxisComponent implements OnDestroy, OnInit {
             // pointRadius: 8,
             pointHoverRadius: 10,
           }, {
-            label: 'dataset - large pointHitRadius',
+            label: 'Outside',
             data: [],
             borderColor: colors.success,
             backgroundColor: colors.success,
@@ -80,7 +64,7 @@ export class ChartjsMultipleXaxisComponent implements OnDestroy, OnInit {
               display: true,
               scaleLabel: {
                 display: true,
-                labelString: 'Month',
+                labelString: 'Experiment',
               },
               gridLines: {
                 display: true,
@@ -95,7 +79,7 @@ export class ChartjsMultipleXaxisComponent implements OnDestroy, OnInit {
             {
               display: true,
               scaleLabel: {
-                display: true,
+                display: false,
                 labelString: 'Value',
               },
               gridLines: {
@@ -112,17 +96,14 @@ export class ChartjsMultipleXaxisComponent implements OnDestroy, OnInit {
     });
     const currentUser = localStorage.getItem('selectedUser');
     console.log('selectedUser', this.userService.selectedUser);
-    this.leafletService.getUsersConfigData(currentUser)
-      .subscribe((result) => {
 
-        this.timeInOut = [
-          { name: 'Inside', value: result.timeInside },
-          { name: 'Outside', value: result.timeOutside },
-        ];
-        this.data.datasets[0].data.push(result.timeInside);
-        this.data.datasets[1].data.push(result.timeOutside);
-        console.log(this.timeInOut);
-      })
+    this.userService.getUserExpTime(currentUser).subscribe((exps) => {
+      exps.forEach((exp) => {
+        this.data.labels.push(exp.experimentDate);
+        this.data.datasets[0].data.push(exp.totalTimeInside / 1000 );
+        this.data.datasets[1].data.push(exp.totalTimeOutside / 1000);
+      });
+    });
   }
 
   ngOnInit() {

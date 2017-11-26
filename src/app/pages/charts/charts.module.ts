@@ -26,6 +26,7 @@ import { EchartsAreaStackComponent } from './echarts/echarts-area-stack.componen
 import { EchartsBarAnimationComponent } from './echarts/echarts-bar-animation.component';
 import { EchartsRadarComponent } from './echarts/echarts-radar.component';
 import { LeafletService } from '../maps/leaflet/leaflet.service';
+import { UserService } from '../../@core/data/user.service';
 
 const components = [
   ChartjsBarComponent,
@@ -54,6 +55,7 @@ const components = [
   declarations: [...routedComponents, ...components],
   providers: [
     LeafletService,
+    UserService
   ],
 })
 export class ChartsModule {}
