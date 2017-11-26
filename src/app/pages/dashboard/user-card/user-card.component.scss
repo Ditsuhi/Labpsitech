@@ -3,17 +3,5 @@ ngx-user-card {
     cursor: pointer;
 
   }
- .dropdown.btn-group {
-   > .dropdown-toggle {
-     &::after {
+}
 
-     }
-   }
-  }
-}
-.nb-theme-cosmic .dropdown.btn-group .btn:first-child:after {
-  top: 50%;
-  -webkit-transform: translateY(-50%);
-  transform: translateY(-50%);
-  right: 0.75rem;
-}
