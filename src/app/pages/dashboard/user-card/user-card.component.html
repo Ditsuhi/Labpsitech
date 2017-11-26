@@ -1,13 +1,13 @@
-<nb-card size = 'small'>
-  <nb-card-body (click)="selectUser()" >
-
-    {{user | uppercase}}
+<nb-card size="small">
+  <nb-card-body>
     <div class="btn-group" ngbDropdown>
-      <button class="btn btn-outline-primary btn-xs" ngbDropdownToggle></button>
-      <div class="dropdown-menu" ngbDropdownMenu>
-        <button class="dropdown-item" routerLink="/dashboard">Map</button>
-        <button class="dropdown-item" (click)="goToChart()">Chart</button>
-      </div>
+      <button class="btn btn-outline-primary btn-xs" ngbDropdownToggle>
+        {{user | uppercase}}
+      </button>
+      <ul class="dropdown-menu" ngbDropdownMenu>
+        <li class="dropdown-item" (click)="goToMap()">Map</li>
+        <li class="dropdown-item" (click)="goToChart()">Chart</li>
+      </ul>
     </div>
   </nb-card-body>
 
