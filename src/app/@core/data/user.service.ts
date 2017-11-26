@@ -44,19 +44,25 @@ export class UserService {
           const expUs = expUser.filter((data) => {
             return data.experimentDate === exp;
           });
-          let timeIn = 0, timeOut = 0;
+          let timeIn = 0, timeOut = 0, countExit = 0, totalDistanceIn = 0, totalDistanceOut =0;
           expUs.forEach((ss) => {
             timeIn += ss.timeInside;
             timeOut += ss.timeOutside;
+            countExit += ss.countExiting;
+            totalDistanceIn += ss.totalDistanceInside;
+            totalDistanceOut += ss.totalDistanceOutside;
           });
           expUserGroup.push({
             experimentDate: exp,
             totalTimeInside: timeIn,
-            totalTimeOutside: timeOut
+            totalTimeOutside: timeOut,
+            totalCountExiting: countExit,
+            totalDistanceInside: totalDistanceIn,
+            totalDistanceOutside: totalDistanceOut
           });
         });
-        console.log(expUserGroup);
         return expUserGroup;
       })
   }
+
 }

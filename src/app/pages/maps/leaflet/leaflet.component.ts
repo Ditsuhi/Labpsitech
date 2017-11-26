@@ -20,6 +20,11 @@ const currentUser = localStorage.getItem('selectedUser');
           <div class="leaflet-control-container">
             <div class="leaflet-top leaflet-right">
               <div class="leaflet-control-zoom leaflet-bar leaflet-control">
+                <input #newHero
+                       (keyup.enter)="go"
+                       (blur)="go; newHero.value='' ">
+
+                <button (click)="go">12</button>
                 <a class="leaflet-control-btn"
                    (click)="getCurrentLocation($event)" role="button"><i class="fa fa-map-marker"></i></a>
                 <a class="leaflet-control-btn"
@@ -48,7 +53,6 @@ export class LeafletComponent implements OnInit {
   };
   layers = [];
   userDatas = [];
-  // userName = 'luis';
   constructor(public leafletService: LeafletService, private userService: UserService) {}
   ngOnInit() {
    // this.getUserLatLngs();

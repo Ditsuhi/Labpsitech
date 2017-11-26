@@ -16,10 +16,12 @@ const routes: Routes = [{
   }, {
     path: 'charts',
     loadChildren: './charts/charts.module#ChartsModule',
-  }, {
-    path: 'tables',
-    loadChildren: './tables/tables.module#TablesModule',
-  }, {
+  },
+  //   {
+  //   path: 'tables',
+  //   loadChildren: './tables/tables.module#TablesModule',
+  // },
+    {
     path: '',
     redirectTo: 'dashboard',
     pathMatch: 'full',

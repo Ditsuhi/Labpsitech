@@ -1,5 +1,5 @@
 import { Component,  OnDestroy, OnInit } from '@angular/core';
-import { NbThemeService } from '@nebular/theme';
+import { NbColorHelper, NbThemeService } from '@nebular/theme';
 import { LeafletService } from '../../maps/leaflet/leaflet.service';
 import { UserService } from '../../../@core/data/user.service';
 
@@ -33,17 +33,19 @@ export class ChartjsMultipleXaxisComponent implements OnDestroy, OnInit {
             borderColor: colors.info,
             backgroundColor: colors.info,
             fill: false,
-            // pointRadius: 8,
+            pointRadius: 4,
             pointHoverRadius: 10,
-          }, {
-            label: 'Outside',
-            data: [],
-            borderColor: colors.success,
-            backgroundColor: colors.success,
-            fill: false,
-            // pointRadius: 8,
-            pointHoverRadius: 10,
-          }],
+          }
+          // , {
+          //   label: 'Outside',
+          //   data: [],
+          //   borderColor: colors.success,
+          //   backgroundColor: colors.success,
+          //   fill: false,
+          //   // pointRadius: 8,
+          //   pointHoverRadius: 10,
+          // }
+          ],
       };
 
       this.options = {
@@ -93,15 +95,29 @@ export class ChartjsMultipleXaxisComponent implements OnDestroy, OnInit {
           ],
         },
       };
-    });
-    const currentUser = localStorage.getItem('selectedUser');
-    console.log('selectedUser', this.userService.selectedUser);
 
-    this.userService.getUserExpTime(currentUser).subscribe((exps) => {
-      exps.forEach((exp) => {
-        this.data.labels.push(exp.experimentDate);
-        this.data.datasets[0].data.push(exp.totalTimeInside / 1000 );
-        this.data.datasets[1].data.push(exp.totalTimeOutside / 1000);
+      const currentUser = localStorage.getItem('selectedUser');
+      console.log('selectedUser', this.userService.selectedUser);
+
+      this.userService.getUserExpTime(currentUser).subscribe((exps) => {
+        const labels: any[] = [],
+          dataExit: any[] = [];
+        exps.forEach((exp) => {
+          labels.push(exp.experimentDate);
+          dataExit.push(exp.totalCountExiting);
+        });
+
+        this.data = {
+          labels: labels,
+          datasets: [
+            {
+              label: 'CountExiting',
+              data: dataExit,
+              borderColor: colors.success,
+              backgroundColor: NbColorHelper.hexToRgbA(colors.success, 0.3),
+            }
+          ],
+        };
       });
     });
   }
