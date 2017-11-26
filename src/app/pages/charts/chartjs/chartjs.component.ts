@@ -14,7 +14,7 @@ export class ChartjsComponent implements OnInit {
 
   ngOnInit() {
 
-    const currentUser = JSON.parse(localStorage.getItem('selectedUser'));
+    const currentUser = localStorage.getItem('selectedUser');
     this.leafletService.getUsersConfigData(currentUser)
       .subscribe((result) => {
 

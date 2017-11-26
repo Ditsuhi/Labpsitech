@@ -5,8 +5,9 @@ import * as _ from 'underscore';
 import 'style-loader!leaflet/dist/leaflet.css';
 import { LeafletService } from './leaflet.service';
 import latLng = L.latLng;
+import { UserService } from '../../../@core/data/user.service';
 
-const currentUser = JSON.parse(localStorage.getItem('selectedUser'));
+const currentUser = localStorage.getItem('selectedUser');
 
 @Component({
   selector: 'ngx-leaflet',
@@ -48,10 +49,11 @@ export class LeafletComponent implements OnInit {
   layers = [];
   userDatas = [];
   // userName = 'luis';
-  constructor(public leafletService: LeafletService) {}
+  constructor(public leafletService: LeafletService, private userService: UserService) {}
   ngOnInit() {
    // this.getUserLatLngs();
   //  this.getCurrentLocation();
+    console.log('selectedUser', this.userService.selectedUser);
   }
 
   initIcons() {

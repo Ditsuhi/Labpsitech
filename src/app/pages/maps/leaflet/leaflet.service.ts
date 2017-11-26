@@ -43,7 +43,7 @@ export class LeafletService {
         const results = (res.json().result.results)[0].value;
 
         const userData = results.filter((d) => {
-          return d.user === user.user && d.experimentDate === user.experimentDate && d.batch === user.batch
+          return d.user === user;
         });
        //  console.log(userData);
         return userData[0];

@@ -18,11 +18,13 @@ export class UserCardComponent {
     this.userService.selectedUser =  this.user;
   }
   goToMap() {
+    this.userService.selectedUser = this.user;
+    localStorage.setItem('selectedUser', this.user);
     this.router.navigate(['../pages/maps/leaflet']);
-    console.log('kjfriojg');
   }
   goToChart() {
+    this.userService.selectedUser = this.user;
+    localStorage.setItem('selectedUser', this.user);
     this.router.navigate(['../pages/charts/chartjs']);
-    console.log('kjfriojg');
   }
 }

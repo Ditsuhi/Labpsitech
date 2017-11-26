@@ -1,6 +1,7 @@
 import { Component,  OnDestroy, OnInit } from '@angular/core';
 import { NbThemeService } from '@nebular/theme';
 import { LeafletService } from '../../maps/leaflet/leaflet.service';
+import { UserService } from '../../../@core/data/user.service';
 
 @Component({
   selector: 'ngx-chartjs-multiple-xaxis',
@@ -14,7 +15,7 @@ export class ChartjsMultipleXaxisComponent implements OnDestroy, OnInit {
   options: any;
   themeSubscription: any;
 
-  constructor(private theme: NbThemeService, private leafletService: LeafletService) {
+  constructor(private theme: NbThemeService, private userService: UserService, private leafletService: LeafletService) {
     this.themeSubscription = this.theme.getJsTheme().subscribe(config => {
 
       const colors: any = config.variables;
@@ -109,7 +110,8 @@ export class ChartjsMultipleXaxisComponent implements OnDestroy, OnInit {
         },
       };
     });
-    const currentUser = JSON.parse(localStorage.getItem('selectedUser'));
+    const currentUser = localStorage.getItem('selectedUser');
+    console.log('selectedUser', this.userService.selectedUser);
     this.leafletService.getUsersConfigData(currentUser)
       .subscribe((result) => {
 
