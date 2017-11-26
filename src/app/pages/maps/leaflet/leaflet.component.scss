@@ -12,7 +12,12 @@
   .leaflet-control-btn {
     color: black;
   }
-  .input {
-    width: 30px!important;
+  .exp-input {
+    background-color: transparent;
+    width: 50px;
+
+    input {
+      background-color: #fff;
+    }
   }
 }

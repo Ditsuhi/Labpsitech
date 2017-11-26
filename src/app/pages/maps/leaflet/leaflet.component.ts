@@ -14,17 +14,29 @@ const currentUser = localStorage.getItem('selectedUser');
   styleUrls: ['./leaflet.component.scss'],
   template: `
     <nb-card>
-      <nb-card-header>Leaflet Maps</nb-card-header>
+      <nb-card-header>
+        <div class="col-12">
+        <div class="row">
+          <span>Leaflet Maps</span>
+          <hr />
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="col-3 float-right">
+              <div class="input-group">
+                <input type="text" class="form-control" placeholder="Experiment Date">
+                <span class="input-group-addon">99</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+      </nb-card-header>
       <nb-card-body>
         <div leaflet [leafletOptions]="options" (leafletMapReady)="onReadyMap($event)" [leafletLayers]="layers">
           <div class="leaflet-control-container">
             <div class="leaflet-top leaflet-right">
               <div class="leaflet-control-zoom leaflet-bar leaflet-control">
-                <input #newHero
-                       (keyup.enter)="go"
-                       (blur)="go; newHero.value='' ">
-
-                <button (click)="go">12</button>
                 <a class="leaflet-control-btn"
                    (click)="getCurrentLocation($event)" role="button"><i class="fa fa-map-marker"></i></a>
                 <a class="leaflet-control-btn"
@@ -140,7 +152,9 @@ export class LeafletComponent implements OnInit {
     this.map.addControl(new customControl1());
   }
 
-
+  go() {
+    console.log('dddd');
+  }
   //
   // initButtons() {
   //   const customControl =  L.Control.extend({ options: { position: 'topleft' },
