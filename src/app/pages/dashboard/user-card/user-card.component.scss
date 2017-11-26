@@ -1,6 +1,15 @@
 ngx-user-card {
   nb-card {
     cursor: pointer;
-  }
 
+  }
+  background-color:  red !important;
+  .btn-xs {
+    size: 2px!important;
+    width: 10px!important;
+  }
+ .dropdown.btn-group .btn:first-child {
+    width: 2px;
+    text-align: left;
+  }
 }

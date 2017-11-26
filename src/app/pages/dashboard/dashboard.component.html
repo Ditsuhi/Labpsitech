@@ -2,9 +2,11 @@
   <div class="col-xxxl-12 col-xxl-12 col-lg-12 col-md-12">
     <nb-card size="large">
       <nb-card-body>
-        <div class="col-md-3 col-xs-12 col-sm-8 " *ngFor="let user of users">
-          <ngx-user-card [user]="user"></ngx-user-card>
-        </div>
+       <div class="row">
+         <div class="col-md-3 col-xs-12 col-sm-8 " *ngFor="let user of users">
+           <ngx-user-card [user]="user"></ngx-user-card>
+         </div>
+       </div>
       </nb-card-body>
     </nb-card>
   </div>

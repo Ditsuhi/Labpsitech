@@ -13,7 +13,13 @@ export class UserCardComponent {
 
   constructor(public userService: UserService ) {}
   selectUser() {
-    console.log('this.user', this.user.user);
+    console.log('this.user', this.user);
     this.userService.selectedUser =  this.user;
+  }
+  goToMap() {
+    console.log('kjfriojg');
+  }
+  goToChart() {
+
   }
 }
