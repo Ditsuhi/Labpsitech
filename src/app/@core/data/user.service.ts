@@ -5,6 +5,10 @@ import * as _ from 'underscore'
 @Injectable()
 export class UserService {
   selectedUser: any;
+  locations: [{
+    latitude: number,
+    longitude: number
+  }];
   constructor(private http: Http) {
     this.selectedUser = localStorage.getItem('selectedUser');
   }
@@ -35,6 +39,7 @@ export class UserService {
   getUserExpTime(user) {
     return this.getAllUsers()
       .map((users) => {
+        console.log(users);
         const distinctUserExps =  _.uniq(_.pluck(users, 'experimentDate')).sort();
         const expUser = users.filter((usr) => {
           return usr.user === user;
@@ -45,12 +50,22 @@ export class UserService {
             return data.experimentDate === exp;
           });
           let timeIn = 0, timeOut = 0, countExit = 0, totalDistanceIn = 0, totalDistanceOut = 0;
+
           expUs.forEach((ss) => {
+            console.log('sss', ss);
             timeIn += ss.timeInside;
             timeOut += ss.timeOutside;
             countExit += ss.countExiting;
             totalDistanceIn += ss.totalDistanceInside;
             totalDistanceOut += ss.totalDistanceOutside;
+            // this.locations.push(ss.locations.forEach((data) => {
+            //   data.filter((dat) => {
+            //     const coordinates =  _.uniq(_.pluck(dat, 'batch')).sort();
+            //     const coord = [];
+            //     coord.push([dat.latitude, dat.longitude]);
+            //     console.log(coord);
+            //   })
+            // }));
           });
           expUserGroup.push({
             experimentDate: exp,
@@ -58,9 +73,11 @@ export class UserService {
             totalTimeOutside: timeOut,
             totalCountExiting: countExit,
             totalDistanceInside: totalDistanceIn,
-            totalDistanceOutside: totalDistanceOut
+            totalDistanceOutside: totalDistanceOut,
+            locations: location
           });
         });
+        console.log(expUserGroup);
         return expUserGroup;
       })
   }

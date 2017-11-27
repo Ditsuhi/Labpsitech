@@ -7,10 +7,12 @@ import { LeafletService } from '../../maps/leaflet/leaflet.service';
   templateUrl: './chartjs.component.html',
 })
 export class ChartjsComponent implements OnInit {
-
+  currentUser: string;
   timeInOut: any[] = [];
 
-  constructor(private leafletService: LeafletService) {}
+  constructor(private leafletService: LeafletService) {
+    this.currentUser = localStorage.getItem('selectedUser');
+  }
 
   ngOnInit() {
 

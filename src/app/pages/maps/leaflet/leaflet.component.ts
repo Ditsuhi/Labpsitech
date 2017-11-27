@@ -17,15 +17,16 @@ const currentUser = localStorage.getItem('selectedUser');
       <nb-card-header>
         <div class="col-12">
         <div class="row">
-          <span>Leaflet Maps</span>
+          <span><h3>Leaflet Maps</h3></span>
           <hr />
         </div>
+          <p>{{currentUser | titlecase}}</p>
         <div class="row">
           <div class="col-12">
             <div class="col-3 float-right">
               <div class="input-group">
-                <input type="text" class="form-control" placeholder="Experiment Date">
-                <span class="input-group-addon">99</span>
+                <input type="text" class="form-control" placeholder="Experiment Date" [(ngModel)]="expValue" (keyup.enter)="getCertainExpDate()">
+                <span class="input-group-addon">{{labels.length}}</span>
               </div>
             </div>
           </div>
@@ -52,6 +53,9 @@ const currentUser = localStorage.getItem('selectedUser');
   `,
 })
 export class LeafletComponent implements OnInit {
+  currentUser: string;
+  expValue: string;
+  labels: any[] = [];
   map: L.Map;
   latlngs = [];
  //  curLoc: any;
@@ -65,8 +69,19 @@ export class LeafletComponent implements OnInit {
   };
   layers = [];
   userDatas = [];
-  constructor(public leafletService: LeafletService, private userService: UserService) {}
+  constructor(public leafletService: LeafletService, private userService: UserService) {
+    const experimentDate = this.userService.getUserExpTime(currentUser).subscribe((exps) => {
+
+
+      exps.forEach((exp) => {
+       this.labels.push(exp.experimentDate);
+      });
+      this.currentUser = localStorage.getItem('selectedUser');
+    })
+  }
+
   ngOnInit() {
+
    // this.getUserLatLngs();
   //  this.getCurrentLocation();
     console.log('selectedUser', this.userService.selectedUser);
@@ -244,6 +259,15 @@ export class LeafletComponent implements OnInit {
     e.stopPropagation();
     console.log('jvoerjoi');
   }
+
+  getCertainExpDate() {
+    const parseExpValue: any = parseInt(this.expValue, 10) ;
+    const exp =  this.labels.indexOf((parseExpValue - 1));
+    console.log(exp);
+
+
+  };
+
 // getUserDatas() {
 //   this.leafletService.getUsersConfig()
 //     .subscribe((data) => {
@@ -253,4 +277,6 @@ export class LeafletComponent implements OnInit {
 //       console.log(data[0].value);
 //       // this.getUserLatLngs();
 //     });
+
+
 }
