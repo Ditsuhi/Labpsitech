@@ -12,6 +12,7 @@ import { TrafficComponent } from './traffic/traffic.component';
 import { TrafficChartComponent } from './traffic/traffic-chart.component';
 import { UserCardComponent } from './user-card/user-card.component';
 import { UserService } from '../../@core/data/user.service';
+import { HoverDirective } from './user-card/hover.directive';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { UserService } from '../../@core/data/user.service';
     WeatherComponent,
     TrafficComponent,
     TrafficChartComponent,
-    UserCardComponent
+    UserCardComponent,
+    HoverDirective
   ],
   providers: [
     UserService

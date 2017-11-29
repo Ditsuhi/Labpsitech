@@ -7,7 +7,7 @@ import { LeafletService } from './leaflet.service';
 import latLng = L.latLng;
 import { UserService } from '../../../@core/data/user.service';
 
-const currentUser = localStorage.getItem('selectedUser');
+ const currentUser = localStorage.getItem('selectedUser');
 
 @Component({
   selector: 'ngx-leaflet',
@@ -17,10 +17,12 @@ const currentUser = localStorage.getItem('selectedUser');
       <nb-card-header>
         <div class="col-12">
         <div class="row">
-          <span><h3>Leaflet Maps</h3></span>
+          <span><h5>Leaflet Maps</h5></span>
           <hr />
         </div>
-          <p>{{currentUser | titlecase}}</p>
+          <div>
+          <p *ngIf="currentUser">{{currentUser | titlecase}}</p>
+          </div>
         <div class="row">
           <div class="col-12">
             <div class="col-3 float-right">
@@ -85,6 +87,7 @@ export class LeafletComponent implements OnInit {
    // this.getUserLatLngs();
   //  this.getCurrentLocation();
     console.log('selectedUser', this.userService.selectedUser);
+    console.log('sel', this.labels);
   }
 
   initIcons() {
