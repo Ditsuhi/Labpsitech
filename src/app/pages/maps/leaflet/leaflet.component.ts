@@ -88,6 +88,7 @@ export class LeafletComponent implements OnInit {
   //  this.getCurrentLocation();
     console.log('selectedUser', this.userService.selectedUser);
     console.log('sel', this.labels);
+    // this.getLatLng();
   }
 
   initIcons() {
@@ -211,9 +212,10 @@ export class LeafletComponent implements OnInit {
   // }
   onReadyMap(map: L.Map) {
     this.map = map;
+
     // this.initButtons();
     // this.initIcons();
-    // this.getUserLatLngs();
+    this.getLatLng();
 
   }
   getUserLatLngs(e) {
@@ -270,6 +272,21 @@ export class LeafletComponent implements OnInit {
 
 
   };
+  getLatLng() {
+    this.userService.getLocations(currentUser).subscribe((result) => {
+
+      if (result.locations.length) {
+        for (let i = 0; i < result.locations.length; i++) {
+          this.latlngs.push([
+            result.locations[i].lat,
+            result.locations[i].lon,
+          ]);
+          console.log(result.locations[i].time.toString().slice(5, -1))
+        }
+      }
+      this.map.addLayer(L.polyline([...this.latlngs]));
+    })
+  }
 
 // getUserDatas() {
 //   this.leafletService.getUsersConfig()

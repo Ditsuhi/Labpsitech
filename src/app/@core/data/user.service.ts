@@ -48,8 +48,12 @@ export class UserService {
         const distinctUserExps =  _.uniq(_.pluck(expUser, 'experimentDate')).sort();
         console.log('dist', distinctUserExps);
         const expUserGroup: any[] = [];
-        // const coordinates =  _.uniq(_.pluck(expUser, 'locations')).sort();
-        // console.log(user,  'hola', coordinates[8]);
+        let coord: any[] = [];
+        const userLocations =  _.pluck(expUser, 'locations');
+        userLocations.forEach((data) => {
+          coord = _.union(coord, data);
+        });
+
         distinctUserExps.forEach((exp) => {
           const expUs = expUser.filter((data) => {
             return data.experimentDate === exp;
@@ -76,5 +80,18 @@ export class UserService {
         return expUserGroup;
       })
   }
-
+  getLocations(user) {
+    return this.getAllUsers()
+      .map((users) => {
+        const expUser = users.filter((usr) => {
+          return usr.user === user;
+        });
+        let locations: any[] = [];
+        const userLocations =  _.pluck(expUser, 'locations');
+        userLocations.forEach((data) => {
+          locations = _.union(locations, data);
+        });
+        return { locations }
+      })
+  }
 }
