@@ -27,6 +27,7 @@ import { ChartjsRadarComponent } from './chartjs/chartjs-radar.component';
 // import { EchartsRadarComponent } from './echarts/echarts-radar.component';
 import { LeafletService } from '../maps/leaflet/leaflet.service';
 import { UserService } from '../../@core/data/user.service';
+import { SecondstotimePipe } from './chartjs/secondstotime.pipe';
 
 const components = [
   ChartjsBarComponent,
@@ -52,10 +53,11 @@ const components = [
 
 @NgModule({
   imports: [ThemeModule, ChartsRoutingModule, AngularEchartsModule, NgxChartsModule, ChartModule],
-  declarations: [...routedComponents, ...components],
+  declarations: [...routedComponents, ...components ],
   providers: [
     LeafletService,
-    UserService
+    UserService,
+    SecondstotimePipe
   ],
 })
 export class ChartsModule {}

@@ -4,8 +4,8 @@ import * as L from 'leaflet';
 import * as _ from 'underscore';
 import 'style-loader!leaflet/dist/leaflet.css';
 import { LeafletService } from './leaflet.service';
-import latLng = L.latLng;
 import { UserService } from '../../../@core/data/user.service';
+import latLng = L.latLng;
 
  const currentUser = localStorage.getItem('selectedUser');
 
@@ -21,6 +21,7 @@ import { UserService } from '../../../@core/data/user.service';
           <hr />
         </div>
           <div>
+            <hr>
           <p *ngIf="currentUser">{{currentUser | titlecase}}</p>
           </div>
         <div class="row">
@@ -43,7 +44,7 @@ import { UserService } from '../../../@core/data/user.service';
                 <a class="leaflet-control-btn"
                    (click)="getCurrentLocation($event)" role="button"><i class="fa fa-map-marker"></i></a>
                 <a class="leaflet-control-btn"
-                   (click)="getUserLatLngs($event)" role="button"><i class="ion-arrow-graph-up-right"></i></a>
+                   (click)="getLatLng($event)" role="button"><i class="ion-arrow-graph-up-right"></i></a>
                 <a class="leaflet-control-btn"
                    (click)="getRadius($event)" role="button"><i class="fa fa-dot-circle-o"></i></a>
               </div>
@@ -55,6 +56,7 @@ import { UserService } from '../../../@core/data/user.service';
   `,
 })
 export class LeafletComponent implements OnInit {
+  expDate: number ;
   currentUser: string;
   expValue: string;
   labels: any[] = [];
@@ -79,13 +81,19 @@ export class LeafletComponent implements OnInit {
        this.labels.push(exp.experimentDate);
       });
       this.currentUser = localStorage.getItem('selectedUser');
-    })
+    });
+
+     //  const parseExpValue: any = parseInt(this.expValue, 10) ;
+     //  const getExpDate =  this.labels.indexOf((parseExpValue - 1));
+     // this.expDate = getExpDate;
+     //  console.log('this.expDate', getExpDate);
+
   }
 
   ngOnInit() {
 
    // this.getUserLatLngs();
-  //  this.getCurrentLocation();
+    this.getCertainExpDate();
     console.log('selectedUser', this.userService.selectedUser);
     console.log('sel', this.labels);
     // this.getLatLng();
@@ -215,7 +223,7 @@ export class LeafletComponent implements OnInit {
 
     // this.initButtons();
     // this.initIcons();
-    this.getLatLng();
+    // this.getLatLng();
 
   }
   getUserLatLngs(e) {
@@ -267,36 +275,42 @@ export class LeafletComponent implements OnInit {
 
   getCertainExpDate() {
     const parseExpValue: any = parseInt(this.expValue, 10) ;
-    const exp =  this.labels.indexOf((parseExpValue - 1));
-    console.log(exp);
+    const getExpDate =  this.labels.indexOf((parseExpValue - 1));
+    this.expDate = getExpDate;
+    console.log('this.expDate', getExpDate);
 
 
   };
-  getLatLng() {
-    this.userService.getLocations(currentUser).subscribe((result) => {
+  getLatLng(e: Event) {
+    e.stopPropagation();
+    this.userService.getLocations(currentUser, this.expDate).subscribe((result) => {
 
+      this.latlngs = [];
       if (result.locations.length) {
         for (let i = 0; i < result.locations.length; i++) {
           this.latlngs.push([
             result.locations[i].lat,
             result.locations[i].lon,
           ]);
-          console.log(result.locations[i].time.toString().slice(5, -1))
+          // console.log(result.locations[i].time.toString().slice(5, -1))
         }
       }
-      this.map.addLayer(L.polyline([...this.latlngs]));
-    })
+      const ss = L.polyline([...this.latlngs]);
+      ss.removeFrom(this.map);
+     // const d =  ss.toGeoJSON();
+     // if (this.map.hasLayer(ss)) {
+     //   console.log('has layer');
+     //   this.map.removeLayer(ss);
+     // }else {
+     //   console.log('dont has layer');
+     // }
+
+
+      // if (this.map.hasLayer(d)) {
+      //   this.map.removeLayer(ss)}
+      this.map.addLayer(ss);
+     // this.map.addLayer(L.polyline([...this.latlngs]));
+    });
+    console.log('this.latlng', this.latlngs);
   }
-
-// getUserDatas() {
-//   this.leafletService.getUsersConfig()
-//     .subscribe((data) => {
-//       this.userDatas = data.filter((d) => {
-//         return d.user === selectedUser;
-//       });
-//       console.log(data[0].value);
-//       // this.getUserLatLngs();
-//     });
-
-
 }
