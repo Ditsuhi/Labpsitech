@@ -1,17 +1,12 @@
 ngx-user-card {
   nb-card {
     cursor: pointer;
-
   }
 }
 
 .hovered {
   transform: scale(1.05);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-  transition: .5s all;
+  transition: 0.5s all;
   z-index: 10;
-}
-
-.dropdown-toggle::after {
-  display:none;
 }

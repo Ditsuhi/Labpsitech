@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'ngx-user-card',
   styleUrls: ['./user-card.component.scss'],
-  templateUrl: './user-card.component.html',
+  templateUrl: './user-card.component.html'
 })
 
 export class UserCardComponent {

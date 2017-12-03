@@ -1,9 +1,7 @@
-
 import { Directive, HostBinding, HostListener } from '@angular/core';
 
 @Directive({
-
-  selector:  '[appHover]'
+  selector:  '[ngxAppHover]'
 })
 
 export class HoverDirective {
@@ -17,6 +15,4 @@ export class HoverDirective {
   @HostListener('mouseleave') onMouseLeave() {
     this.isHovered = false;
   }
-
-
 }

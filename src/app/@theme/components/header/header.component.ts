@@ -1,6 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 
-import { NbMenuService, NbSidebarService } from '@nebular/theme';
+import { NbMenuService, NbSidebarService, NbSearchService } from '@nebular/theme';
 import { UserService } from '../../../@core/data/users.service';
 import { AnalyticsService } from '../../../@core/utils/analytics.service';
 
@@ -9,9 +9,9 @@ import { AnalyticsService } from '../../../@core/utils/analytics.service';
   styleUrls: ['./header.component.scss'],
   templateUrl: './header.component.html',
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
 
-
+  subscription: any;
   @Input() position: string = 'normal';
 
   user: any;
@@ -19,6 +19,7 @@ export class HeaderComponent implements OnInit {
   userMenu = [{ title: 'Profile' }, { title: 'Log out' }];
 
   constructor(private sidebarService: NbSidebarService,
+              private searchService: NbSearchService,
               private menuService: NbMenuService,
               private userService: UserService,
               private analyticsService: AnalyticsService) {
@@ -27,6 +28,8 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
     this.userService.getUsers()
       .subscribe((users: any) => this.user = users.nick);
+    this.subscription = this.searchService.onSearchSubmit()
+      .subscribe((data: { term: string, tag: string }) => this.search(data.term) );
   }
 
   toggleSidebar(): boolean {
@@ -45,5 +48,13 @@ export class HeaderComponent implements OnInit {
 
   startSearch() {
     this.analyticsService.trackEvent('startSearch');
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
+
+  search(term) {
+    console.log('sdddd', term);
   }
 }

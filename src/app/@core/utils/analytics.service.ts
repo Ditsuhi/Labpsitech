@@ -18,6 +18,7 @@ export class AnalyticsService {
     if (this.enabled) {
       filter.call(this.router.events, (event) => event instanceof NavigationEnd)
         .subscribe(() => {
+          console.log('ffff');
           ga('send', {hitType: 'pageview', page: this.location.path()});
         });
     }

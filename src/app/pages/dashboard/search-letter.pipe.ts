@@ -2,10 +2,10 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name:  'search'
+  name:  'searchByLetter'
 })
 
-export class FilterPipe implements PipeTransform {
+export class SearchByLetterPipe implements PipeTransform {
   transform(users, searchStr: string) {
     if (users.length === 0 || searchStr === '') {
       return users;

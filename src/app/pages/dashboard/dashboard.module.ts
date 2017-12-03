@@ -13,7 +13,7 @@ import { TrafficChartComponent } from './traffic/traffic-chart.component';
 import { UserCardComponent } from './user-card/user-card.component';
 import { UserService } from '../../@core/data/user.service';
 import { HoverDirective } from './user-card/hover.directive';
-import { FilterPipe } from './filter.pipe';
+import { SearchByLetterPipe } from './search-letter.pipe';
 
 
 @NgModule({
@@ -32,7 +32,7 @@ import { FilterPipe } from './filter.pipe';
     TrafficChartComponent,
     UserCardComponent,
     HoverDirective,
-    FilterPipe
+    SearchByLetterPipe
   ],
   providers: [
     UserService
