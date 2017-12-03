@@ -1,6 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import { NbThemeService, NbColorHelper } from '@nebular/theme';
 import { UserService } from '../../../@core/data/user.service';
+import { Utils } from '../../../helpers/utils';
 
 @Component({
   selector: 'ngx-chartjs-line',
@@ -67,9 +68,11 @@ export class ChartjsLineComponent implements OnDestroy {
           dataInside: any[] = [],
           dataOutside: any[] = [];
         exps.forEach((exp) => {
+          const timeIn = Utils.getTime(exp.totalTimeInside);
+          const timeOut = Utils.getTime(exp.totalTimeOutside);
           labels.push(exp.experimentDate);
-          dataInside.push(exp.totalTimeInside);
-          dataOutside.push(exp.totalTimeOutside);
+          dataInside.push(timeIn);
+          dataOutside.push(timeOut);
         });
 
         this.data = {

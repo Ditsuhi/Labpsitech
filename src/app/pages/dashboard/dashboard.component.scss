@@ -19,4 +19,22 @@
       height: nb-theme(card-height-medium);
     }
   }
+  span {
+    display: inline-block;
+    padding: 0 10px;
+
+  }
+  .change-color {
+    color: #9a91ff;
+    transition: 0.4s all;
+
+  }
+
+  .change-color:hover, .change-color:focus, .change-color:active {
+    color: #fff;
+    background-color:  #9a91ff;
+    cursor: pointer;
+    transform: scale(1.2);
+  }
+
 }

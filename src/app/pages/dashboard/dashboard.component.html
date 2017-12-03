@@ -2,8 +2,10 @@
   <div class="col-xxxl-12 col-xxl-12 col-lg-12 col-md-12">
     <nb-card size="large">
       <nb-card-body>
+        <div class="row red"><span class="change-color" *ngFor="let item of alphabet" (click)="onClick(item)">{{item}}</span></div>
+        <hr>
        <div class="row">
-         <div class="col-md-3 col-xs-12 col-sm-8 " *ngFor="let user of users">
+         <div class="col-md-3 col-xs-12 col-sm-8" *ngFor="let user of users | search:letter">
            <ngx-user-card [user]="user"></ngx-user-card>
          </div>
        </div>
