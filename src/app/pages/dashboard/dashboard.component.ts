@@ -22,5 +22,11 @@ export class DashboardComponent implements OnInit {
   onClick(item) {
     this.letter = item;
   }
+  // removeClick(item) {
+  //   this.letter = item;
+  //   if (this.onClick(item)) {
+  //     return users;
+  //   }
+  // }
 
 }

@@ -15,14 +15,20 @@ export class Utils {
     return users;
   }
 
-    public static getTime(seconds: number) {
+    public static getTime(totalSeconds: number) {
 
-        const hours = Math.trunc(seconds / 3600 );
-        const minutes = Math.trunc((seconds / 3600) % 60);
-        const newSeconds =  minutes % 60;
+      let hours = Math.trunc(totalSeconds / 3600);
+      totalSeconds %= 3600;
+      let minutes = Math.trunc(totalSeconds / 60);
+      let seconds = totalSeconds % 60;
+      hours = +hours;
+      minutes = +minutes;
+      seconds = +seconds;
 
-       console.log(hours + 'h' +  minutes + 'm' + newSeconds + 's');
-       return hours + 'h' + minutes + 'm' + newSeconds;
+      console.log(parseInt(hours + ':' +  minutes + ':' + seconds + ':', 10));
+       console.log(typeof (minutes ));
+       return parseInt(hours + ':' +  minutes + ':' + seconds + ':',  10);
+      // return +hours + ':' + minutes + ':' + seconds;
 
 
     }

@@ -44,6 +44,7 @@ export class ChartjsLineComponent implements OnDestroy {
           ],
           yAxes: [
             {
+              scaleLabel : '<%= Number(value).toFixed(2).replace(\'.\', \',\') + \' $\'%>',
               gridLines: {
                 display: true,
                 color: chartjs.axisLineColor,
