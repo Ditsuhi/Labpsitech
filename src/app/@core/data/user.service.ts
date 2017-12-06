@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import * as _ from 'underscore';
 import * as moment from 'moment';
+import { LeafletService } from '../../pages/maps/leaflet/leaflet.service';
 
 interface FormatedDate {
   year: number,
@@ -13,13 +14,14 @@ const currentUser = localStorage.getItem('selectedUser');
 
 @Injectable()
 export class UserService {
+  time: string;
   selectedUser: any;
   locations: [{
     latitude: number,
     longitude: number
   }];
 
-  constructor(private http: Http) {
+  constructor(private http: Http, private leafletService: LeafletService) {
     this.selectedUser = localStorage.getItem('selectedUser');
   }
 
@@ -53,7 +55,6 @@ export class UserService {
           return usr.user === user;
         });
         const distinctUserExps = _.uniq(_.pluck(expUser, 'experimentDate')).sort();
-        console.log('dist', distinctUserExps);
         const expUserGroup: any[] = [];
         distinctUserExps.forEach((exp) => {
           const expUs = expUser.filter((data) => {
@@ -75,31 +76,10 @@ export class UserService {
             totalDistanceInside: totalDistanceIn,
             totalDistanceOutside: totalDistanceOut
           });
-          // console.log('exp', exp);
         });
-        console.log('exp', expUserGroup);
         return expUserGroup;
       })
   }
-
-  getLocations(user, expd) {
-    return this.getAllUsers()
-      .map((users) => {
-        const expUser = users.filter((usr) => {
-          return usr.user === user;
-        });
-        const expDate = expUser.filter((exp) => {
-          return exp.experimentDate === expd;
-        });
-        let locations: any[] = [];
-        const userLocations = _.pluck(expDate, 'locations');
-        userLocations.forEach((data) => {
-          locations = _.union(locations, data);
-        });
-        return {locations}
-      })
-  }
-
 
   // get time for certain user; for using in calendar;
   getTime(user) {
@@ -123,7 +103,7 @@ export class UserService {
 
 
   // get location for certain user, for certain time;
-  getLoc(user, time) {
+  getTotalLocations(user, time) {
     return this.getAllUsers()
       .map((users) => {
         const expUser = users.filter((usr) => {
@@ -140,5 +120,56 @@ export class UserService {
         return {locations}
       })
   }
+
+  getBatchLocations(user, time, batch) {
+    return this.getAllUsers()
+      .map((users) => {
+        const expUser = users.filter((usr) => {
+          return usr.user === user;
+        });
+        const expDate = expUser.filter((exp) => {
+          return moment(exp.min_time).format('DD/MM/YYYY') === moment(time).format('DD/MM/YYYY') && exp.batch === batch;
+        });
+        let locations: any[] = [];
+        const userLocations = _.pluck(expDate, 'locations');
+        userLocations.forEach((data) => {
+          locations = _.union(locations, data);
+        });
+        return {locations}
+      })
+
+  }
+
+  //  Below methods are for drawing radius;
+  getUsersRadius(user) {
+    let radius: number;
+    this.leafletService.getUsersConfigs().subscribe((users) => {
+      const expUser = users.filter((usr) => {
+        return usr.user === user;
+      });
+      radius = expUser[0].radius;
+    });
+    return radius;
+  }
+
+  getUsersConfigLoc(user) {
+    const homeLocation = [];
+    this.leafletService.getUsersConfigs().subscribe((users) => {
+      const expUser = users.filter((usr) => {
+        return usr.user === user;
+      });
+      homeLocation.push(expUser[0].userlocation.longitude, expUser[0].userlocation.latitude);
+    });
+    return homeLocation;
+  }
+
+  getUserTime() {
+    return this.time;
+  }
+
+  setUserTime(time) {
+    this.time = time;
+  }
+
 
 }

@@ -5,7 +5,6 @@ import { UsersService } from '../../../@core/data/users.service';
 import { AnalyticsService } from '../../../@core/utils/analytics.service';
 import { IMyDateModel, IMyDpOptions } from 'mydatepicker';
 import { UserService } from '../../../@core/data/user.service';
-import * as moment from 'moment';
 
 const currentUser = localStorage.getItem('selectedUser');
 
@@ -22,7 +21,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     width: '28%',
     selectionTxtFontSize: '12px',
     disableUntil: {year: 9999, month: 12, day: 31},
-    enableDays: []
+    enableDays: [],
+    showInputField: false
   };
 
   public model: any;
@@ -46,7 +46,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
          this.myDatePickerOptions.enableDays.push(time)
        });
        this.model = {date: this.myDatePickerOptions.enableDays[0]};
-      console.log('Enable', this.myDatePickerOptions.enableDays);
     });
   }
 
@@ -58,9 +57,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   onDateChanged(event: IMyDateModel) {
+    this.userService.setUserTime(event.jsdate);
     const chosendateFromCalendar = event.jsdate;
-    const date = this.userService.getLoc(currentUser, chosendateFromCalendar).subscribe((d) => {
-      console.log('Eeeeeee', d);
+    const date = this.userService.getTotalLocations(currentUser, chosendateFromCalendar).subscribe((d) => {
     });
   }
 

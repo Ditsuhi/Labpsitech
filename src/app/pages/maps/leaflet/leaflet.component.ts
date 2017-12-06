@@ -5,10 +5,6 @@ import * as _ from 'underscore';
 import 'style-loader!leaflet/dist/leaflet.css';
 import { LeafletService } from './leaflet.service';
 import { UserService } from '../../../@core/data/user.service';
-import latLng = L.latLng;
-import { IMyDpOptions } from 'mydatepicker';
-
- const currentUser = localStorage.getItem('selectedUser');
 
 @Component({
   selector: 'ngx-leaflet',
@@ -16,47 +12,30 @@ import { IMyDpOptions } from 'mydatepicker';
   templateUrl: './leaflet.component.html',
 })
 export class LeafletComponent implements OnInit {
-  expDate: number ;
+  polylines: any;
   currentUser: string;
-  expValue: string;
+  batch = ['0-8', '8-16', '16-24'];
+  batchValue: string;
   labels: any[] = [];
   map: L.Map;
   latlngs = [];
- //  curLoc: any;
   curLoc = [];
   options = {
     layers: [
-      L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '...' }),
+      L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 18, attribution: '...'}),
     ],
     zoom: 14,
-    center: L.latLng({ lat: 39.983, lng: -0.033 }),
+    center: L.latLng({lat: 39.983, lng: -0.033}),
   };
   layers = [];
   userDatas = [];
+
   constructor(public leafletService: LeafletService, private userService: UserService) {
-    const experimentDate = this.userService.getUserExpTime(currentUser).subscribe((exps) => {
 
-
-      exps.forEach((exp) => {
-       this.labels.push(exp.experimentDate);
-      });
-      this.currentUser = localStorage.getItem('selectedUser');
-    });
-
-     //  const parseExpValue: any = parseInt(this.expValue, 10) ;
-     //  const getExpDate =  this.labels.indexOf((parseExpValue - 1));
-     // this.expDate = getExpDate;
-     //  console.log('this.expDate', getExpDate);
-
+    this.currentUser = localStorage.getItem('selectedUser');
   }
 
   ngOnInit() {
-
-   // this.getUserLatLngs();
-    this.getCertainExpDate();
-    console.log('selectedUser', this.userService.selectedUser);
-    console.log('sel', this.labels);
-    // this.getLatLng();
   }
 
   initIcons() {
@@ -66,7 +45,7 @@ export class LeafletComponent implements OnInit {
         position: 'topleft',
       },
 
-     //  loc: this.getCurrentLocation(),
+      //  loc: this.getCurrentLocation(),
 
       onAdd: function (map) {
         const container0 = L.DomUtil.create('div', ' leaflet-bar leaflet-control leaflet-control-custom text-center ');
@@ -81,7 +60,7 @@ export class LeafletComponent implements OnInit {
         container0.style.lineHeight = '32px';
         container0.style.color = '#171717';
 
-     //   container0.onclick =  this.loc;
+        //   container0.onclick =  this.loc;
 
         return container0;
       },
@@ -118,7 +97,7 @@ export class LeafletComponent implements OnInit {
         position: 'topleft',
       },
 
-       // radius: this.getUserLatLngs(),
+      // radius: this.getUserLatLngs(),
 
       onAdd: function (map) {
         const container1 = L.DomUtil.create('div', ' leaflet-bar leaflet-control leaflet-control-custom ');
@@ -142,6 +121,7 @@ export class LeafletComponent implements OnInit {
   go() {
     console.log('dddd');
   }
+
   //
   // initButtons() {
   //   const customControl =  L.Control.extend({ options: { position: 'topleft' },
@@ -180,18 +160,14 @@ export class LeafletComponent implements OnInit {
   // }
   onReadyMap(map: L.Map) {
     this.map = map;
-
-    // this.initButtons();
-    // this.initIcons();
-    // this.getLatLng();
-
+    this.drawRadius();
   }
+
   getUserLatLngs(e) {
     e.stopPropagation();
 
-    this.leafletService.getUsersConfigData(currentUser).subscribe((result) => {
+    this.leafletService.getUsersConfigData(this.currentUser).subscribe((result) => {
       _.sortBy(result.locations, 'time');
-     //  console.log(result.locations);
 
 
       if (result.locations.length) {
@@ -200,19 +176,16 @@ export class LeafletComponent implements OnInit {
             result.locations[i].lat,
             result.locations[i].lon,
           ]);
-          console.log(result.locations[i].time.toString().slice(5, -1))
         }
       }
-          this.map.addLayer(L.polyline([...this.latlngs]));
-       });
+      this.map.addLayer(L.polyline([...this.latlngs]));
+    });
   }
 
   getCurrentLocation(e) {
     e.stopPropagation();
-
-    this.leafletService.getUsersConfigData(currentUser).subscribe((result) => {
+    this.leafletService.getUsersConfigData(this.currentUser).subscribe((result) => {
       _.sortBy(result.locations, 'time');
-      console.log(result);
       if (result.locations.length) {
         this.curLoc.push([
           result.locations[0].lat,
@@ -228,22 +201,11 @@ export class LeafletComponent implements OnInit {
       }
     });
   }
-  getRadius(e) {
+
+  getTotalPath(e: Event) {
     e.stopPropagation();
-    console.log('jvoerjoi');
-  }
-
-  getCertainExpDate() {
-    const parseExpValue: any = parseInt(this.expValue, 10) ;
-    const getExpDate =  this.labels.indexOf((parseExpValue - 1));
-    this.expDate = getExpDate;
-    console.log('this.expDate', getExpDate);
-
-
-  };
-  getLatLng(e: Event) {
-    e.stopPropagation();
-    this.userService.getLocations(currentUser, this.expDate).subscribe((result) => {
+    const time = this.userService.getUserTime();
+    this.userService.getTotalLocations(this.currentUser, time).subscribe((result) => {
 
       this.latlngs = [];
       if (result.locations.length) {
@@ -252,25 +214,50 @@ export class LeafletComponent implements OnInit {
             result.locations[i].lat,
             result.locations[i].lon,
           ]);
-          // console.log(result.locations[i].time.toString().slice(5, -1))
         }
       }
-      const ss = L.polyline([...this.latlngs]);
-      ss.removeFrom(this.map);
-     // const d =  ss.toGeoJSON();
-     // if (this.map.hasLayer(ss)) {
-     //   console.log('has layer');
-     //   this.map.removeLayer(ss);
-     // }else {
-     //   console.log('dont has layer');
-     // }
+      if (this.polylines) {
+        this.map.removeLayer(this.polylines);
+      }
+      this.polylines = L.polyline([...this.latlngs]);
+      this.map.addLayer(this.polylines);
 
-
-      // if (this.map.hasLayer(d)) {
-      //   this.map.removeLayer(ss)}
-      this.map.addLayer(ss);
-     // this.map.addLayer(L.polyline([...this.latlngs]));
     });
-    console.log('this.latlng', this.latlngs);
+  }
+
+  getBatchPath() {
+    const time = this.userService.getUserTime();
+    this.userService.getBatchLocations(this.currentUser, time, this.batchValue).subscribe((result) => {
+
+      this.latlngs = [];
+      if (result.locations.length) {
+        for (let i = 0; i < result.locations.length; i++) {
+          this.latlngs.push([
+            result.locations[i].lat,
+            result.locations[i].lon,
+          ]);
+        }
+      }
+      if (this.polylines) {
+        this.map.removeLayer(this.polylines);
+      }
+      this.polylines = L.polyline([...this.latlngs]);
+      this.map.addLayer(this.polylines);
+    });
+  }
+
+  chooseBatch() {
+    if (this.batchValue) {
+      return this.getBatchPath();
+    }
+  }
+
+  drawRadius() {
+    // const location = this.userService.getUsersConfigLoc(this.currentUser);
+    // console.log('loc', location);
+    // const radius = this.userService.getUsersRadius(this.currentUser);
+    // console.log('radius', radius);
+    // L.circle([location[0], location[1]], {radius: radius}).addTo(this.map);
+    // console.log('gyhuehfueh');
   }
 }

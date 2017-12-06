@@ -18,12 +18,17 @@
             <!--</div>-->
             <div class="dropdown" placement="top" ngbDropdown>
             <button class="btn btn-outline-primary" type="button" ngbDropdownToggle></button>
-             <ul class="dropdown-menu" ngbDropdownMenu>
+            <ul class="dropdown-menu" ngbDropdownMenu>
               <li class="dropdown-item">0-8</li>
               <li class="dropdown-item">8-16</li>
-             <li class="dropdown-item">16-24</li>
-           </ul>
-           </div>
+              <li class="dropdown-item">16-24</li>
+            </ul>
+          </div>
+            <div class="dropdown" placement="Batch" ngbDropdown>
+              <select class="btn btn-outline-primary"  ngbDropdownToggle (click)="chooseBatch()" [(ngModel)]="batchValue">
+                <option *ngFor="let batchValue of batch">{{batchValue}}</option>
+              </select>
+            </div>
           </div>
         </div>
       </div>
@@ -37,9 +42,9 @@
             <a class="leaflet-control-btn"
                (click)="getCurrentLocation($event)" role="button"><i class="fa fa-map-marker"></i></a>
             <a class="leaflet-control-btn"
-               (click)="getLatLng($event)" role="button"><i class="ion-arrow-graph-up-right"></i></a>
+               (click)="getTotalPath($event)" role="button"><i class="ion-arrow-graph-up-right"></i></a>
             <a class="leaflet-control-btn"
-               (click)="getRadius($event)" role="button"><i class="fa fa-dot-circle-o"></i></a>
+               (click)="drawRadius($event)" role="button"><i class="fa fa-dot-circle-o"></i></a>
           </div>
         </div>
       </div>

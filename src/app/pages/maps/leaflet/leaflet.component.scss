@@ -20,4 +20,12 @@
       background-color: #fff;
     }
   }
+  select {
+    width: 20%;
+    height: 30px;
+    text-overflow: ellipsis;
+    padding-right: 50px;
+    position: relative;
+  }
+
 }
