@@ -45,7 +45,6 @@ export class UserService {
       .subscribe((users) => {
         const distinctUserNames = _.uniq(_.pluck(users, 'user'))
       })
-
   }
 
   getUserExpTime(user) {
@@ -76,6 +75,8 @@ export class UserService {
             totalDistanceInside: totalDistanceIn,
             totalDistanceOutside: totalDistanceOut
           });
+          console.log(timeIn, 'timeIn');
+          console.log(timeOut, 'timeOut');
         });
         return expUserGroup;
       })
@@ -143,24 +144,25 @@ export class UserService {
   //  Below methods are for drawing radius;
   getUsersRadius(user) {
     let radius: number;
-    this.leafletService.getUsersConfigs().subscribe((users) => {
+    return this.leafletService.getUsersConfigs().map((users) => {
       const expUser = users.filter((usr) => {
         return usr.user === user;
       });
       radius = expUser[0].radius;
+      return radius;
     });
-    return radius;
   }
 
   getUsersConfigLoc(user) {
     const homeLocation = [];
-    this.leafletService.getUsersConfigs().subscribe((users) => {
+    return this.leafletService.getUsersConfigs().map((users) => {
       const expUser = users.filter((usr) => {
         return usr.user === user;
       });
-      homeLocation.push(expUser[0].userlocation.longitude, expUser[0].userlocation.latitude);
+      homeLocation.push(expUser[0].userlocation.latitude, expUser[0].userlocation.longitude);
+      console.log(homeLocation);
+      return homeLocation;
     });
-    return homeLocation;
   }
 
   getUserTime() {

@@ -25,9 +25,10 @@ export class Utils {
       minutes = +minutes;
       seconds = +seconds;
 
-      console.log(parseInt(hours + ':' +  minutes + ':' + seconds + ':', 10));
-       console.log(typeof (minutes ));
-       return parseInt(hours + ':' +  minutes + ':' + seconds + ':',  10);
+      // console.log(new Date(hours + 2, minutes, seconds).toTimeString(), 'kkkkkkkkkkkkk');
+      // console.log((hours + ':' + minutes + ':' + seconds));
+      console.log(totalSeconds, 'totalSeconds');
+       return parseInt(hours + ':' +  minutes + ':' + seconds + ':', 10);
       // return +hours + ':' + minutes + ':' + seconds;
 
 

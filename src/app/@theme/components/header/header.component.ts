@@ -5,6 +5,8 @@ import { UsersService } from '../../../@core/data/users.service';
 import { AnalyticsService } from '../../../@core/utils/analytics.service';
 import { IMyDateModel, IMyDpOptions } from 'mydatepicker';
 import { UserService } from '../../../@core/data/user.service';
+import { Router } from '@angular/router';
+import * as _ from 'underscore';
 
 const currentUser = localStorage.getItem('selectedUser');
 
@@ -39,7 +41,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
               private menuService: NbMenuService,
               private usersService: UsersService,
               private userService: UserService,
-              private analyticsService: AnalyticsService ) {
+              private analyticsService: AnalyticsService,
+              private router: Router) {
 
     this.userService.getTime(currentUser).subscribe((timeRange) => {
        timeRange.forEach((time) => {
@@ -86,6 +89,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   search(term) {
-    console.log('sdddd', term);
+    let totalUser = [];
+    this.userService.getAllUsers().subscribe((users) => {
+     totalUser  =  _.uniq(_.pluck(users, 'user'));
+     if ( totalUser.indexOf(term) !== -1) {
+       this.router.navigate(['../pages/dashboard']);
+       console.log('Valod');
+     }
+    });
   }
 }

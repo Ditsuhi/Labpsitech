@@ -5,46 +5,33 @@
         <span><h5>Leaflet Maps</h5></span>
         <hr />
       </div>
-      <div>
-        <!--//<hr>-->
+      <div class="row">
         <p *ngIf="currentUser">{{currentUser | titlecase}}</p>
-      </div>
       <div class="row">
         <div class="col-12">
           <div class="col-sm-1 float-right">
-            <!--<div class="input-group">-->
-              <!--<input type="text" class="form-control" placeholder="Experiment Date" [(ngModel)]="expValue" (keyup.enter)="getCertainExpDate()">-->
-              <!--<span class="input-group-addon">{{labels.length}}</span>-->
-            <!--</div>-->
-            <div class="dropdown" placement="top" ngbDropdown>
-            <button class="btn btn-outline-primary" type="button" ngbDropdownToggle></button>
-            <ul class="dropdown-menu" ngbDropdownMenu>
-              <li class="dropdown-item">0-8</li>
-              <li class="dropdown-item">8-16</li>
-              <li class="dropdown-item">16-24</li>
-            </ul>
-          </div>
             <div class="dropdown" placement="Batch" ngbDropdown>
-              <select class="btn btn-outline-primary"  ngbDropdownToggle (click)="chooseBatch()" [(ngModel)]="batchValue">
+              <select class="btn btn-outline-primary"  ngbDropdownToggle (click)="chooseBatch()" [(ngModel)]="batchValue" title ="Path in batches">
                 <option *ngFor="let batchValue of batch">{{batchValue}}</option>
               </select>
             </div>
+          </div>
           </div>
         </div>
       </div>
     </div>
   </nb-card-header>
   <nb-card-body>
-    <div leaflet [leafletOptions]="options" (leafletMapReady)="onReadyMap($event)" [leafletLayers]="layers">
+    <div leaflet [leafletOptions]="options" (leafletMapReady)="onReadyMap($event)" [leafletLayersControl]="layersControl" [leafletLayers]="layers">
       <div class="leaflet-control-container">
-        <div class="leaflet-top leaflet-right">
+        <div class="leaflet-bottom leaflet-left">
           <div class="leaflet-control-zoom leaflet-bar leaflet-control">
             <a class="leaflet-control-btn"
                (click)="getCurrentLocation($event)" role="button"><i class="fa fa-map-marker"></i></a>
             <a class="leaflet-control-btn"
-               (click)="getTotalPath($event)" role="button"><i class="ion-arrow-graph-up-right"></i></a>
+               (click)="getTotalPath($event)" role="button" title ="Path"><i class="ion-arrow-graph-up-right"></i></a>
             <a class="leaflet-control-btn"
-               (click)="drawRadius($event)" role="button"><i class="fa fa-dot-circle-o"></i></a>
+               (click)="drawRadius($event)" role="button" title ="Home"><i class="fa fa-dot-circle-o"></i></a>
           </div>
         </div>
       </div>

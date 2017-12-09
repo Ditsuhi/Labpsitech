@@ -1,16 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-
 import * as L from 'leaflet';
+
 import * as _ from 'underscore';
 import 'style-loader!leaflet/dist/leaflet.css';
 import { LeafletService } from './leaflet.service';
 import { UserService } from '../../../@core/data/user.service';
+
+const openStreetMap = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 20, attribution: '...'});
+const googleHybrid = L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {maxZoom: 20, subdomains: [ 'mt0', 'mt1', 'mt2', 'mt3']});
 
 @Component({
   selector: 'ngx-leaflet',
   styleUrls: ['./leaflet.component.scss'],
   templateUrl: './leaflet.component.html',
 })
+
 export class LeafletComponent implements OnInit {
   polylines: any;
   currentUser: string;
@@ -20,12 +24,19 @@ export class LeafletComponent implements OnInit {
   map: L.Map;
   latlngs = [];
   curLoc = [];
+  layersControl =  {
+    baseLayers: {
+      'Open Street Map': openStreetMap,
+      'Google Hybrid': googleHybrid,
+    },
+  };
   options = {
     layers: [
-      L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 18, attribution: '...'}),
+      openStreetMap,
     ],
     zoom: 14,
     center: L.latLng({lat: 39.983, lng: -0.033}),
+    keyboard: false
   };
   layers = [];
   userDatas = [];
@@ -223,6 +234,7 @@ export class LeafletComponent implements OnInit {
       this.map.addLayer(this.polylines);
 
     });
+  this.polylines.bindTooltip('Even polylines can have labels.', { permanent: true }).addTo(this.map)
   }
 
   getBatchPath() {
@@ -253,11 +265,17 @@ export class LeafletComponent implements OnInit {
   }
 
   drawRadius() {
-    // const location = this.userService.getUsersConfigLoc(this.currentUser);
-    // console.log('loc', location);
-    // const radius = this.userService.getUsersRadius(this.currentUser);
-    // console.log('radius', radius);
-    // L.circle([location[0], location[1]], {radius: radius}).addTo(this.map);
-    // console.log('gyhuehfueh');
+    if (this.currentUser) {
+       let radius = 0;
+      this.userService.getUsersRadius(this.currentUser).subscribe((data) => {
+        radius = data;
+      });
+      this.userService.getUsersConfigLoc(this.currentUser).subscribe((res) => {
+        L.circle([res[0], res[1]], {radius: radius}).addTo(this.map);
+       this.map.setView(new L.LatLng(res[0], res[1]), 16);
+      // L.circle([39.48621581697988, -0.3582797572016716], {radius: 40}).addTo(this.map);
+      // this.map.setView(new L.LatLng(39.48621581697988, -0.3582797572016716), 16);
+      });
+    }
   }
 }

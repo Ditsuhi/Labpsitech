@@ -11,6 +11,6 @@ export class SearchByLetterPipe implements PipeTransform {
       return users;
     }
 
-    return users.filter((user) => user.toUpperCase().indexOf(searchStr) === 0 );
+    return users.filter((user) => user.toUpperCase().indexOf(searchStr) === 0 ) || users.filter((usr) => usr.user === searchStr);
   }
 }
