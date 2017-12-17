@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import * as L from 'leaflet';
 
 import * as _ from 'underscore';
 import 'style-loader!leaflet/dist/leaflet.css';
 import { LeafletService } from './leaflet.service';
 import { UserService } from '../../../@core/data/user.service';
+import { IMyDateRangeModel, IMyDrpOptions } from 'mydaterangepicker';
 
 const openStreetMap = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 20, attribution: '...'});
 const googleHybrid = L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {maxZoom: 20, subdomains: [ 'mt0', 'mt1', 'mt2', 'mt3']});
@@ -15,7 +16,16 @@ const googleHybrid = L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&
   templateUrl: './leaflet.component.html',
 })
 
-export class LeafletComponent implements OnInit {
+export class LeafletComponent implements OnInit, OnDestroy {
+  public myDateRangePickerOptions: IMyDrpOptions = {
+    // other options...
+    dateFormat: 'dd.mm.yyyy',
+    showSelectDateText: true,
+    height: '34px',
+    selectionTxtFontSize: '16px',
+    // disableUntil: {year: 9999, month: 12, day: 31}
+  };
+  dateModel: IMyDateRangeModel;
   polylines: any;
   currentUser: string;
   batch = ['0-8', '8-16', '16-24'];
@@ -47,6 +57,13 @@ export class LeafletComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  onDateRangeChanged(event: IMyDateRangeModel) {
+    // this.userService.setUserTime(event.jsdate);
+    // const chosendateFromCalendar = event.jsdate;
+    // const date = this.userService.getTotalLocations(currentUser, chosendateFromCalendar).subscribe((d) => {
+    // });
   }
 
   initIcons() {
@@ -279,5 +296,8 @@ export class LeafletComponent implements OnInit {
       // this.map.setView(new L.LatLng(39.48621581697988, -0.3582797572016716), 16);
       });
     }
+  }
+  ngOnDestroy() {
+    this.map.remove();
   }
 }

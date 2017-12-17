@@ -32,7 +32,6 @@ import {
 } from './layouts';
 import { DEFAULT_THEME } from './styles/theme.default';
 import { COSMIC_THEME } from './styles/theme.cosmic';
-import { MyDatePickerModule } from 'mydatepicker';
 import { NgxLoginComponent } from './components/auth/ngx-login.component';
 import { NbAuthModule } from '@nebular/auth';
 import { RouterModule } from '@angular/router';
@@ -51,7 +50,6 @@ const NB_MODULES = [
   NbSidebarModule,
   NbCheckboxModule,
   NgbModule,
-  MyDatePickerModule,
   NbAuthModule,
   RouterModule
 ];
