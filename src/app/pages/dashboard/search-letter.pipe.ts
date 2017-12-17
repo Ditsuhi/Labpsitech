@@ -7,7 +7,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 export class SearchByLetterPipe implements PipeTransform {
   transform(users, searchStr: string) {
-    if (users.length === 0 || searchStr === '') {
+    if (users.length === 0 || searchStr === '' || searchStr === 'ALL') {
       return users;
     }
 

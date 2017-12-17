@@ -36,7 +36,7 @@
     "@nebular/auth": "2.0.0-rc.2",
     "@nebular/theme": "2.0.0-rc.2",
     "@ng-bootstrap/ng-bootstrap": "1.0.0-alpha.26",
-    "@swimlane/ngx-charts": "5.2.0",
+    "@swimlane/ngx-charts": "^7.0.1",
     "@types/leaflet-polylinedecorator": "^1.1.2",
     "@types/underscore": "^1.8.4",
     "angular2-chartjs": "^0.3.0",

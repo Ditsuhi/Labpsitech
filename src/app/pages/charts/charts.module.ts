@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { AngularEchartsModule } from 'ngx-echarts';
-import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { ChartModule } from 'angular2-chartjs';
 
 import { ThemeModule } from '../../@theme/theme.module';
@@ -28,6 +27,7 @@ import { ChartjsRadarComponent } from './chartjs/chartjs-radar.component';
 import { LeafletService } from '../maps/leaflet/leaflet.service';
 import { UserService } from '../../@core/data/user.service';
 import { SecondstotimePipe } from './chartjs/secondstotime.pipe';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 const components = [
   ChartjsBarComponent,

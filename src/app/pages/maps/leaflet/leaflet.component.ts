@@ -232,9 +232,11 @@ export class LeafletComponent implements OnInit {
       }
       this.polylines = L.polyline([...this.latlngs]);
       this.map.addLayer(this.polylines);
-
     });
-  this.polylines.bindTooltip('Even polylines can have labels.', { permanent: true }).addTo(this.map)
+    const gg = this.polylines.getCenter();
+
+    this.map.setView(new L.LatLng(gg[0], gg[1]), 16);
+
   }
 
   getBatchPath() {
