@@ -9,12 +9,11 @@ interface FormatedDate {
   month: number,
   day: number
 }
-
 const currentUser = localStorage.getItem('selectedUser');
 
 @Injectable()
 export class UserService {
-  time: string;
+  time: any;
   selectedUser: any;
   locations: [{
     latitude: number,
@@ -80,6 +79,27 @@ export class UserService {
         });
         return expUserGroup;
       })
+  };
+
+
+  getCountExiting(user, batch) {
+    return this.getAllUsers()
+      .map((users) => {
+        const expUser = users.filter((usr) => {
+          return usr.user === user;
+        });
+        const distinctUserExps = _.uniq(_.pluck(expUser, 'batch')).sort();
+
+        let userExiting: any[] = [];
+        distinctUserExps.forEach((exp) => {
+          const expUs = expUser.filter((data) => {
+            return data.experimentDate === exp && exp.batch === batch;
+          });
+          userExiting = _.pluck(expUs, 'countExiting');
+          console.log('vvvvvv', userExiting);
+        });
+        return userExiting;
+      })
   }
 
   // get time for certain user; for using in calendar;
@@ -102,7 +122,6 @@ export class UserService {
       })
   }
 
-
   // get location for certain user, for certain time;
   getTotalLocations(user, time) {
     return this.getAllUsers()
@@ -111,7 +130,10 @@ export class UserService {
           return usr.user === user;
         });
         const expDate = expUser.filter((exp) => {
-          return moment(exp.min_time).format('DD/MM/YYYY') === moment(time).format('DD/MM/YYYY');
+          const chosen = moment(exp.min_time).format('DD-MM-YYYY' ) ;
+          const end = moment(time.end).subtract(1, 'month').add(1, 'days').format('DD-MM-YYYY');
+          const start = moment(time.start).subtract(1, 'month').format('DD-MM-YYYY');
+          return chosen >= start && chosen <= end;
         });
         let locations: any[] = [];
         const userLocations = _.pluck(expDate, 'locations');
@@ -129,7 +151,11 @@ export class UserService {
           return usr.user === user;
         });
         const expDate = expUser.filter((exp) => {
-          return moment(exp.min_time).format('DD/MM/YYYY') === moment(time).format('DD/MM/YYYY') && exp.batch === batch;
+          const chosen = moment(exp.min_time).format('DD-MM-YYYY' ) ;
+          const end = moment(time.end).subtract(1, 'month').add(1, 'days').format('DD-MM-YYYY');
+          const start = moment(time.start).subtract(1, 'month').format('DD-MM-YYYY');
+          return chosen >= start && chosen <= end && exp.batch === batch;
+          // return moment(exp.min_time).format('DD/MM/YYYY') === moment(time).format('DD/MM/YYYY') && exp.batch === batch;
         });
         let locations: any[] = [];
         const userLocations = _.pluck(expDate, 'locations');

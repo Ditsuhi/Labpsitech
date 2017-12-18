@@ -21,17 +21,16 @@
     }
   }
   select {
-    width: 20%;
-    height: 30px;
     text-overflow: ellipsis;
-    padding-right: 50px;
     position: relative;
+    padding: 6px 5px 6px 6px;
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
   }
   .leaflet-bottom {
     bottom: 380px;
   }
-  select[_ngcontent-c11] {
-    margin-left: 830px;
-    position: absolute;
+  .row {
+    margin-right: -17px;
   }
 }

@@ -3,35 +3,56 @@
     <div class="col-12">
       <div class="row">
         <span><h5>Leaflet Maps</h5></span>
-        <hr />
+        <hr/>
       </div>
       <div class="row">
-        <p *ngIf="currentUser">{{currentUser | titlecase}}</p>
-      <div class="row">
-        <div class="col-12">
-          <div class="col-sm-1 float-right">
-            <div class="dropdown" placement="Batch" ngbDropdown>
-              <select class="btn btn-outline-primary"  ngbDropdownToggle (click)="chooseBatch()" [(ngModel)]="batchValue" title ="Path in batches">
-                <option *ngFor="let batchValue of batch">{{batchValue}}</option>
-              </select>
-            </div>
+        <div class="col-md-4">
+          <div class="row">
+            <h6 *ngIf="currentUser">{{currentUser | titlecase}}</h6>
           </div>
+        </div>
+        <div class="col-md-8">
+          <div class="row">
+            <div class="col-md-6 push-md-6">
+              <div class="row">
+                <div class="input-group">
+                <my-date-range-picker
+                  name="mydaterange"
+                  [options]="myDateRangePickerOptions"
+                  (dateRangeChanged)="onDateRangeChanged($event)"
+                  [(ngModel)]="model" required></my-date-range-picker>
+                <span class="input-group-addon" style="padding: 0; border: 0;">
+                  <span class="dropdown" placement="Batch" ngbDropdown>
+                    <select
+                      class="btn btn-outline-primary"
+                      ngbDropdownToggle
+                      (click)="chooseBatch()"
+                      [(ngModel)]="batchValue"
+                      title="Path in batches">
+                     <option *ngFor="let batchValue of batch">{{batchValue}}</option>
+                    </select>
+                  </span>
+                </span>
+              </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </nb-card-header>
   <nb-card-body>
-    <div leaflet [leafletOptions]="options" (leafletMapReady)="onReadyMap($event)" [leafletLayersControl]="layersControl" [leafletLayers]="layers">
+    <div leaflet [leafletOptions]="options" (leafletMapReady)="onReadyMap($event)"
+         [leafletLayersControl]="layersControl" [leafletLayers]="layers">
       <div class="leaflet-control-container">
         <div class="leaflet-bottom leaflet-left">
           <div class="leaflet-control-zoom leaflet-bar leaflet-control">
-            <a class="leaflet-control-btn"
-               (click)="getCurrentLocation($event)" role="button"><i class="fa fa-map-marker"></i></a>
-            <a class="leaflet-control-btn"
-               (click)="getTotalPath($event)" role="button" title ="Path"><i class="ion-arrow-graph-up-right"></i></a>
-            <a class="leaflet-control-btn"
-               (click)="drawRadius($event)" role="button" title ="Home"><i class="fa fa-dot-circle-o"></i></a>
+            <!--<a class="leaflet-control-btn"-->
+               <!--(click)="getCurrentLocation($event)" role="button"><i class="fa fa-map-marker"></i></a>-->
+            <!--<a class="leaflet-control-btn"-->
+               <!--(click)="getTotalPath($event)" role="button" title="Path"><i class="ion-arrow-graph-up-right"></i></a>-->
+            <!--<a class="leaflet-control-btn"-->
+               <!--(click)="drawRadius($event)" role="button" title="Home"><i class="fa fa-dot-circle-o"></i></a>-->
           </div>
         </div>
       </div>

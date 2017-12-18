@@ -22,7 +22,6 @@ import {
   HeaderComponent,
   ThemeSettingsComponent,
   ThemeSwitcherComponent,
-  TinyMCEComponent,
 } from './components';
 import { CapitalizePipe, PluralPipe, RoundPipe, TimingPipe } from './pipes';
 import {
@@ -34,6 +33,9 @@ import {
 import { DEFAULT_THEME } from './styles/theme.default';
 import { COSMIC_THEME } from './styles/theme.cosmic';
 import { MyDatePickerModule } from 'mydatepicker';
+import { NgxLoginComponent } from './components/auth/ngx-login.component';
+import { NbAuthModule } from '@nebular/auth';
+import { RouterModule } from '@angular/router';
 
 const BASE_MODULES = [CommonModule, FormsModule, ReactiveFormsModule];
 
@@ -49,7 +51,9 @@ const NB_MODULES = [
   NbSidebarModule,
   NbCheckboxModule,
   NgbModule,
-  MyDatePickerModule
+  NbAuthModule,
+  MyDatePickerModule,
+  RouterModule
 ];
 
 const COMPONENTS = [
@@ -57,11 +61,11 @@ const COMPONENTS = [
   HeaderComponent,
   FooterComponent,
   ThemeSettingsComponent,
-  TinyMCEComponent,
   OneColumnLayoutComponent,
   SampleLayoutComponent,
   ThreeColumnsLayoutComponent,
   TwoColumnsLayoutComponent,
+  NgxLoginComponent
 ];
 
 const PIPES = [

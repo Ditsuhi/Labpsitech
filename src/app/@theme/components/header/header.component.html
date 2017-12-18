@@ -14,11 +14,10 @@
   [class.right]="position === 'normal'"
   [class.left]="position === 'inverse'">
   <nb-action icon="nb-grid-b" class="toggle-layout" (click)="toggleSettings()"></nb-action>
-  <nb-action class="control-item">
-    <nb-search type="rotate-layout" (click)="startSearch()"></nb-search>
+  <nb-action class="top">
+    <nb-user [menu]="userMenu" [name]="user?.name" [picture]="user?.picture"></nb-user>
   </nb-action>
-  <nb-action><div class="row" class="topcorner">
-      <my-date-picker name="mydate" [options]="myDatePickerOptions"
-                      [(ngModel)]="model" required (dateChanged)="onDateChanged($event)"></my-date-picker>
-  </div></nb-action>
+  <!--<nb-action class="control-item">-->
+  <!--<nb-search type="rotate-layout" (click)="startSearch()"></nb-search>-->
+  <!--</nb-action>-->
 </nb-actions>

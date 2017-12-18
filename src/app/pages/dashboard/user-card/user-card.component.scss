@@ -3,6 +3,9 @@ ngx-user-card {
     cursor: pointer;
   }
 }
+nb-card.small-card {
+  height: 195px  !important;
+}
 
 .hovered {
   transform: scale(1.05);

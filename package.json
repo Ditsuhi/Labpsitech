@@ -54,6 +54,7 @@
     "leaflet-polylinedecorator": "^1.5.1",
     "moment": "^2.19.3",
     "mydatepicker": "^2.6.0",
+    "mydaterangepicker": "^4.1.12",
     "nebular-icons": "1.0.6",
     "ng2-ckeditor": "1.1.6",
     "ng2-smart-table": "1.1.0",
