@@ -23,11 +23,14 @@
   select {
     text-overflow: ellipsis;
     position: relative;
-    padding: 6px 20px 6px 6px;
+    padding: 6px 5px 6px 6px;
     border-bottom-left-radius: 0;
     border-top-left-radius: 0;
   }
   .leaflet-bottom {
     bottom: 380px;
+  }
+  .row {
+    margin-right: -17px;
   }
 }

@@ -9,7 +9,7 @@ import { ChartjsBarComponent } from './chartjs/chartjs-bar.component';
 import { ChartjsLineComponent } from './chartjs/chartjs-line.component';
 import { ChartjsPieComponent } from './chartjs/chartjs-pie.component';
 import { ChartjsMultipleXaxisComponent } from './chartjs/chartjs-multiple-xaxis.component';
-import { ChartjsBarHorizontalComponent } from './chartjs/chartjs-bar-horizontal.component';
+// import { ChartjsBarHorizontalComponent } from './chartjs/chartjs-bar-horizontal.component';
 import { ChartjsRadarComponent } from './chartjs/chartjs-radar.component';
 // import { D3BarComponent } from './d3/d3-bar.component';
 // import { D3LineComponent } from './d3/d3-line.component';
@@ -27,15 +27,22 @@ import { ChartjsRadarComponent } from './chartjs/chartjs-radar.component';
 import { LeafletService } from '../maps/leaflet/leaflet.service';
 import { UserService } from '../../@core/data/user.service';
 import { SecondstotimePipe } from './chartjs/secondstotime.pipe';
-// import { NgxChartsModule } from '@swimlane/ngx-charts';
+// import { ComboChartComponent } from './combo-chart/combo-chart.component';
+// import { ComboSeriesVerticalComponent } from './combo-chart/combo-series-vertical.component';
+// import { NormalizedBarVerticalComponent } from './chartjs/normalized-bar-vertical.component';
+import { ChartjsMixedComponent } from './chartjs/chartjs-mixed.component';
 
 const components = [
   ChartjsBarComponent,
   ChartjsLineComponent,
   ChartjsPieComponent,
   ChartjsMultipleXaxisComponent,
-  ChartjsBarHorizontalComponent,
+  // ChartjsBarHorizontalComponent,
   ChartjsRadarComponent,
+  // NormalizedBarVerticalComponent,
+  ChartjsMixedComponent
+  // ComboChartComponent,
+  // ComboSeriesVerticalComponent
   // D3BarComponent,
   // D3LineComponent,
   // D3PieComponent,
@@ -56,7 +63,6 @@ const components = [
     ThemeModule,
     ChartsRoutingModule,
     AngularEchartsModule,
-    // NgxChartsModule,
     ChartModule
   ],
   declarations: [...routedComponents, ...components ],
