@@ -3,7 +3,7 @@ import { NbThemeService, NbColorHelper } from '@nebular/theme';
 import { UserService } from '../../../@core/data/user.service';
 
 @Component({
-  selector: 'ngx-chartjs-mixed',
+  selector: 'ngx-chartjs-bar-line',
   template: `
     <chart type="bar" [data]="data" [options]="options"></chart>
   `,
@@ -86,30 +86,30 @@ export class ChartjsMixedComponent implements OnDestroy {
           datasets: [
             {
               label: 'Distance Outside',
-              data: [50, 30, 102, 50],
+              data: distOut,
               backgroundColor: NbColorHelper.hexToRgbA(colors.successLight, 0.8),
-            },
-            {
-              label: 'Distance Outside',
-              type: 'line',
-              data: [50, 20, 40, 50],
-              borderColor: '#4ca6ff',
-              backgroundColor: NbColorHelper.hexToRgbA(colors.primaryLight, 0),
-            },
-            {
-              label: 'Distance Outside',
-              type: 'line',
-              data: [50, 250, 250, 50],
-              borderColor: '#ff4c6a',
-              backgroundColor: NbColorHelper.hexToRgbA(colors.primaryLight, 0),
-            },
-            {
-              label: 'Distance Outside',
-              type: 'line',
-              data: [5, 10, 11, 18],
-              borderColor: '#8a7fff',
-              backgroundColor: NbColorHelper.hexToRgbA(colors.primaryLight, 0),
-            },
+            }
+            // {
+            //   label: 'Distance Outside',
+            //   type: 'line',
+            //   data: distIn,
+            //   borderColor: '#4ca6ff',
+            //   backgroundColor: NbColorHelper.hexToRgbA(colors.primaryLight, 0),
+            // },
+            // {
+            //   label: 'Distance Outside',
+            //   type: 'line',
+            //   data: distOut,
+            //   borderColor: '#ff4c6a',
+            //   backgroundColor: NbColorHelper.hexToRgbA(colors.primaryLight, 0),
+            // },
+            // {
+            //   label: 'Distance Outside',
+            //   type: 'line',
+            //   data: distIn,
+            //   borderColor: '#8a7fff',
+            //   backgroundColor: NbColorHelper.hexToRgbA(colors.primaryLight, 0),
+            // },
           ],
         };
       });

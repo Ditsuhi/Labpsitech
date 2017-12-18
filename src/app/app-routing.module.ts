@@ -29,7 +29,7 @@ const routes: Routes = [
   //   canActivate: [AuthGuard],
   //   loadChildren: 'app/pages/pages.module#PagesModule'
   // },
-   { path: 'pages', loadChildren: 'app/pages/pages.module#PagesModule' },
+  { path: 'pages', loadChildren: 'app/pages/pages.module#PagesModule' },
   { path: '', redirectTo: '/auth/login', pathMatch: 'full' },
   { path: '**', redirectTo: 'pages' },
 ];
@@ -44,3 +44,4 @@ const config: ExtraOptions = {
 })
 export class AppRoutingModule {
 }
+

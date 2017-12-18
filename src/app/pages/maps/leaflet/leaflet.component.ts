@@ -28,7 +28,7 @@ export class LeafletComponent implements OnInit, OnDestroy {
   };
    // dateModel: IMyDateRangeModel;
 
-  private model: any;
+  public model: any;
 
   polylines: any;
   currentUser: string;
@@ -150,9 +150,12 @@ export class LeafletComponent implements OnInit, OnDestroy {
       this.polylines = L.polyline([...this.latlngs]);
       this.map.addLayer(this.polylines);
     });
-    // const gg = this.polylines.getCenter();
-    //
-    // this.map.setView(new L.LatLng(gg[0], gg[1]), 16);
+      const fitBound = L.polyline([...this.latlngs]);
+
+   const bounds = fitBound.getBounds();
+    this.map.fitBounds(bounds);
+    // this.map.addLayer(fitBound);
+    //   this.map.fitBounds(fitBound.getBounds());
 
   }
 
@@ -175,6 +178,10 @@ export class LeafletComponent implements OnInit, OnDestroy {
       this.polylines = L.polyline([...this.latlngs]);
       this.map.addLayer(this.polylines);
     });
+    const fitBound = L.polyline([...this.latlngs]);
+
+    const bounds = fitBound.getBounds();
+    this.map.fitBounds(bounds);
   }
 
   chooseBatch() {

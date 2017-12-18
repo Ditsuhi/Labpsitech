@@ -43,6 +43,7 @@ export class ChartjsBarComponent implements OnDestroy {
         scales: {
           xAxes: [
             {
+             barPercentage: 0.5 ,
               gridLines: {
                 display: false,
                 color: chartjs.axisLineColor,
@@ -88,11 +89,8 @@ export class ChartjsBarComponent implements OnDestroy {
             },
             // {
             //   label: 'Distance Inside',
-            //   type: 'line',
-            //   data: distOut,
-            //   borderColor: '#EC932F',
-            //   // borderColor: NbColorHelper.hexToRgbA(colors.danger, 0.5),
-            //   backgroundColor: NbColorHelper.hexToRgbA(colors.danger, 0)
+            //   data: distIn,
+            //   backgroundColor: NbColorHelper.hexToRgbA(colors.infoLight, 0.8),
             // }
           ],
         };

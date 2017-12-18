@@ -32,6 +32,7 @@ import {
 } from './layouts';
 import { DEFAULT_THEME } from './styles/theme.default';
 import { COSMIC_THEME } from './styles/theme.cosmic';
+import { MyDatePickerModule } from 'mydatepicker';
 import { NgxLoginComponent } from './components/auth/ngx-login.component';
 import { NbAuthModule } from '@nebular/auth';
 import { RouterModule } from '@angular/router';
@@ -51,6 +52,7 @@ const NB_MODULES = [
   NbCheckboxModule,
   NgbModule,
   NbAuthModule,
+  MyDatePickerModule,
   RouterModule
 ];
 
@@ -87,7 +89,7 @@ const NB_THEME_PROVIDERS = [
 @NgModule({
   imports: [...BASE_MODULES, ...NB_MODULES],
   exports: [...BASE_MODULES, ...NB_MODULES, ...COMPONENTS, ...PIPES],
-  declarations: [...COMPONENTS, ...PIPES ],
+  declarations: [...COMPONENTS, ...PIPES],
 })
 export class ThemeModule {
   static forRoot(): ModuleWithProviders {

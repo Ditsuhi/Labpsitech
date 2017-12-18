@@ -1,6 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { LeafletModule } from '@asymmetrik/angular2-leaflet';
 import { AngularEchartsModule } from 'ngx-echarts';
+
 import { ThemeModule } from '../../@theme/theme.module';
 import { MapsRoutingModule, routedComponents, routedProviders } from './maps-routing.module';
 import { MyDateRangePickerModule } from 'mydaterangepicker';
@@ -11,8 +12,8 @@ import { MyDateRangePickerModule } from 'mydaterangepicker';
     ThemeModule,
     LeafletModule.forRoot(),
     MapsRoutingModule,
-    MyDateRangePickerModule,
     AngularEchartsModule,
+    MyDateRangePickerModule,
   ],
   exports: [],
   declarations: [

@@ -63,11 +63,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
   search(term) {
     let totalUser = [];
     this.userService.getAllUsers().subscribe((users) => {
-     totalUser  =  _.uniq(_.pluck(users, 'user'));
-     if ( totalUser.indexOf(term) !== -1) {
-       this.router.navigate(['../pages/dashboard']);
-       console.log('Valod');
-     }
+      totalUser  =  _.uniq(_.pluck(users, 'user'));
+      if ( totalUser.indexOf(term) !== -1) {
+        this.router.navigate(['../pages/dashboard']);
+        console.log('Valod');
+      }
     });
   }
 }
