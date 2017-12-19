@@ -8,10 +8,9 @@ import { ThemeModule } from '../../@theme/theme.module';
 import { ChartsRoutingModule, routedComponents } from './charts-routing.module';
 import { ChartjsBarComponent } from './chartjs/chartjs-bar.component';
 import { ChartjsLineComponent } from './chartjs/chartjs-line.component';
-import { ChartjsPieComponent } from './chartjs/chartjs-pie.component';
+import { ChartjsTimeComponent } from './chartjs/chartjs-time.component';
 import { ChartjsMultipleXaxisComponent } from './chartjs/chartjs-multiple-xaxis.component';
 import { ChartjsBarHorizontalComponent } from './chartjs/chartjs-bar-horizontal.component';
-import { ChartjsRadarComponent } from './chartjs/chartjs-radar.component';
 import { D3BarComponent } from './d3/d3-bar.component';
 import { D3LineComponent } from './d3/d3-line.component';
 import { D3PieComponent } from './d3/d3-pie.component';
@@ -30,18 +29,17 @@ import { UserService } from '../../@core/data/user.service';
 import { SecondstotimePipe } from './chartjs/secondstotime.pipe';
 import { D3Component } from './d3/d3.component';
 import { EchartsComponent } from './echarts/echarts.component';
-import { ChartjsMixedComponent } from './chartjs/chartjs-mixed.component';
+import { CountExitingComponent } from './chartjs/count-exiting.component';
 // import { D3AdvancedPieComponent } from './d3/d3-advanced-pie.component';
 // import { D3AreaStackComponent } from './d3/d3-area-stack.component';
 
 const components = [
   ChartjsBarComponent,
   ChartjsLineComponent,
-  ChartjsPieComponent,
+  ChartjsTimeComponent,
   ChartjsMultipleXaxisComponent,
   ChartjsBarHorizontalComponent,
-  ChartjsRadarComponent,
-  ChartjsMixedComponent,
+  CountExitingComponent,
   SecondstotimePipe,
 
   D3BarComponent,

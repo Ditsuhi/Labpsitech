@@ -17,21 +17,12 @@ export class Utils {
 
     public static getTime(totalSeconds: number) {
 
-      let hours = Math.trunc(totalSeconds / 3600);
-      totalSeconds %= 3600;
-      let minutes = Math.trunc(totalSeconds / 60);
-      let seconds = totalSeconds % 60;
-      hours = +hours;
-      minutes = +minutes;
-      seconds = +seconds;
+      const h = Math.trunc(totalSeconds / 3600);
+      totalSeconds = totalSeconds - 3600 * h;
+      const m = Math.trunc(totalSeconds / 60);
+      const s = Math.trunc(totalSeconds -  60 * m);
 
-      // console.log(new Date(hours + 2, minutes, seconds).toTimeString(), 'kkkkkkkkkkkkk');
-      // console.log((hours + ':' + minutes + ':' + seconds));
-      console.log(totalSeconds, 'totalSeconds');
-       return parseInt(hours + ':' +  minutes + ':' + seconds + ':', 10);
-      // return +hours + ':' + minutes + ':' + seconds;
-
-
+       return (h < 10 ? '0' + h : h) +  ':'  + (m < 10 ? '0' + m : m) +  ':'  + (s < 10 ? '0' + s: s);
     }
 }
 

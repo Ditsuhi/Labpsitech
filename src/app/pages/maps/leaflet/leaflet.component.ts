@@ -78,7 +78,7 @@ export class LeafletComponent implements OnInit, OnDestroy {
     // });
     console.log(event);
     this.getTotalPath();
-    this.getCurrentLocation();
+    this.getCurrentLocation(event);
   }
 
 
@@ -110,7 +110,7 @@ export class LeafletComponent implements OnInit, OnDestroy {
     });
   }
 
-  getCurrentLocation() {
+  getCurrentLocation(event) {
     // e.stopPropagation();
     this.leafletService.getUsersConfigData(this.currentUser).subscribe((result) => {
       _.sortBy(result.locations, 'time');

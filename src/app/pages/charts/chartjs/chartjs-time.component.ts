@@ -1,14 +1,15 @@
 import { Component, OnDestroy } from '@angular/core';
 import { NbThemeService, NbColorHelper } from '@nebular/theme';
 import { UserService } from '../../../@core/data/user.service';
+import { Utils } from '../../../helpers/utils';
 
 @Component({
-  selector: 'ngx-chartjs-bar-line',
+  selector: 'ngx-chartjs-pie',
   template: `
     <chart type="bar" [data]="data" [options]="options"></chart>
   `,
 })
-export class ChartjsMixedComponent implements OnDestroy {
+export class ChartjsTimeComponent implements OnDestroy {
   data: any;
   options: any;
   themeSubscription: any;
@@ -33,6 +34,13 @@ export class ChartjsMixedComponent implements OnDestroy {
       // };
 
       this.options = {
+        // tooltips: {
+        //   callbacks: {
+        //     label: function(tooltipItem, data) {
+        //       return Utils.getTime(data);
+        //       }
+        //   }
+        // },
         maintainAspectRatio: false,
         responsive: true,
         legend: {
@@ -43,6 +51,11 @@ export class ChartjsMixedComponent implements OnDestroy {
         scales: {
           xAxes: [
             {
+              scaleLabel: {
+                display: true,
+                labelString: 'ExperimentDate'
+              },
+              // barPercentage: 0.5 ,
               gridLines: {
                 display: false,
                 color: chartjs.axisLineColor,
@@ -54,11 +67,16 @@ export class ChartjsMixedComponent implements OnDestroy {
           ],
           yAxes: [
             {
+              scaleLabel: {
+                display: true,
+                labelString: 'Hours'
+              },
               gridLines: {
                 display: true,
                 color: chartjs.axisLineColor,
               },
               ticks: {
+                callback: (v) => Utils.getTime(v),
                 fontColor: chartjs.textColor,
               },
             },
@@ -70,46 +88,28 @@ export class ChartjsMixedComponent implements OnDestroy {
 
       this.userService.getUserExpTime(currentUser).subscribe((exps) => {
         const labels: any[] = [],
-          distIn: any[] = [],
-          distOut: any[] = [];
+          dataInside: any[] = [],
+          dataOutside: any[] = [];
         exps.forEach((exp) => {
+          const gg = Utils.getTime(7000);
           labels.push(exp.experimentDate);
-          distOut.push(exp.totalDistanceOutside);
-          distIn.push(exp.totalDistanceInside);
-        });
-        this.userService.getCountExiting(currentUser, '0-8').subscribe((data) => {
-          const gg = data;
+          dataInside.push(exp.totalTimeInside);
+          dataOutside.push(exp.totalTimeOutside);
         });
 
         this.data = {
           labels: labels,
           datasets: [
             {
-              label: 'Distance Outside',
-              data: distOut,
-              backgroundColor: NbColorHelper.hexToRgbA(colors.successLight, 0.8),
+              label: 'Time Outside',
+              data: dataOutside,
+              backgroundColor: NbColorHelper.hexToRgbA(colors.success, 0.8),
+            },
+            {
+              label: 'Time Inside',
+              data: dataInside,
+              backgroundColor: NbColorHelper.hexToRgbA(colors.infoLight, 0.8),
             }
-            // {
-            //   label: 'Distance Outside',
-            //   type: 'line',
-            //   data: distIn,
-            //   borderColor: '#4ca6ff',
-            //   backgroundColor: NbColorHelper.hexToRgbA(colors.primaryLight, 0),
-            // },
-            // {
-            //   label: 'Distance Outside',
-            //   type: 'line',
-            //   data: distOut,
-            //   borderColor: '#ff4c6a',
-            //   backgroundColor: NbColorHelper.hexToRgbA(colors.primaryLight, 0),
-            // },
-            // {
-            //   label: 'Distance Outside',
-            //   type: 'line',
-            //   data: distIn,
-            //   borderColor: '#8a7fff',
-            //   backgroundColor: NbColorHelper.hexToRgbA(colors.primaryLight, 0),
-            // },
           ],
         };
       });

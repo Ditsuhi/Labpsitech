@@ -43,6 +43,10 @@ export class ChartjsBarComponent implements OnDestroy {
         scales: {
           xAxes: [
             {
+              scaleLabel: {
+                display: true,
+                labelString: 'ExperimentDate'
+              },
              barPercentage: 0.5 ,
               gridLines: {
                 display: false,
@@ -55,6 +59,10 @@ export class ChartjsBarComponent implements OnDestroy {
           ],
           yAxes: [
             {
+              scaleLabel: {
+                display: true,
+                labelString: 'Distance'
+              },
               gridLines: {
                 display: true,
                 color: chartjs.axisLineColor,

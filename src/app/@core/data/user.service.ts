@@ -81,24 +81,28 @@ export class UserService {
       })
   };
 
-
-  getCountExiting(user, batch) {
+  getBatchExiting(user, batch) {
     return this.getAllUsers()
       .map((users) => {
         const expUser = users.filter((usr) => {
           return usr.user === user;
         });
-        const distinctUserExps = _.uniq(_.pluck(expUser, 'batch')).sort();
-
-        let userExiting: any[] = [];
+        const distinctUserExps = _.uniq(_.pluck(expUser, 'experimentDate')).sort();
+        const expUserGroup: any[] = [];
         distinctUserExps.forEach((exp) => {
           const expUs = expUser.filter((data) => {
-            return data.experimentDate === exp && exp.batch === batch;
+            return data.experimentDate === exp && data.batch === batch;
           });
-          userExiting = _.pluck(expUs, 'countExiting');
-          console.log('vvvvvv', userExiting);
+          let countExiting = 0;
+          expUs.forEach((ss) => {
+            countExiting = ss.countExiting;
+          });
+          expUserGroup.push({
+            experimentDate: exp,
+            countExitinge: countExiting,
+          });
         });
-        return userExiting;
+        return expUserGroup;
       })
   }
 
