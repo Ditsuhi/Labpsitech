@@ -18,6 +18,8 @@
     ],
     "plugins": [
       { "name": "tslint-language-service"}
+    ],
+    "types": [
+      "firebase"
     ]
-  }
-}
+}}

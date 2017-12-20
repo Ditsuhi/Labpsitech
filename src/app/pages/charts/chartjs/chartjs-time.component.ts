@@ -34,13 +34,16 @@ export class ChartjsTimeComponent implements OnDestroy {
       // };
 
       this.options = {
-        // tooltips: {
-        //   callbacks: {
-        //     label: function(tooltipItem, data) {
-        //       return Utils.getTime(data);
-        //       }
-        //   }
-        // },
+        tooltips: {
+          enabled: true,
+          mode: 'single',
+          callbacks: {
+            label: function(tooltipItem, data) {
+              const datasetLabel = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+              return Utils.getTime(datasetLabel) ;
+            }
+          }
+        },
         maintainAspectRatio: false,
         responsive: true,
         legend: {

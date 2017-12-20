@@ -55,19 +55,19 @@ import { getDeepFromObject } from '@nebular/auth/helpers';
             characters
           </small>
         </div>
-        <div class="form-group accept-group col-sm-12">
-          <nb-checkbox name="rememberMe" [(ngModel)]="user.rememberMe">Remember me</nb-checkbox>
-        </div>
+        <!--<div class="form-group accept-group col-sm-12">-->
+          <!--<nb-checkbox name="rememberMe" [(ngModel)]="user.rememberMe">Remember me</nb-checkbox>-->
+        <!--</div>-->
         <button [disabled]="submitted || !form.valid" class="btn btn-block btn-hero-success"
                 [class.btn-pulse]="submitted">
           Sign In
         </button>
       </form>
-      <div class="links">
-        <small class="form-text">
-          Don't have an account? <a routerLink="/auth/register" routerLinkActive="active"><strong>Sign Up</strong></a>
-        </small>
-      </div>
+      <!--<div class="links">-->
+      <!--<small class="form-text">-->
+        <!--Don't have an account? <a routerLink="/auth/register" routerLinkActive="active"><strong>Sign Up</strong></a>-->
+      <!--</small>-->
+    <!--</div>-->
     </nb-auth-block>
   `,
 })
