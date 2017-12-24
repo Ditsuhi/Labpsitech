@@ -27,11 +27,11 @@ const routes: Routes = [
       // }
     ]
   },
-  // {
-  //   path: 'pages',
-  //   canActivate: [AuthGuard],
-  //   loadChildren: 'app/pages/pages.module#PagesModule'
-  // },
+  {
+    path: 'pages',
+    canActivate: [AuthGuard],
+    loadChildren: 'app/pages/pages.module#PagesModule'
+  },
   { path: 'pages', loadChildren: 'app/pages/pages.module#PagesModule' },
   { path: '', redirectTo: '/auth/login', pathMatch: 'full' },
   { path: '**', redirectTo: 'pages' },

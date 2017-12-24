@@ -16,23 +16,16 @@ import { ThemeModule } from './@theme/theme.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AuthGuard } from './auth-guard.service';
 import { AngularFireModule } from 'angularfire2';
-import { AngularFireDatabaseModule } from 'angularfire2/database';
-// import { AngularFirestoreModule } from 'angularfire2/firestore';
-import { AngularFireAuthModule } from 'angularfire2/auth';
-import * as firebase from 'firebase';
-// declare let firebase: any;
-// //
-// // New imports to update based on AngularFire2 version 4
-// import { AngularFireDatabaseModule } from 'angularfire2/database';
-// import { AngularFireAuthModule } from 'angularfire2/auth';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
+import { FormsModule } from '@angular/forms';
 
-export const firebaseConfig = {
-  apiKey: 'AIzaSyBtYAO-ciYN5dbi83JCYK2hpTlY15XN38k',
-  authDomain: 'labpsitec-4097d.firebaseapp.com',
-  databaseURL: 'https://labpsitec-4097d.firebaseio.com',
-  projectId: 'labpsitec-4097d',
-  storageBucket: 'labpsitec-4097d.appspot.com',
-  messagingSenderId: '242241850585'
+ const firebaseConfig = {
+   apiKey: 'AIzaSyBtYAO-ciYN5dbi83JCYK2hpTlY15XN38k',
+   authDomain: 'labpsitec-4097d.firebaseapp.com',
+   databaseURL: 'https://labpsitec-4097d.firebaseio.com',
+   projectId: 'labpsitec-4097d',
+   storageBucket: 'labpsitec-4097d.appspot.com',
+   messagingSenderId: '242241850585'
 };
 
 @NgModule({
@@ -43,10 +36,8 @@ export const firebaseConfig = {
     HttpModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(firebaseConfig),
-    AngularFireDatabaseModule,
-    AngularFireAuthModule,
-    // AngularFirestoreModule,
-    // AngularFireAuthModule,
+    AngularFirestoreModule,
+    FormsModule,
 
     NgbModule.forRoot(),
     ThemeModule.forRoot(),
