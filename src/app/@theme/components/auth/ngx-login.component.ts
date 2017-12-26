@@ -81,76 +81,105 @@ interface User {
   `,
 })
 export class NgxLoginComponent implements OnInit {
+  notAllowed = false;
 
-  redirectDelay: number = 0;
-  showMessages: any = {};
-  provider: string = '';
-  res: any = [];
+  constructor(public authService: AuthService, private router: Router) {
 
-  errors: string[] = [];
-  messages: string[] = [];
-  user: any = {};
-  submitted: boolean = false;
-
-  usersCol: AngularFirestoreCollection<User>;
-  users: Observable<User[]>;
-  usr: User[];
-
-  constructor(
-    protected service: NbAuthService,
-    @Inject(NB_AUTH_OPTIONS_TOKEN) protected config = {},
-    protected router: Router,
-    private afs: AngularFirestore,
-  ) {
-
-    this.redirectDelay = this.getConfigValue('forms.login.redirectDelay');
-    this.showMessages = this.getConfigValue('forms.login.showMessages');
-    this.provider = this.getConfigValue('forms.login.provider');
+    this.authService.subject.subscribe(
+      (user) => {
+        if (user == null) {
+          console.log('User null');
+          this.notAllowed = false;
+        } else if (!user.allowed) {
+          console.log('User not allowed');
+          this.notAllowed = true;
+        } else {
+          console.log('User bien');
+          this.notAllowed = false;
+        }
+      });
   }
 
   ngOnInit() {
-    this.usersCol = this.afs.collection('users');
-    this.users = this.usersCol.valueChanges();
   }
 
-
-  login(): void {
-    // let res = [];
-    console.log(this.res);
-    this.users.subscribe((users) => {
-        this.res = users.filter((usr) => {
-          return usr.email === this.user.email
-        })
-      }
-    );
-    if (this.res.length) {
-      this.router.navigate(['pages/dashboard']);
-      console.log(this.res);
-
-
-      this.errors = this.messages = [];
-      this.submitted = true;
-
-      this.service.authenticate(this.provider, this.user).subscribe((result: NbAuthResult) => {
-          this.submitted = false;
-
-          if (result.isSuccess()) {
-            this.messages = result.getMessages();
-          } else {
-            this.errors = result.getErrors();
-          }
-
-          const redirect = result.getRedirect();
-          if (redirect) {
-            setTimeout(() => {
-              return this.router.navigateByUrl(redirect);
-            }, this.redirectDelay);
-          }
-        });
-      }
-
+  login() {
+    this.authService.loginWithGoogle();
   }
-  getConfigValue(key: string): any {
-    return getDeepFromObject(this.config, key, null);
+
+  lougOutFromGoogle() {
+    window.open('https://accounts.google.com/Logout', '_blank');
   }
+
+  // redirectDelay: number = 0;
+  // showMessages: any = {};
+  // provider: string = '';
+  // res: any = [];
+  //
+  // errors: string[] = [];
+  // messages: string[] = [];
+  // user: any = {};
+  // submitted: boolean = false;
+  //
+  // usersCol: AngularFirestoreCollection<User>;
+  // users: Observable<User[]>;
+  // usr: User[];
+  //
+  // constructor(
+  //   protected service: NbAuthService,
+  //   @Inject(NB_AUTH_OPTIONS_TOKEN) protected config = {},
+  //   protected router: Router,
+  //   private afs: AngularFirestore,
+  // ) {
+  //
+  //   this.redirectDelay = this.getConfigValue('forms.login.redirectDelay');
+  //   this.showMessages = this.getConfigValue('forms.login.showMessages');
+  //   this.provider = this.getConfigValue('forms.login.provider');
+  // }
+  //
+  // ngOnInit() {
+  //   this.usersCol = this.afs.collection('users');
+  //   this.users = this.usersCol.valueChanges();
+  // }
+  //
+  //
+  // login(): void {
+  //   // let res = [];
+  //   console.log(this.res);
+  //   this.users.subscribe((users) => {
+  //       this.res = users.filter((usr) => {
+  //         return usr.email === this.user.email
+  //       })
+  //     }
+  //   );
+  //   if (this.res.length) {
+  //     this.router.navigate(['pages/dashboard']);
+  //     console.log(this.res);
+  //
+  //
+  //     this.errors = this.messages = [];
+  //     this.submitted = true;
+  //
+  //     this.service.authenticate(this.provider, this.user).subscribe((result: NbAuthResult) => {
+  //         this.submitted = false;
+  //
+  //         if (result.isSuccess()) {
+  //           this.messages = result.getMessages();
+  //         } else {
+  //           this.errors = result.getErrors();
+  //         }
+  //
+  //         const redirect = result.getRedirect();
+  //         if (redirect) {
+  //           setTimeout(() => {
+  //             return this.router.navigateByUrl(redirect);
+  //           }, this.redirectDelay);
+  //         }
+  //       });
+  //     }
+  //
+  // }
+  // getConfigValue(key: string): any {
+  //   return getDeepFromObject(this.config, key, null);
+  // }
 }
