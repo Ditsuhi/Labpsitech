@@ -16,8 +16,12 @@ import { ThemeModule } from './@theme/theme.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AuthGuard } from './auth-guard.service';
 import { AngularFireModule } from 'angularfire2';
-import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { FormsModule } from '@angular/forms';
+import { AuthService } from './@core/data/auth.service';
+import { AngularFireAuth } from 'angularfire2/auth';
+import { DatabaseService } from './@core/data/database.service';
+import { StorageService } from './@core/data/storage.service';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
 
  const firebaseConfig = {
    apiKey: 'AIzaSyBtYAO-ciYN5dbi83JCYK2hpTlY15XN38k',
@@ -36,8 +40,10 @@ import { FormsModule } from '@angular/forms';
     HttpModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(firebaseConfig),
-    AngularFirestoreModule,
+    // AngularFirestoreModule,
     FormsModule,
+    AngularFireDatabaseModule,
+
 
     NgbModule.forRoot(),
     ThemeModule.forRoot(),
@@ -45,6 +51,10 @@ import { FormsModule } from '@angular/forms';
   ],
   bootstrap: [AppComponent],
   providers: [
+    AuthService,
+    AngularFireAuth,
+    DatabaseService,
+    StorageService,
     AuthGuard,
     { provide: APP_BASE_HREF,  useValue: '/'},
   ],

@@ -43,8 +43,15 @@ export class AuthService {
     user.name = fu.displayName;
     user.email = fu.email;
     user.allowed = allow;
+    console.log(user);
     return user;
   }
+  // createUserName (fu: firebase.User, allow: boolean): any {
+  //   const user: User = new User();
+  //   user.name = fu.displayName;
+  //   console.log('juju', user.name );
+  //   return user.name;
+  // }
 
   loginWithGoogle() {
     return this.af.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());

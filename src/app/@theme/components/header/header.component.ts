@@ -6,6 +6,7 @@ import { AnalyticsService } from '../../../@core/utils/analytics.service';
 import { UserService } from '../../../@core/data/user.service';
 import { Router } from '@angular/router';
 import * as _ from 'underscore';
+import { AuthService } from '../../../@core/data/auth.service';
 
 const currentUser = localStorage.getItem('selectedUser');
 
@@ -29,13 +30,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private usersService: UsersService,
     private userService: UserService,
     private analyticsService: AnalyticsService,
-    private router: Router) {}
+    private router: Router,
+    private authService: AuthService) {}
 
   ngOnInit() {
-    this.usersService.getUsers()
-      .subscribe((users: any) => this.user = users.nick);
-    this.subscription = this.searchService.onSearchSubmit()
-      .subscribe((data: { term: string, tag: string }) => this.search(data.term));
+    this.authService._createUser(this.user, true);
+    // console.log(user);
+    // this.usersService.getUsers()
+    //   .subscribe((users: any) => this.user = users.nick);
+    // this.subscription = this.searchService.onSearchSubmit()
+    //   .subscribe((data: { term: string, tag: string }) => this.search(data.term));
   }
 
   toggleSidebar(): boolean {
@@ -46,6 +50,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
   toggleSettings(): boolean {
     this.sidebarService.toggle(false, 'settings-sidebar');
     return false;
+  }
+
+  lougOutFromGoogle() {
+  //   window.open('https://accounts.google.com/Logout', '_blank');
+  //   this.router.navigate(['/auth/login'])
   }
 
   goToHome() {

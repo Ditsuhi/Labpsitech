@@ -5,16 +5,31 @@
  */
 import { Component, OnInit } from '@angular/core';
 import { AnalyticsService } from './@core/utils/analytics.service';
+import { AuthService } from './@core/data/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'ngx-app',
   template: '<router-outlet></router-outlet>',
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
 
-  constructor(private analytics: AnalyticsService) {}
+  constructor(
+    private analytics: AnalyticsService,
+    public authService: AuthService,
+    private router: Router) {
 
-  ngOnInit(): void {
-    this.analytics.trackPageViews();
+    this.authService.subject.subscribe(
+      (user) => {
+        if (user == null || !user.allowed) {
+          this.router.navigate(['']);
+        } else {
+          this.router.navigate(['pages']);
+        }
+      });
   }
+
+  // ngOnInit(): void {
+  //   this.analytics.trackPageViews();
+  // }
 }

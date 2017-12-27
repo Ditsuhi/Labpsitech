@@ -2,8 +2,9 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NB_AUTH_OPTIONS_TOKEN, NbAuthResult, NbAuthService } from '@nebular/auth';
 import { getDeepFromObject } from '@nebular/auth/helpers';
-import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
+// import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
 import { Observable } from 'rxjs/Observable';
+import { AuthService } from '../../../@core/data/auth.service';
 
 interface User {
   email: string,
@@ -13,37 +14,37 @@ interface User {
   selector: 'ngx-login',
   template: `
     <nb-auth-block>
-      <h2 class="title">Sign In {{usr |json}}
+      <h2 class="title">Sign In
         <!--<ul *ngFor="let user of users | async">-->
           <!--<li> {{user.password }}</li>-->
         <!--</ul>-->
       </h2>
-      <small class="form-text sub-title">Hello! Sign in with your username or email</small>
-      <form (ngSubmit)="login()" #form="ngForm" autocomplete="nope">
-        <div *ngIf="showMessages.error && errors && errors.length > 0 && !submitted"
-             class="alert alert-danger" role="alert">
-          <div><strong>Oh snap!</strong></div>
-          <div *ngFor="let error of errors">{{ error }}</div>
-        </div>
-        <div *ngIf="showMessages.success && messages && messages.length > 0 && !submitted"
-             class="alert alert-success" role="alert">
-          <div><strong>Hooray!</strong></div>
-          <div *ngFor="let message of messages">{{ message }}</div>
-        </div>
-        <div class="form-group">
-          <label for="input-email" class="sr-only">Email address</label>
-          <input name="email" [(ngModel)]="user.email" id="input-email" pattern=".+@.+\..+"
-                 class="form-control" placeholder="Email address" #email="ngModel"
-                 [class.form-control-danger]="email.invalid && email.touched" autofocus
-                 [required]="getConfigValue('forms.validation.email.required')">
-          <small class="form-text error" *ngIf="email.invalid && email.touched && email.errors?.required">
-            Email is required!
-          </small>
-          <small class="form-text error"
-                 *ngIf="email.invalid && email.touched && email.errors?.pattern">
-            Email should be the real one!
-          </small>
-        </div>
+      <small class="form-text sub-title">Hello! Sign in with your Google account</small>
+      <!--<form (ngSubmit)="login()" #form="ngForm" autocomplete="nope">-->
+        <!--<div *ngIf="showMessages.error && errors && errors.length > 0 && !submitted"-->
+             <!--class="alert alert-danger" role="alert">-->
+          <!--<div><strong>Oh snap!</strong></div>-->
+          <!--<div *ngFor="let error of errors">{{ error }}</div>-->
+        <!--</div>-->
+        <!--<div *ngIf="showMessages.success && messages && messages.length > 0 && !submitted"-->
+             <!--class="alert alert-success" role="alert">-->
+          <!--<div><strong>Hooray!</strong></div>-->
+          <!--<div *ngFor="let message of messages">{{ message }}</div>-->
+        <!--</div>-->
+        <!--<div class="form-group">-->
+          <!--<label for="input-email" class="sr-only">Email address</label>-->
+          <!--<input name="email" [(ngModel)]="user.email" id="input-email" pattern=".+@.+\..+"-->
+                 <!--class="form-control" placeholder="Email address" #email="ngModel"-->
+                 <!--[class.form-control-danger]="email.invalid && email.touched" autofocus-->
+                 <!--[required]="getConfigValue('forms.validation.email.required')">-->
+          <!--<small class="form-text error" *ngIf="email.invalid && email.touched && email.errors?.required">-->
+            <!--Email is required!-->
+          <!--</small>-->
+          <!--<small class="form-text error"-->
+                 <!--*ngIf="email.invalid && email.touched && email.errors?.pattern">-->
+        <!--Email should be the real one!-->
+        <!--</small>-->
+        <!--</div>-->
         <!--<div class="form-group">-->
           <!--<label for="input-password" class="sr-only">Password</label>-->
           <!--<input name="password" [(ngModel)]="user.password" type="password" id="input-password"-->
@@ -67,11 +68,17 @@ interface User {
         <!--&lt;!&ndash;<div class="form-group accept-group col-sm-12">&ndash;&gt;-->
           <!--<nb-checkbox name="rememberMe" [(ngModel)]="user.rememberMe">Remember me</nb-checkbox>-->
         <!--</div>-->
-        <button [disabled]="submitted || !form.valid" class="btn btn-block btn-hero-success"
-                [class.btn-pulse]="submitted">
+        <button  class="btn btn-block btn-hero-success"
+                [class.btn-pulse]="submitted"
+         (click)="login()">
           Sign In
         </button>
-      </form>
+      <br>
+      <div *ngIf="notAllowed">
+        <p class="text-warning sub-title">This user  does not have permission.</p></div>
+          <!--<button class="btn btn-default" (click)="lougOutFromGoogle()">Leave Google</button>-->
+        
+      <!--</form>-->
       <!--<div class="links">-->
       <!--<small class="form-text">-->
         <!--Don't have an account? <a routerLink="/auth/register" routerLinkActive="active"><strong>Sign Up</strong></a>-->
@@ -87,6 +94,7 @@ export class NgxLoginComponent implements OnInit {
 
     this.authService.subject.subscribe(
       (user) => {
+        console.log(user);
         if (user == null) {
           console.log('User null');
           this.notAllowed = false;
@@ -107,9 +115,9 @@ export class NgxLoginComponent implements OnInit {
     this.authService.loginWithGoogle();
   }
 
-  lougOutFromGoogle() {
-    window.open('https://accounts.google.com/Logout', '_blank');
-  }
+  // lougOutFromGoogle() {
+  //   window.open('https://accounts.google.com/Logout', '_blank');
+  // }
 
   // redirectDelay: number = 0;
   // showMessages: any = {};
