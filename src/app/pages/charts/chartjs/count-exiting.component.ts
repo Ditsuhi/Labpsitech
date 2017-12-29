@@ -88,67 +88,67 @@ export class CountExitingComponent implements OnDestroy {
         data.forEach((exp) => {
           labels.push(exp.experimentDate);
           exitMorning.push(exp.countExiting);
-      });
-      this.userService.getBatchExiting(currentUser, '8-16').subscribe((dada) => {
+        });
+        this.userService.getBatchExiting(currentUser, '8-16').subscribe((dada) => {
           const exitAfternoon: any[] = [];
-        dada.forEach((exp) => {
-          exitAfternoon.push(exp.experimentDate);
-        });
-      this.userService.getBatchExiting(currentUser, '16-24').subscribe((dada) => {
-          const exitEvening: any[] = [];
-        dada.forEach((exp) => {
-          exitEvening.push(exp.experimentDate);
-        });
-        this.userService.getUserExpTime(currentUser).subscribe((exps) => {
-            const totalExit: any[] = [];
-          exps.forEach((exp) => {
-            totalExit.push(exp.totalCountExiting);
+          dada.forEach((exp) => {
+            exitAfternoon.push(exp.experimentDate);
           });
+          this.userService.getBatchExiting(currentUser, '16-24').subscribe((dada) => {
+            const exitEvening: any[] = [];
+            dada.forEach((exp) => {
+              exitEvening.push(exp.experimentDate);
+            });
+            this.userService.getUserExpTime(currentUser).subscribe((exps) => {
+              const totalExit: any[] = [];
+              exps.forEach((exp) => {
+                totalExit.push(exp.totalCountExiting);
+              });
 
-      // this.userService.getUserExpTime(currentUser).subscribe((exps) => {
-      //   const labels: any[] = [],
-      //     distIn: any[] = [],
-      //     distOut: any[] = [];
-      //   exps.forEach((exp) => {
-      //     labels.push(exp.experimentDate);
-      //     distOut.push(exp.totalDistanceOutside);
-      //     distIn.push(exp.totalDistanceInside);
-      //   });
+              // this.userService.getUserExpTime(currentUser).subscribe((exps) => {
+              //   const labels: any[] = [],
+              //     distIn: any[] = [],
+              //     distOut: any[] = [];
+              //   exps.forEach((exp) => {
+              //     labels.push(exp.experimentDate);
+              //     distOut.push(exp.totalDistanceOutside);
+              //     distIn.push(exp.totalDistanceInside);
+              //   });
 
-        this.data = {
-          labels: labels,
-          datasets: [
-            {
-              label: 'Total Exiting',
-              data: totalExit,
-              backgroundColor: NbColorHelper.hexToRgbA(colors.success, 0.8),
-            },
-            {
-              label: 'Exiting Morning',
-              type: 'line',
-              data: exitMorning,
-              borderColor: '#4ca6ff',
-              backgroundColor: NbColorHelper.hexToRgbA(colors.primaryLight, 0),
-            },
-            {
-              label: 'Exiting Afternoon',
-              type: 'line',
-              data: exitAfternoon,
-              borderColor: '#ff4c6a',
-              backgroundColor: NbColorHelper.hexToRgbA(colors.primaryLight, 0),
-            },
-            {
-              label: 'Exiting Evening',
-              type: 'line',
-              data: exitEvening,
-              borderColor: '#8a7fff',
-              backgroundColor: NbColorHelper.hexToRgbA(colors.primaryLight, 0),
-            },
-          ],
-        };
-      });
-      });
-      });
+              this.data = {
+                labels: labels,
+                datasets: [
+                  {
+                    label: 'Total Exiting',
+                    data: totalExit,
+                    backgroundColor: NbColorHelper.hexToRgbA(colors.success, 0.8),
+                  },
+                  {
+                    label: 'Exiting Morning',
+                    type: 'line',
+                    data: exitMorning,
+                    borderColor: '#4ca6ff',
+                    backgroundColor: NbColorHelper.hexToRgbA(colors.primaryLight, 0),
+                  },
+                  {
+                    label: 'Exiting Afternoon',
+                    type: 'line',
+                    data: exitAfternoon,
+                    borderColor: '#ff4c6a',
+                    backgroundColor: NbColorHelper.hexToRgbA(colors.primaryLight, 0),
+                  },
+                  {
+                    label: 'Exiting Evening',
+                    type: 'line',
+                    data: exitEvening,
+                    borderColor: '#8a7fff',
+                    backgroundColor: NbColorHelper.hexToRgbA(colors.primaryLight, 0),
+                  },
+                ],
+              };
+            });
+          });
+        });
       });
       // });
     });

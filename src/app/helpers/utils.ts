@@ -15,14 +15,14 @@ export class Utils {
     return users;
   }
 
-    public static getTime(totalSeconds: number) {
+  public static getTime(totalSeconds: number) {
 
-      const h = Math.trunc(totalSeconds / 3600);
-      totalSeconds = totalSeconds - 3600 * h;
-      const m = Math.trunc(totalSeconds / 60);
-      const s = Math.trunc(totalSeconds -  60 * m);
+    const h = Math.trunc(totalSeconds / 3600);
+    totalSeconds = totalSeconds - 3600 * h;
+    const m = Math.trunc(totalSeconds / 60);
+    const s = Math.trunc(totalSeconds -  60 * m);
 
-       return (h < 10 ? '0' + h : h) +  ':'  + (m < 10 ? '0' + m : m) +  ':'  + (s < 10 ? '0' + s: s);
-    }
+    return (h < 10 ? '0' + h : h) +  ':'  + (m < 10 ? '0' + m : m) +  ':'  + (s < 10 ? '0' + s: s);
+  }
 }
 

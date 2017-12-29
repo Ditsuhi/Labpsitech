@@ -1,9 +1,6 @@
 import { ExtraOptions, RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
-import {
-  NbAuthComponent,
-  // NbRegisterComponent
-} from '@nebular/auth';
+import { NbAuthComponent, NbRegisterComponent } from '@nebular/auth';
 import { AuthGuard } from './auth-guard.service';
 import { NgxLoginComponent } from './@theme/components/auth/ngx-login.component';
 
@@ -21,10 +18,6 @@ const routes: Routes = [
         path: 'login',
         component: NgxLoginComponent
       },
-      // {
-      //   path: 'register',
-      //   component: NbRegisterComponent
-      // }
     ]
   },
   // {

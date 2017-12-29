@@ -26,7 +26,7 @@ export class LeafletComponent implements OnInit, OnDestroy {
     disableUntil: {year: 9999, month: 12, day: 31},
     enableDates: [],
   };
-   // dateModel: IMyDateRangeModel;
+  // dateModel: IMyDateRangeModel;
 
   public model: any;
 
@@ -62,8 +62,8 @@ export class LeafletComponent implements OnInit, OnDestroy {
       timeRange.forEach((time) => {
         this.myDateRangePickerOptions.enableDates.push(time)
       });
-       this.model = {beginDate: this.myDateRangePickerOptions.enableDates[0],
-       endDate: this.myDateRangePickerOptions.enableDates[this.myDateRangePickerOptions.enableDates.length - 1] };
+      this.model = {beginDate: this.myDateRangePickerOptions.enableDates[0],
+        endDate: this.myDateRangePickerOptions.enableDates[this.myDateRangePickerOptions.enableDates.length - 1] };
     });
   }
 
@@ -72,7 +72,7 @@ export class LeafletComponent implements OnInit, OnDestroy {
 
   onDateRangeChanged(event: IMyDateRangeModel) {
     const range = {start: event.beginDate, end: event.endDate};
-     this.userService.setUserTime(range);
+    this.userService.setUserTime(range);
     // const chosendateFromCalendar = event.jsdate;
     // const date = this.userService.getTotalLocations(currentUser, chosendateFromCalendar).subscribe((d) => {
     // });
@@ -150,9 +150,9 @@ export class LeafletComponent implements OnInit, OnDestroy {
       this.polylines = L.polyline([...this.latlngs]);
       this.map.addLayer(this.polylines);
     });
-      const fitBound = L.polyline([...this.latlngs]);
+    const fitBound = L.polyline([...this.latlngs]);
 
-   const bounds = fitBound.getBounds();
+    const bounds = fitBound.getBounds();
     this.map.fitBounds(bounds);
     // this.map.addLayer(fitBound);
     //   this.map.fitBounds(fitBound.getBounds());
@@ -192,13 +192,13 @@ export class LeafletComponent implements OnInit, OnDestroy {
 
   drawRadius() {
     if (this.currentUser) {
-       let radius = 0;
+      let radius = 0;
       this.userService.getUsersRadius(this.currentUser).subscribe((data) => {
         radius = data;
       });
       this.userService.getUsersConfigLoc(this.currentUser).subscribe((res) => {
         L.circle([res[0], res[1]], {radius: radius}).addTo(this.map);
-       this.map.setView(new L.LatLng(res[0], res[1]), 16);
+        this.map.setView(new L.LatLng(res[0], res[1]), 16);
         L.marker([res[0], res[1]], {
           icon: L.icon({
             iconSize: [41, 41],
@@ -206,8 +206,8 @@ export class LeafletComponent implements OnInit, OnDestroy {
             iconUrl: 'assets/images/Location.png',
           }),
         }).addTo(this.map);
-      // L.circle([39.48621581697988, -0.3582797572016716], {radius: 40}).addTo(this.map);
-      // this.map.setView(new L.LatLng(39.48621581697988, -0.3582797572016716), 16);
+        // L.circle([39.48621581697988, -0.3582797572016716], {radius: 40}).addTo(this.map);
+        // this.map.setView(new L.LatLng(39.48621581697988, -0.3582797572016716), 16);
       });
     }
   }

@@ -3,12 +3,12 @@ import { NbThemeService, NbColorHelper } from '@nebular/theme';
 import { UserService } from '../../../@core/data/user.service';
 
 @Component({
-  selector: 'ngx-chartjs-bar',
+  selector: 'ngx-chartjs-bar-line',
   template: `
     <chart type="bar" [data]="data" [options]="options"></chart>
   `,
 })
-export class ChartjsBarComponent implements OnDestroy {
+export class ChartjsMixedComponent implements OnDestroy {
   data: any;
   options: any;
   themeSubscription: any;
@@ -43,11 +43,6 @@ export class ChartjsBarComponent implements OnDestroy {
         scales: {
           xAxes: [
             {
-              scaleLabel: {
-                display: true,
-                labelString: 'ExperimentDate'
-              },
-              barPercentage: 0.5 ,
               gridLines: {
                 display: false,
                 color: chartjs.axisLineColor,
@@ -59,10 +54,6 @@ export class ChartjsBarComponent implements OnDestroy {
           ],
           yAxes: [
             {
-              scaleLabel: {
-                display: true,
-                labelString: 'Distance'
-              },
               gridLines: {
                 display: true,
                 color: chartjs.axisLineColor,
@@ -86,6 +77,9 @@ export class ChartjsBarComponent implements OnDestroy {
           distOut.push(exp.totalDistanceOutside);
           distIn.push(exp.totalDistanceInside);
         });
+        // this.userService.getCountExiting(currentUser, '0-8').subscribe((data) => {
+        //   const gg = data;
+        // });
 
         this.data = {
           labels: labels,
@@ -93,13 +87,29 @@ export class ChartjsBarComponent implements OnDestroy {
             {
               label: 'Distance Outside',
               data: distOut,
-              backgroundColor: NbColorHelper.hexToRgbA(colors.primaryLight, 0.8),
-            },
+              backgroundColor: NbColorHelper.hexToRgbA(colors.successLight, 0.8),
+            }
             // {
-            //   label: 'Distance Inside',
+            //   label: 'Distance Outside',
+            //   type: 'line',
             //   data: distIn,
-            //   backgroundColor: NbColorHelper.hexToRgbA(colors.infoLight, 0.8),
-            // }
+            //   borderColor: '#4ca6ff',
+            //   backgroundColor: NbColorHelper.hexToRgbA(colors.primaryLight, 0),
+            // },
+            // {
+            //   label: 'Distance Outside',
+            //   type: 'line',
+            //   data: distOut,
+            //   borderColor: '#ff4c6a',
+            //   backgroundColor: NbColorHelper.hexToRgbA(colors.primaryLight, 0),
+            // },
+            // {
+            //   label: 'Distance Outside',
+            //   type: 'line',
+            //   data: distIn,
+            //   borderColor: '#8a7fff',
+            //   backgroundColor: NbColorHelper.hexToRgbA(colors.primaryLight, 0),
+            // },
           ],
         };
       });
