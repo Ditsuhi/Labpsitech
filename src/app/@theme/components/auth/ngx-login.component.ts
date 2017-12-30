@@ -8,6 +8,7 @@ import * as firebase from 'firebase/app';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AnalyticsService } from '../../../@core/utils/analytics.service';
 import { log } from 'util';
+import { UsersService } from '../../../@core/data/users.service';
 
 
 @Component({
@@ -40,7 +41,8 @@ export class NgxLoginComponent implements OnInit {
               private auth: AuthService,
               public db: AngularFireDatabase,
               public nbToken: NbTokenService,
-              public router: Router) {
+              public router: Router,
+              public usersService: UsersService) {
   }
 
   ngOnInit() {
@@ -53,8 +55,8 @@ export class NgxLoginComponent implements OnInit {
     this.auth.loginWithGoogle()
       .then((data) => {
         this.router.navigate(['/pages/dashboard']);
-        this.nbToken.set(data.user.De);
-        console.log(data);
+        this.usersService.setUserName(data.user.displayName);
+        console.log(data.user.displayName);
       })
       .catch((error) => {
       if (error) {this.notAllowed = true; }

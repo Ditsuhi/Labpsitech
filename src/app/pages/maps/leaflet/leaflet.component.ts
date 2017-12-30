@@ -73,17 +73,8 @@ export class LeafletComponent implements OnInit, OnDestroy {
   onDateRangeChanged(event: IMyDateRangeModel) {
     const range = {start: event.beginDate, end: event.endDate};
     this.userService.setUserTime(range);
-    // const chosendateFromCalendar = event.jsdate;
-    // const date = this.userService.getTotalLocations(currentUser, chosendateFromCalendar).subscribe((d) => {
-    // });
-    console.log(event);
     this.getTotalPath();
     this.getCurrentLocation(event);
-  }
-
-
-  go() {
-    console.log('dddd');
   }
 
   onReadyMap(map: L.Map) {
@@ -154,9 +145,6 @@ export class LeafletComponent implements OnInit, OnDestroy {
 
     const bounds = fitBound.getBounds();
     this.map.fitBounds(bounds);
-    // this.map.addLayer(fitBound);
-    //   this.map.fitBounds(fitBound.getBounds());
-
   }
 
   getBatchPath() {
@@ -216,118 +204,3 @@ export class LeafletComponent implements OnInit, OnDestroy {
   }
 }
 
-// initIcons() {
-//   const customContro0 = L.Control.extend({
-//
-//     options: {
-//       position: 'topleft',
-//     },
-//
-//     //  loc: this.getCurrentLocation(),
-//
-//     onAdd: function (map) {
-//       const container0 = L.DomUtil.create('div', ' leaflet-bar leaflet-control leaflet-control-custom text-center ');
-//
-//       container0.style.backgroundColor = 'white';
-//       container0.style.backgroundSize = '32px 32px';
-//       container0.style.width = '32px';
-//       container0.style.height = '32px';
-//       container0.title = 'Location';
-//       container0.innerHTML = ' <i class="fa fa-map-marker" aria-hidden="true"></i>';
-//       container0.style.fontSize = '28px';
-//       container0.style.lineHeight = '32px';
-//       container0.style.color = '#171717';
-//
-//       //   container0.onclick =  this.loc;
-//
-//       return container0;
-//     },
-//   });
-//   this.map.addControl(new customContro0());
-//   const customControl = L.Control.extend({
-//
-//     options: {
-//       position: 'topleft',
-//     },
-//
-//     onAdd: function (map) {
-//       const container = L.DomUtil.create('div', ' leaflet-bar leaflet-control leaflet-control-custom text-center ');
-//
-//       container.style.backgroundColor = 'white';
-//       container.style.backgroundSize = '32px 32px';
-//       container.style.width = '32px';
-//       container.style.height = '32px';
-//       container.title = 'Radius';
-//       container.innerHTML = ' <i class="fa fa-dot-circle-o" aria-hidden="true"></i>';
-//       container.style.fontSize = '28px';
-//       container.style.lineHeight = '32px';
-//       container.style.color = '#171717';
-//
-//       // container.onclick = this.getRadius();
-//
-//       return container;
-//     },
-//   });
-//   this.map.addControl(new customControl());
-//   const customControl1 = L.Control.extend({
-//
-//     options: {
-//       position: 'topleft',
-//     },
-//
-//     // radius: this.getUserLatLngs(),
-//
-//     onAdd: function (map) {
-//       const container1 = L.DomUtil.create('div', ' leaflet-bar leaflet-control leaflet-control-custom ');
-//
-//       container1.style.backgroundColor = 'white';
-//       container1.style.backgroundSize = '32px 32px';
-//       container1.style.width = '32px';
-//       container1.style.height = '32px';
-//       container1.title = 'Path';
-//       container1.innerHTML = '<i class="ion-arrow-graph-up-right" aria-hidden="true"></i>';
-//       container1.style.fontSize = '28px';
-//       container1.style.lineHeight = '32px';
-//       container1.style.color = '#171717';
-//       // container1.onclick = this.radius;
-//       return container1;
-//     },
-//   });
-//   this.map.addControl(new customControl1());
-// }
-//
-// initButtons() {
-//   const customControl =  L.Control.extend({ options: { position: 'topleft' },
-//     onAdd: (map) => {
-//
-//       const container = L.DomUtil.create('div', 'leaflet-control-zoom leaflet-bar leaflet-control');
-//
-//       container.insertAdjacentHTML('afterbegin', `
-//           <a href="#" onclick="getRadius($event)"><i class="fa fa-dot-circle-o"></i></a>
-//           <a href="#" onclick="getPath($event)"><i class="ion-arrow-graph-up-right"></i></a>
-//           <a href="#" onclick="getLocation($event)"><i class="fa fa-map-marker"></i></a>
-//       `);
-//       // container.insertBefore(btn2)
-//       // container.innerHTML = `
-//       //     <a href="#" onclick="getRadius($event)"><i class="fa fa-dot-circle-o"></i></a>
-//       //     <a href="#" onclick="getPath($event)"><i class="ion-arrow-graph-up-right"></i></a>
-//       //     <a href="#" onclick="getLocation($event)"><i class="fa fa-map-marker"></i></a>
-//       // `;
-//       return container;
-//     },
-//     getRadius: (e) => {
-//       e.preventDefault();
-//       alert('radius');
-//     },
-//     getPath: (e) => {
-//       e.preventDefault();
-//       alert('path')
-//     },
-//     getLocation: (e) => {
-//       e.preventDefault();
-//       alert('location')
-//     },
-//   });
-//   // } map.addControl();
-//   this.map.addControl(new customControl());
-// }

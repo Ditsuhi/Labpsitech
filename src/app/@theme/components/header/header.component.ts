@@ -18,6 +18,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   subscription: any;
   @Input() position: string = 'normal';
 
+  userName: any;
+
   user: any;
 
   userMenu = [{title: 'Log out'}];
@@ -32,6 +34,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private router: Router) {}
 
   ngOnInit() {
+    this.userName = this.usersService.getUserName();
+    this.userName = 'nnn';
+    console.log(this.userName);
     this.usersService.getUsers()
       .subscribe((users: any) => this.user = users.nick);
     this.subscription = this.searchService.onSearchSubmit()

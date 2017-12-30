@@ -30,7 +30,7 @@ export class AuthService {
 
   logOutGoogle() {
     localStorage.clear();
-    this.router.navigate(['auth/login']);
     window.open('https://accounts.google.com/Logout', '_blank');
+    this.router.navigate(['auth/login']);
   }
 }
