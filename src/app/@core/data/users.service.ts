@@ -37,12 +37,4 @@ export class UsersService {
     counter = (counter + 1) % this.userArray.length;
     return Observable.of(this.userArray[counter]);
   }
-
-  setUserName(user) {
-    this.userName = user;
-    console.log(this.userName);
-  }
-  getUserName() {
-    return this.userName;
-  }
 }

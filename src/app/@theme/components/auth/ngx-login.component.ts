@@ -55,13 +55,12 @@ export class NgxLoginComponent implements OnInit {
     this.auth.loginWithGoogle()
       .then((data) => {
         this.router.navigate(['/pages/dashboard']);
-        this.usersService.setUserName(data.user.displayName);
-        console.log(data.user.displayName);
+        localStorage.setItem('userName', data.user.displayName);
+        console.log(data);
       })
       .catch((error) => {
       if (error) {this.notAllowed = true; }
 
       })
-
   }
 }

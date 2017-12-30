@@ -34,9 +34,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private router: Router) {}
 
   ngOnInit() {
-    this.userName = this.usersService.getUserName();
-    this.userName = 'nnn';
-    console.log(this.userName);
+    this.userName = localStorage.getItem('userName');
     this.usersService.getUsers()
       .subscribe((users: any) => this.user = users.nick);
     this.subscription = this.searchService.onSearchSubmit()
