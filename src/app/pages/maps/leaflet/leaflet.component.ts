@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import * as L from 'leaflet';
-import 'leaflet.markercluster';
 
 import * as _ from 'underscore';
 import 'style-loader!leaflet/dist/leaflet.css';
@@ -18,8 +17,6 @@ const googleHybrid = L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&
 })
 
 export class LeafletComponent implements OnInit, OnDestroy {
-  markerClusterOptions: L.MarkerClusterGroupOptions;
-  markerClusterData: any[] = [];
   public myDateRangePickerOptions: IMyDrpOptions = {
     // other options...
     dateFormat: 'dd.mm.yyyy',

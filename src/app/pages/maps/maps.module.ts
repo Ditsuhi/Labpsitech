@@ -16,11 +16,9 @@ import { LeafletDirective } from '@asymmetrik/ngx-leaflet';
     MapsRoutingModule,
     AngularEchartsModule,
     MyDateRangePickerModule,
-    LeafletMarkerClusterModule
   ],
   exports: [],
   declarations: [
-    LeafletDirective,
     ...routedComponents,
   ],
   providers: [
