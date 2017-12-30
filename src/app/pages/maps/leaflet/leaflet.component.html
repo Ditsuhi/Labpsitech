@@ -43,7 +43,10 @@
   </nb-card-header>
   <nb-card-body>
     <div leaflet [leafletOptions]="options" (leafletMapReady)="onReadyMap($event)"
-         [leafletLayersControl]="layersControl" [leafletLayers]="layers">
+         [leafletLayersControl]="layersControl" [leafletLayers]="layers"
+         [leafletMarkerCluster]="markerClusterData"
+         [leafletMarkerClusterOptions]="markerClusterOptions"
+    >
       <div class="leaflet-control-container">
         <div class="leaflet-bottom leaflet-left">
           <div class="leaflet-control-zoom leaflet-bar leaflet-control">
