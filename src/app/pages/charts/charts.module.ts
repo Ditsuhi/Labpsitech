@@ -15,6 +15,7 @@ import { LeafletService } from '../maps/leaflet/leaflet.service';
 import { UserService } from '../../@core/data/user.service';
 import { SecondstotimePipe } from './chartjs/secondstotime.pipe';
 import { CountExitingComponent } from './chartjs/count-exiting.component';
+import { ChartjsMixedComponent } from './chartjs/chartjs-mixed.component';
 
 const components = [
   ChartjsBarComponent,
@@ -24,6 +25,7 @@ const components = [
   ChartjsBarHorizontalComponent,
   CountExitingComponent,
   SecondstotimePipe,
+  ChartjsMixedComponent
 ];
 
 @NgModule({
