@@ -15,6 +15,20 @@ import { AppRoutingModule } from './app-routing.module';
 import { ThemeModule } from './@theme/theme.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AuthGuard } from './auth-guard.service';
+import { FormsModule } from '@angular/forms';
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { AngularFireAuthModule } from 'angularfire2/auth';
+import { AuthService } from './@core/data/auth.service';
+
+const firebaseConfig = {
+  apiKey: 'AIzaSyBtYAO-ciYN5dbi83JCYK2hpTlY15XN38k',
+  authDomain: 'labpsitec-4097d.firebaseapp.com',
+  databaseURL: 'https://labpsitec-4097d.firebaseio.com',
+  projectId: 'labpsitec-4097d',
+  storageBucket: 'labpsitec-4097d.appspot.com',
+  messagingSenderId: '242241850585'
+};
 
 @NgModule({
   declarations: [AppComponent],
@@ -23,13 +37,18 @@ import { AuthGuard } from './auth-guard.service';
     BrowserAnimationsModule,
     HttpModule,
     AppRoutingModule,
+    AngularFireModule.initializeApp(firebaseConfig),
+    AngularFireDatabaseModule,
+    AngularFireAuthModule,
 
+    FormsModule,
     NgbModule.forRoot(),
     ThemeModule.forRoot(),
     CoreModule.forRoot(),
   ],
   bootstrap: [AppComponent],
   providers: [
+    AuthService,
     AuthGuard,
     { provide: APP_BASE_HREF,  useValue: '/'},
   ],

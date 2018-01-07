@@ -18,19 +18,6 @@ export class ChartjsBarComponent implements OnDestroy {
 
       const colors: any = config.variables;
       const chartjs: any = config.variables.chartjs;
-      // //
-      // this.data = {
-      //   labels: [],
-      //   datasets: [{
-      //     data: [],
-      //     label: 'Series A',
-      //     backgroundColor: NbColorHelper.hexToRgbA(colors.primaryLight, 0.8),
-      //   }, {
-      //     data: [],
-      //     label: 'Series B',
-      //     backgroundColor: NbColorHelper.hexToRgbA(colors.infoLight, 0.8),
-      //   }],
-      // };
 
       this.options = {
         maintainAspectRatio: false,
@@ -43,7 +30,11 @@ export class ChartjsBarComponent implements OnDestroy {
         scales: {
           xAxes: [
             {
-             barPercentage: 0.5 ,
+              scaleLabel: {
+                display: true,
+                labelString: 'ExperimentDate'
+              },
+              barPercentage: 0.5 ,
               gridLines: {
                 display: false,
                 color: chartjs.axisLineColor,
@@ -55,6 +46,10 @@ export class ChartjsBarComponent implements OnDestroy {
           ],
           yAxes: [
             {
+              scaleLabel: {
+                display: true,
+                labelString: 'Distance'
+              },
               gridLines: {
                 display: true,
                 color: chartjs.axisLineColor,
@@ -67,7 +62,7 @@ export class ChartjsBarComponent implements OnDestroy {
         },
       };
       const currentUser = localStorage.getItem('selectedUser');
-        console.log('selectedUser', this.userService.selectedUser);
+      console.log('selectedUser', this.userService.selectedUser);
 
       this.userService.getUserExpTime(currentUser).subscribe((exps) => {
         const labels: any[] = [],
@@ -87,11 +82,6 @@ export class ChartjsBarComponent implements OnDestroy {
               data: distOut,
               backgroundColor: NbColorHelper.hexToRgbA(colors.primaryLight, 0.8),
             },
-            // {
-            //   label: 'Distance Inside',
-            //   data: distIn,
-            //   backgroundColor: NbColorHelper.hexToRgbA(colors.infoLight, 0.8),
-            // }
           ],
         };
       });

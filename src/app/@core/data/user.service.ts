@@ -81,13 +81,35 @@ export class UserService {
       })
   };
 
+<<<<<<< HEAD
+  getBatchExiting(user, batch) {
+=======
 
   getCountExiting(user, batch) {
+>>>>>>> 596ba09449de25d7de73a67637e502132f3ee31e
     return this.getAllUsers()
       .map((users) => {
         const expUser = users.filter((usr) => {
           return usr.user === user;
         });
+<<<<<<< HEAD
+        const distinctUserExps = _.uniq(_.pluck(expUser, 'experimentDate')).sort();
+        const expUserGroup: any[] = [];
+        distinctUserExps.forEach((exp) => {
+          const expUs = expUser.filter((data) => {
+            return data.experimentDate === exp && data.batch === batch;
+          });
+          let countExiting = 0;
+          expUs.forEach((ss) => {
+            countExiting = ss.countExiting;
+          });
+          expUserGroup.push({
+            experimentDate: exp,
+            countExitinge: countExiting,
+          });
+        });
+        return expUserGroup;
+=======
         const distinctUserExps = _.uniq(_.pluck(expUser, 'batch')).sort();
 
         let userExiting: any[] = [];
@@ -99,6 +121,7 @@ export class UserService {
           console.log('vvvvvv', userExiting);
         });
         return userExiting;
+>>>>>>> 596ba09449de25d7de73a67637e502132f3ee31e
       })
   }
 

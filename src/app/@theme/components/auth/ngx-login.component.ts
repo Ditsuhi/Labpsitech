@@ -1,119 +1,81 @@
-import { Component, Inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { NB_AUTH_OPTIONS_TOKEN, NbAuthResult, NbAuthService } from '@nebular/auth';
-import { getDeepFromObject } from '@nebular/auth/helpers';
-
+import { NbTokenService } from '@nebular/auth';
+import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
+import { AuthService } from '../../../@core/data/auth.service';
+import { UsersService } from '../../../@core/data/users.service';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
   selector: 'ngx-login',
   template: `
     <nb-auth-block>
-      <h2 class="title">Sign In</h2>
-      <small class="form-text sub-title">Hello! Sign in with your username or email</small>
-      <form (ngSubmit)="login()" #form="ngForm" autocomplete="nope">
-        <div *ngIf="showMessages.error && errors && errors.length > 0 && !submitted"
-             class="alert alert-danger" role="alert">
-          <div><strong>Oh snap!</strong></div>
-          <div *ngFor="let error of errors">{{ error }}</div>
-        </div>
-        <div *ngIf="showMessages.success && messages && messages.length > 0 && !submitted"
-             class="alert alert-success" role="alert">
-          <div><strong>Hooray!</strong></div>
-          <div *ngFor="let message of messages">{{ message }}</div>
-        </div>
-        <div class="form-group">
-          <label for="input-email" class="sr-only">Email address</label>
-          <input name="email" [(ngModel)]="user.email" id="input-email" pattern=".+@.+\..+"
-                 class="form-control" placeholder="Email address" #email="ngModel"
-                 [class.form-control-danger]="email.invalid && email.touched" autofocus
-                 [required]="getConfigValue('forms.validation.email.required')">
-          <small class="form-text error" *ngIf="email.invalid && email.touched && email.errors?.required">
-            Email is required!
-          </small>
-          <small class="form-text error"
-                 *ngIf="email.invalid && email.touched && email.errors?.pattern">
-            Email should be the real one!
-          </small>
-        </div>
-        <div class="form-group">
-          <label for="input-password" class="sr-only">Password</label>
-          <input name="password" [(ngModel)]="user.password" type="password" id="input-password"
-                 class="form-control" placeholder="Password" #password="ngModel"
-                 [class.form-control-danger]="password.invalid && password.touched"
-                 [required]="getConfigValue('forms.validation.password.required')"
-                 [minlength]="getConfigValue('forms.validation.password.minLength')"
-                 [maxlength]="getConfigValue('forms.validation.password.maxLength')">
-          <small class="form-text error" *ngIf="password.invalid && password.touched && password.errors?.required">
-            Password is required!
-          </small>
-          <small
-            class="form-text error"
-            *ngIf="password.invalid && password.touched && (password.errors?.minlength || password.errors?.maxlength)">
-            Password should contains
-            from {{ getConfigValue('forms.validation.password.minLength') }}
-            to {{ getConfigValue('forms.validation.password.maxLength') }}
-            characters
-          </small>
-        </div>
-        <div class="form-group accept-group col-sm-12">
-          <nb-checkbox name="rememberMe" [(ngModel)]="user.rememberMe">Remember me</nb-checkbox>
-        </div>
-        <button [disabled]="submitted || !form.valid" class="btn btn-block btn-hero-success"
-                [class.btn-pulse]="submitted">
-          Sign In
-        </button>
-      </form>
-      <div class="links">
-        <small class="form-text">
-          Don't have an account? <a routerLink="/auth/register" routerLinkActive="active"><strong>Sign Up</strong></a>
-        </small>
-      </div>
+      <h2 class="title">Sign In
+      </h2>
+      <small class="form-text sub-title">Hello! Sign in with your Google account</small>
+      <button  class="btn btn-block btn-hero-success"
+               [class.btn-pulse]="submitted"
+               (click)="loginWithGoogle()">
+        Sign In
+      </button>
+      <br>
+      <div *ngIf="notAllowed">
+        <p class="text-warning sub-title">This user  does not have permission.
+      <button class="btn btn-block btn-hero-info" (click)="lougOutFromGoogle()">Sign out from Google</button></p></div>
     </nb-auth-block>
   `,
 })
-export class NgxLoginComponent {
+export class NgxLoginComponent implements OnInit {
+  hidden = false;
+  public receivedEmails = false;
+  item: FirebaseObjectObservable<any>;
+  public emailsSubject: Subject<string[]> = new Subject();
+  allowedEmails: string[];
+  notAllowed = false;
+  topics: FirebaseListObservable<any[]>;
+  user = null;
 
-  redirectDelay: number = 0;
-  showMessages: any = {};
-  provider: string = '';
-
-  errors: string[] = [];
-  messages: string[] = [];
-  user: any = {};
-  submitted: boolean = false;
-
-  constructor(protected service: NbAuthService,
-              @Inject(NB_AUTH_OPTIONS_TOKEN) protected config = {},
-              protected router: Router) {
-
-    this.redirectDelay = this.getConfigValue('forms.login.redirectDelay');
-    this.showMessages = this.getConfigValue('forms.login.showMessages');
-    this.provider = this.getConfigValue('forms.login.provider');
+  constructor(
+              private auth: AuthService,
+              public db: AngularFireDatabase,
+              public nbToken: NbTokenService,
+              public router: Router,
+              public usersService: UsersService) {
   }
 
-  login(): void {
-    this.errors = this.messages = [];
-    this.submitted = true;
-
-    this.service.authenticate(this.provider, this.user).subscribe((result: NbAuthResult) => {
-      this.submitted = false;
-
-      if (result.isSuccess()) {
-        this.messages = result.getMessages();
-      } else {
-        this.errors = result.getErrors();
-      }
-
-      const redirect = result.getRedirect();
-      if (redirect) {
-        setTimeout(() => {
-          return this.router.navigateByUrl(redirect);
-        }, this.redirectDelay);
-      }
-    });
+  ngOnInit() {
+    this.auth.getAuthState().subscribe(
+      (user) => this.user = user);
+    this.topics = this.db.list('/mails', { preserveSnapshot: true });
+    console.log(this.topics);
+    this.item = this.db.object('/mails', { preserveSnapshot: true });
+    console.log(this.item);
+    this.item.subscribe(snapshot => {
+      console.log(snapshot);
+      this.allowedEmails = snapshot.val().split(',');
+      console.log(this.allowedEmails);
+      this.emailsSubject.next(this.allowedEmails);
+      this.receivedEmails = true;
+    })
   }
 
-  getConfigValue(key: string): any {
-    return getDeepFromObject(this.config, key, null);
+  loginWithGoogle() {
+    this.auth.loginWithGoogle()
+      .then((data) => {
+        console.log(data);
+        localStorage.setItem('userName', data.user.displayName);
+        console.log(data);
+        if (this.allowedEmails.includes(data.user.email)) {
+          this.router.navigate(['/pages/dashboard']);
+        }else { return this.notAllowed = true; }
+    })
+  }
+
+  lougOutFromGoogle() {
+
+    window.open('https://accounts.google.com/Logout', '_blank');
+    this.router.navigate(['auth/login']);
+    localStorage.clear();
+    this.notAllowed = false;
   }
 }

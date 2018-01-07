@@ -18,17 +18,8 @@ const routes: Routes = [
         path: 'login',
         component: NgxLoginComponent
       },
-      {
-        path: 'register',
-        component: NbRegisterComponent
-      }
     ]
   },
-  // {
-  //   path: 'pages',
-  //   canActivate: [AuthGuard],
-  //   loadChildren: 'app/pages/pages.module#PagesModule'
-  // },
   { path: 'pages', loadChildren: 'app/pages/pages.module#PagesModule' },
   { path: '', redirectTo: '/auth/login', pathMatch: 'full' },
   { path: '**', redirectTo: 'pages' },

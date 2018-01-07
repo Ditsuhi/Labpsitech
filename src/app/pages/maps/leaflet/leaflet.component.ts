@@ -26,8 +26,6 @@ export class LeafletComponent implements OnInit, OnDestroy {
     disableUntil: {year: 9999, month: 12, day: 31},
     enableDates: [],
   };
-   // dateModel: IMyDateRangeModel;
-
   public model: any;
 
   polylines: any;
@@ -62,8 +60,8 @@ export class LeafletComponent implements OnInit, OnDestroy {
       timeRange.forEach((time) => {
         this.myDateRangePickerOptions.enableDates.push(time)
       });
-       this.model = {beginDate: this.myDateRangePickerOptions.enableDates[0],
-       endDate: this.myDateRangePickerOptions.enableDates[this.myDateRangePickerOptions.enableDates.length - 1] };
+      this.model = {beginDate: this.myDateRangePickerOptions.enableDates[0],
+        endDate: this.myDateRangePickerOptions.enableDates[this.myDateRangePickerOptions.enableDates.length - 1] };
     });
   }
 
@@ -72,18 +70,9 @@ export class LeafletComponent implements OnInit, OnDestroy {
 
   onDateRangeChanged(event: IMyDateRangeModel) {
     const range = {start: event.beginDate, end: event.endDate};
-     this.userService.setUserTime(range);
-    // const chosendateFromCalendar = event.jsdate;
-    // const date = this.userService.getTotalLocations(currentUser, chosendateFromCalendar).subscribe((d) => {
-    // });
-    console.log(event);
+    this.userService.setUserTime(range);
     this.getTotalPath();
-    this.getCurrentLocation();
-  }
-
-
-  go() {
-    console.log('dddd');
+    this.getCurrentLocation(event);
   }
 
   onReadyMap(map: L.Map) {
@@ -110,7 +99,7 @@ export class LeafletComponent implements OnInit, OnDestroy {
     });
   }
 
-  getCurrentLocation() {
+  getCurrentLocation(event) {
     // e.stopPropagation();
     this.leafletService.getUsersConfigData(this.currentUser).subscribe((result) => {
       _.sortBy(result.locations, 'time');
@@ -150,13 +139,10 @@ export class LeafletComponent implements OnInit, OnDestroy {
       this.polylines = L.polyline([...this.latlngs]);
       this.map.addLayer(this.polylines);
     });
-      const fitBound = L.polyline([...this.latlngs]);
+    const fitBound = L.polyline([...this.latlngs]);
 
-   const bounds = fitBound.getBounds();
+    const bounds = fitBound.getBounds();
     this.map.fitBounds(bounds);
-    // this.map.addLayer(fitBound);
-    //   this.map.fitBounds(fitBound.getBounds());
-
   }
 
   getBatchPath() {
@@ -192,13 +178,13 @@ export class LeafletComponent implements OnInit, OnDestroy {
 
   drawRadius() {
     if (this.currentUser) {
-       let radius = 0;
+      let radius = 0;
       this.userService.getUsersRadius(this.currentUser).subscribe((data) => {
         radius = data;
       });
       this.userService.getUsersConfigLoc(this.currentUser).subscribe((res) => {
         L.circle([res[0], res[1]], {radius: radius}).addTo(this.map);
-       this.map.setView(new L.LatLng(res[0], res[1]), 16);
+        this.map.setView(new L.LatLng(res[0], res[1]), 16);
         L.marker([res[0], res[1]], {
           icon: L.icon({
             iconSize: [41, 41],
@@ -206,8 +192,8 @@ export class LeafletComponent implements OnInit, OnDestroy {
             iconUrl: 'assets/images/Location.png',
           }),
         }).addTo(this.map);
-      // L.circle([39.48621581697988, -0.3582797572016716], {radius: 40}).addTo(this.map);
-      // this.map.setView(new L.LatLng(39.48621581697988, -0.3582797572016716), 16);
+        // L.circle([39.48621581697988, -0.3582797572016716], {radius: 40}).addTo(this.map);
+        // this.map.setView(new L.LatLng(39.48621581697988, -0.3582797572016716), 16);
       });
     }
   }
@@ -216,118 +202,3 @@ export class LeafletComponent implements OnInit, OnDestroy {
   }
 }
 
-// initIcons() {
-//   const customContro0 = L.Control.extend({
-//
-//     options: {
-//       position: 'topleft',
-//     },
-//
-//     //  loc: this.getCurrentLocation(),
-//
-//     onAdd: function (map) {
-//       const container0 = L.DomUtil.create('div', ' leaflet-bar leaflet-control leaflet-control-custom text-center ');
-//
-//       container0.style.backgroundColor = 'white';
-//       container0.style.backgroundSize = '32px 32px';
-//       container0.style.width = '32px';
-//       container0.style.height = '32px';
-//       container0.title = 'Location';
-//       container0.innerHTML = ' <i class="fa fa-map-marker" aria-hidden="true"></i>';
-//       container0.style.fontSize = '28px';
-//       container0.style.lineHeight = '32px';
-//       container0.style.color = '#171717';
-//
-//       //   container0.onclick =  this.loc;
-//
-//       return container0;
-//     },
-//   });
-//   this.map.addControl(new customContro0());
-//   const customControl = L.Control.extend({
-//
-//     options: {
-//       position: 'topleft',
-//     },
-//
-//     onAdd: function (map) {
-//       const container = L.DomUtil.create('div', ' leaflet-bar leaflet-control leaflet-control-custom text-center ');
-//
-//       container.style.backgroundColor = 'white';
-//       container.style.backgroundSize = '32px 32px';
-//       container.style.width = '32px';
-//       container.style.height = '32px';
-//       container.title = 'Radius';
-//       container.innerHTML = ' <i class="fa fa-dot-circle-o" aria-hidden="true"></i>';
-//       container.style.fontSize = '28px';
-//       container.style.lineHeight = '32px';
-//       container.style.color = '#171717';
-//
-//       // container.onclick = this.getRadius();
-//
-//       return container;
-//     },
-//   });
-//   this.map.addControl(new customControl());
-//   const customControl1 = L.Control.extend({
-//
-//     options: {
-//       position: 'topleft',
-//     },
-//
-//     // radius: this.getUserLatLngs(),
-//
-//     onAdd: function (map) {
-//       const container1 = L.DomUtil.create('div', ' leaflet-bar leaflet-control leaflet-control-custom ');
-//
-//       container1.style.backgroundColor = 'white';
-//       container1.style.backgroundSize = '32px 32px';
-//       container1.style.width = '32px';
-//       container1.style.height = '32px';
-//       container1.title = 'Path';
-//       container1.innerHTML = '<i class="ion-arrow-graph-up-right" aria-hidden="true"></i>';
-//       container1.style.fontSize = '28px';
-//       container1.style.lineHeight = '32px';
-//       container1.style.color = '#171717';
-//       // container1.onclick = this.radius;
-//       return container1;
-//     },
-//   });
-//   this.map.addControl(new customControl1());
-// }
-//
-// initButtons() {
-//   const customControl =  L.Control.extend({ options: { position: 'topleft' },
-//     onAdd: (map) => {
-//
-//       const container = L.DomUtil.create('div', 'leaflet-control-zoom leaflet-bar leaflet-control');
-//
-//       container.insertAdjacentHTML('afterbegin', `
-//           <a href="#" onclick="getRadius($event)"><i class="fa fa-dot-circle-o"></i></a>
-//           <a href="#" onclick="getPath($event)"><i class="ion-arrow-graph-up-right"></i></a>
-//           <a href="#" onclick="getLocation($event)"><i class="fa fa-map-marker"></i></a>
-//       `);
-//       // container.insertBefore(btn2)
-//       // container.innerHTML = `
-//       //     <a href="#" onclick="getRadius($event)"><i class="fa fa-dot-circle-o"></i></a>
-//       //     <a href="#" onclick="getPath($event)"><i class="ion-arrow-graph-up-right"></i></a>
-//       //     <a href="#" onclick="getLocation($event)"><i class="fa fa-map-marker"></i></a>
-//       // `;
-//       return container;
-//     },
-//     getRadius: (e) => {
-//       e.preventDefault();
-//       alert('radius');
-//     },
-//     getPath: (e) => {
-//       e.preventDefault();
-//       alert('path')
-//     },
-//     getLocation: (e) => {
-//       e.preventDefault();
-//       alert('location')
-//     },
-//   });
-//   // } map.addControl();
-//   this.map.addControl(new customControl());
-// }

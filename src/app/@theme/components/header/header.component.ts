@@ -18,9 +18,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
   subscription: any;
   @Input() position: string = 'normal';
 
+  userName: any;
+
   user: any;
 
-  userMenu = [{title: 'Profile'}, {title: 'Log out'}];
+  userMenu = [{title: 'Log out'}];
 
   constructor(
     private sidebarService: NbSidebarService,
@@ -32,6 +34,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private router: Router) {}
 
   ngOnInit() {
+    this.userName = localStorage.getItem('userName');
     this.usersService.getUsers()
       .subscribe((users: any) => this.user = users.nick);
     this.subscription = this.searchService.onSearchSubmit()
@@ -69,5 +72,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
         console.log('Valod');
       }
     });
+  }
+  onMenuClick() {
+    localStorage.clear();
+    this.router.navigate(['auth/login']);
+    window.open('https://accounts.google.com/Logout', '_blank');
   }
 }
