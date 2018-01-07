@@ -18,19 +18,6 @@ export class ChartjsBarComponent implements OnDestroy {
 
       const colors: any = config.variables;
       const chartjs: any = config.variables.chartjs;
-      // //
-      // this.data = {
-      //   labels: [],
-      //   datasets: [{
-      //     data: [],
-      //     label: 'Series A',
-      //     backgroundColor: NbColorHelper.hexToRgbA(colors.primaryLight, 0.8),
-      //   }, {
-      //     data: [],
-      //     label: 'Series B',
-      //     backgroundColor: NbColorHelper.hexToRgbA(colors.infoLight, 0.8),
-      //   }],
-      // };
 
       this.options = {
         maintainAspectRatio: false,
@@ -95,11 +82,6 @@ export class ChartjsBarComponent implements OnDestroy {
               data: distOut,
               backgroundColor: NbColorHelper.hexToRgbA(colors.primaryLight, 0.8),
             },
-            // {
-            //   label: 'Distance Inside',
-            //   data: distIn,
-            //   backgroundColor: NbColorHelper.hexToRgbA(colors.infoLight, 0.8),
-            // }
           ],
         };
       });

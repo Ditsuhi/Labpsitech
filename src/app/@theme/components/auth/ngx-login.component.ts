@@ -1,16 +1,10 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { NB_AUTH_OPTIONS_TOKEN, NbAuthResult, NbAuthService, NbTokenService } from '@nebular/auth';
-import { getDeepFromObject } from '@nebular/auth/helpers';
+import { NbTokenService } from '@nebular/auth';
 import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
 import { AuthService } from '../../../@core/data/auth.service';
-import * as firebase from 'firebase/app';
-import { AngularFireAuth } from 'angularfire2/auth';
-import { AnalyticsService } from '../../../@core/utils/analytics.service';
-import { log } from 'util';
 import { UsersService } from '../../../@core/data/users.service';
 import { Subject } from 'rxjs/Subject';
-
 
 @Component({
   selector: 'ngx-login',
@@ -75,15 +69,10 @@ export class NgxLoginComponent implements OnInit {
           this.router.navigate(['/pages/dashboard']);
         }else { return this.notAllowed = true; }
     })
-      // .catch((error) => {
-      // if (error) {this.notAllowed = true; }
-      //
-      // })
   }
 
   lougOutFromGoogle() {
 
-    // this.router.navigate(['auth/login']);
     window.open('https://accounts.google.com/Logout', '_blank');
     this.router.navigate(['auth/login']);
     localStorage.clear();

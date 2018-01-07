@@ -18,19 +18,6 @@ export class ChartjsMixedComponent implements OnDestroy {
 
       const colors: any = config.variables;
       const chartjs: any = config.variables.chartjs;
-      // //
-      // this.data = {
-      //   labels: [],
-      //   datasets: [{
-      //     data: [],
-      //     label: 'Series A',
-      //     backgroundColor: NbColorHelper.hexToRgbA(colors.primaryLight, 0.8),
-      //   }, {
-      //     data: [],
-      //     label: 'Series B',
-      //     backgroundColor: NbColorHelper.hexToRgbA(colors.infoLight, 0.8),
-      //   }],
-      // };
 
       this.options = {
         maintainAspectRatio: false,
@@ -66,7 +53,6 @@ export class ChartjsMixedComponent implements OnDestroy {
         },
       };
       const currentUser = localStorage.getItem('selectedUser');
-      console.log('selectedUser', this.userService.selectedUser);
 
       this.userService.getUserExpTime(currentUser).subscribe((exps) => {
         const labels: any[] = [],
@@ -77,10 +63,6 @@ export class ChartjsMixedComponent implements OnDestroy {
           distOut.push(exp.totalDistanceOutside);
           distIn.push(exp.totalDistanceInside);
         });
-        // this.userService.getCountExiting(currentUser, '0-8').subscribe((data) => {
-        //   const gg = data;
-        // });
-
         this.data = {
           labels: labels,
           datasets: [
@@ -89,27 +71,6 @@ export class ChartjsMixedComponent implements OnDestroy {
               data: distOut,
               backgroundColor: NbColorHelper.hexToRgbA(colors.successLight, 0.8),
             }
-            // {
-            //   label: 'Distance Outside',
-            //   type: 'line',
-            //   data: distIn,
-            //   borderColor: '#4ca6ff',
-            //   backgroundColor: NbColorHelper.hexToRgbA(colors.primaryLight, 0),
-            // },
-            // {
-            //   label: 'Distance Outside',
-            //   type: 'line',
-            //   data: distOut,
-            //   borderColor: '#ff4c6a',
-            //   backgroundColor: NbColorHelper.hexToRgbA(colors.primaryLight, 0),
-            // },
-            // {
-            //   label: 'Distance Outside',
-            //   type: 'line',
-            //   data: distIn,
-            //   borderColor: '#8a7fff',
-            //   backgroundColor: NbColorHelper.hexToRgbA(colors.primaryLight, 0),
-            // },
           ],
         };
       });

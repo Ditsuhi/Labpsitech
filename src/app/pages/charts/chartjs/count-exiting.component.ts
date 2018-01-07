@@ -18,19 +18,6 @@ export class CountExitingComponent implements OnDestroy {
 
       const colors: any = config.variables;
       const chartjs: any = config.variables.chartjs;
-      // //
-      // this.data = {
-      //   labels: [],
-      //   datasets: [{
-      //     data: [],
-      //     label: 'Series A',
-      //     backgroundColor: NbColorHelper.hexToRgbA(colors.primaryLight, 0.8),
-      //   }, {
-      //     data: [],
-      //     label: 'Series B',
-      //     backgroundColor: NbColorHelper.hexToRgbA(colors.infoLight, 0.8),
-      //   }],
-      // };
 
       this.options = {
         maintainAspectRatio: false,
@@ -94,9 +81,9 @@ export class CountExitingComponent implements OnDestroy {
           dada.forEach((exp) => {
             exitAfternoon.push(exp.experimentDate);
           });
-          this.userService.getBatchExiting(currentUser, '16-24').subscribe((dada) => {
+          this.userService.getBatchExiting(currentUser, '16-24').subscribe((daa) => {
             const exitEvening: any[] = [];
-            dada.forEach((exp) => {
+            daa.forEach((exp) => {
               exitEvening.push(exp.experimentDate);
             });
             this.userService.getUserExpTime(currentUser).subscribe((exps) => {
@@ -104,16 +91,6 @@ export class CountExitingComponent implements OnDestroy {
               exps.forEach((exp) => {
                 totalExit.push(exp.totalCountExiting);
               });
-
-              // this.userService.getUserExpTime(currentUser).subscribe((exps) => {
-              //   const labels: any[] = [],
-              //     distIn: any[] = [],
-              //     distOut: any[] = [];
-              //   exps.forEach((exp) => {
-              //     labels.push(exp.experimentDate);
-              //     distOut.push(exp.totalDistanceOutside);
-              //     distIn.push(exp.totalDistanceInside);
-              //   });
 
               this.data = {
                 labels: labels,
@@ -150,7 +127,6 @@ export class CountExitingComponent implements OnDestroy {
           });
         });
       });
-      // });
     });
   }
 

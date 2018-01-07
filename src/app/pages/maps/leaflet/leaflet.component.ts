@@ -26,8 +26,6 @@ export class LeafletComponent implements OnInit, OnDestroy {
     disableUntil: {year: 9999, month: 12, day: 31},
     enableDates: [],
   };
-  // dateModel: IMyDateRangeModel;
-
   public model: any;
 
   polylines: any;
