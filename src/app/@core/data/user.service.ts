@@ -25,9 +25,10 @@ export class UserService {
   }
 
   getAllUsers() {
-    return this.http.get('assets/data/calculateMetrics.json')
+    // return this.http.get('assets/data/calculateMetrics.json')
+    return this.http.get('https://metrics-api.geotecuji.org/api/v1/metrics-data/app-36437104577c4432/calculateMetrics?application=app-36437104577c4432&session=session1&user=admin')
       .map((res) => res.json().result.results)
-      .map((data) => data[0].value);
+      .map((data) => JSON.parse(data[0].value));
   }
 
   getUserData(user) {
