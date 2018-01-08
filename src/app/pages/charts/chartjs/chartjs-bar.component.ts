@@ -32,7 +32,7 @@ export class ChartjsBarComponent implements OnDestroy {
             {
               scaleLabel: {
                 display: true,
-                labelString: 'ExperimentDate'
+                labelString: 'Experiment Day'
               },
               barPercentage: 0.5 ,
               gridLines: {
@@ -48,7 +48,7 @@ export class ChartjsBarComponent implements OnDestroy {
             {
               scaleLabel: {
                 display: true,
-                labelString: 'Distance'
+                labelString: 'Distance (m)'
               },
               gridLines: {
                 display: true,
@@ -69,10 +69,26 @@ export class ChartjsBarComponent implements OnDestroy {
           distIn: any[] = [],
           distOut: any[] = [];
         exps.forEach((exp) => {
-          labels.push(exp.experimentDate);
+          labels.push(exp.experimentDate + 1);
           distOut.push(exp.totalDistanceOutside);
           distIn.push(exp.totalDistanceInside);
         });
+
+        this.userService.getBatchDistance(currentUser, '0-8').subscribe((dada) => {
+          const distanceMorning: any[] = [];
+          dada.forEach((exp) => {
+            distanceMorning.push(exp.totalDistanceOutside);
+          });
+          this.userService.getBatchDistance(currentUser, '8-16').subscribe((daa) => {
+            const distanceAfternoon: any[] = [];
+            daa.forEach((exp) => {
+              distanceAfternoon.push(exp.totalDistanceOutside);
+            });
+            this.userService.getBatchDistance(currentUser, '16-24').subscribe((da) => {
+              const distanceEvening: any[] = [];
+              da.forEach((exp) => {
+                distanceEvening.push(exp.totalDistanceOutside);
+              });
 
         this.data = {
           labels: labels,
@@ -82,10 +98,34 @@ export class ChartjsBarComponent implements OnDestroy {
               data: distOut,
               backgroundColor: NbColorHelper.hexToRgbA(colors.primaryLight, 0.8),
             },
+            {
+              label: 'Distance Morning',
+              type: 'line',
+              data: distanceMorning,
+              borderColor: '#4ca6ff',
+              backgroundColor: NbColorHelper.hexToRgbA(colors.primaryLight, 0),
+            },
+            {
+              label: 'Distance Afternoon',
+              type: 'line',
+              data: distanceAfternoon,
+              borderColor: '#ff4c6a',
+              backgroundColor: NbColorHelper.hexToRgbA(colors.primaryLight, 0),
+            },
+            {
+              label: 'Distance Evening',
+              type: 'line',
+              data: distanceEvening,
+              borderColor: '#8a7fff',
+              backgroundColor: NbColorHelper.hexToRgbA(colors.primaryLight, 0),
+            },
           ],
         };
+          });
+        });
       });
     });
+  });
   }
 
   ngOnDestroy(): void {

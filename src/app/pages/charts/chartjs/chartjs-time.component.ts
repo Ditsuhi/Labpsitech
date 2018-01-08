@@ -56,7 +56,7 @@ export class ChartjsTimeComponent implements OnDestroy {
             {
               scaleLabel: {
                 display: true,
-                labelString: 'ExperimentDate'
+                labelString: 'Experiment Day'
               },
               // barPercentage: 0.5 ,
               gridLines: {
@@ -80,6 +80,8 @@ export class ChartjsTimeComponent implements OnDestroy {
               },
               ticks: {
                 callback: (v) => Utils.getTime(v),
+                stepSize: 7200,
+                max: 86400,
                 fontColor: chartjs.textColor,
               },
             },
@@ -95,7 +97,7 @@ export class ChartjsTimeComponent implements OnDestroy {
           dataOutside: any[] = [];
         exps.forEach((exp) => {
           const gg = Utils.getTime(7000);
-          labels.push(exp.experimentDate);
+          labels.push(exp.experimentDate + 1);
           dataInside.push(exp.totalTimeInside);
           dataOutside.push(exp.totalTimeOutside);
         });

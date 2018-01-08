@@ -5,7 +5,7 @@ import * as _ from 'underscore';
 import 'style-loader!leaflet/dist/leaflet.css';
 import { LeafletService } from './leaflet.service';
 import { UserService } from '../../../@core/data/user.service';
-import { IMyDateRangeModel, IMyDrpOptions } from 'mydaterangepicker';
+import { IMyDate, IMyDateRangeModel, IMyDrpOptions } from 'mydaterangepicker';
 
 const openStreetMap = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 20, attribution: '...'});
 const googleHybrid = L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {maxZoom: 20, subdomains: [ 'mt0', 'mt1', 'mt2', 'mt3']});
@@ -30,8 +30,8 @@ export class LeafletComponent implements OnInit, OnDestroy {
 
   polylines: any;
   currentUser: string;
-  batch = ['0-8', '8-16', '16-24'];
-  batchValue: string;
+  batch = ['0-24', '0-8', '8-16', '16-24'];
+  batchValue: string = this.batch[0];
   labels: any[] = [];
   map: L.Map;
   latlngs = [];
@@ -56,13 +56,8 @@ export class LeafletComponent implements OnInit, OnDestroy {
   constructor(public leafletService: LeafletService, private userService: UserService) {
 
     this.currentUser = localStorage.getItem('selectedUser');
-    this.userService.getTime(this.currentUser).subscribe((timeRange) => {
-      timeRange.forEach((time) => {
-        this.myDateRangePickerOptions.enableDates.push(time)
-      });
-      this.model = {beginDate: this.myDateRangePickerOptions.enableDates[0],
-        endDate: this.myDateRangePickerOptions.enableDates[this.myDateRangePickerOptions.enableDates.length - 1] };
-    });
+
+    console.log('bbb', this.model);
   }
 
   ngOnInit() {
@@ -70,6 +65,7 @@ export class LeafletComponent implements OnInit, OnDestroy {
 
   onDateRangeChanged(event: IMyDateRangeModel) {
     const range = {start: event.beginDate, end: event.endDate};
+    console.log(event.beginDate);
     this.userService.setUserTime(range);
     this.getTotalPath();
     this.getCurrentLocation(event);
@@ -78,6 +74,16 @@ export class LeafletComponent implements OnInit, OnDestroy {
   onReadyMap(map: L.Map) {
     this.map = map;
     this.drawRadius();
+    this.userService.getTime(this.currentUser).subscribe((timeRange) => {
+      timeRange.forEach((time) => {
+        this.myDateRangePickerOptions.enableDates.push(time)
+      });
+      this.model = {
+        beginDate: this.myDateRangePickerOptions.enableDates[0],
+        endDate: this.myDateRangePickerOptions.enableDates[this.myDateRangePickerOptions.enableDates.length - 1]
+      };
+      this.onDateRangeChanged(this.model);
+    });
   }
 
   getUserLatLngs(e) {
@@ -108,6 +114,7 @@ export class LeafletComponent implements OnInit, OnDestroy {
           result.locations[0].lat,
           result.locations[0].lon,
         ]);
+        this.map.setView(new L.LatLng(result.locations[0].lat, result.locations[0].lon), 16);
         L.marker([this.curLoc[0][0], this.curLoc[0][1]], {
           icon: L.icon({
             iconSize: [41, 41],
@@ -139,8 +146,9 @@ export class LeafletComponent implements OnInit, OnDestroy {
       this.polylines = L.polyline([...this.latlngs]);
       this.map.addLayer(this.polylines);
     });
+  }
+  setView() {
     const fitBound = L.polyline([...this.latlngs]);
-
     const bounds = fitBound.getBounds();
     this.map.fitBounds(bounds);
   }
@@ -164,10 +172,6 @@ export class LeafletComponent implements OnInit, OnDestroy {
       this.polylines = L.polyline([...this.latlngs]);
       this.map.addLayer(this.polylines);
     });
-    const fitBound = L.polyline([...this.latlngs]);
-
-    const bounds = fitBound.getBounds();
-    this.map.fitBounds(bounds);
   }
 
   chooseBatch() {

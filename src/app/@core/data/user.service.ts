@@ -25,10 +25,11 @@ export class UserService {
   }
 
   getAllUsers() {
-    // return this.http.get('assets/data/calculateMetrics.json')
-    return this.http.get('https://metrics-api.geotecuji.org/api/v1/metrics-data/app-36437104577c4432/calculateMetrics?application=app-36437104577c4432&session=session1&user=admin')
+    return this.http.get('assets/data/calculateMetrics.json')
+    // return this.http.get('https://metrics-api.geotecuji.org/api/v1/metrics-data/app-36437104577c4432/calculateMetrics?application=app-36437104577c4432&session=session1&user=admin')
       .map((res) => res.json().result.results)
-      .map((data) => JSON.parse(data[0].value));
+      // .map((data) => JSON.parse(data[0].value));
+      .map((data) => data[0].value);
   }
 
   getUserData(user) {
@@ -81,6 +82,31 @@ export class UserService {
         return expUserGroup;
       })
   };
+  getBatchDistance(user, batch) {
+
+    return this.getAllUsers()
+      .map((users) => {
+        const expUser = users.filter((usr) => {
+          return usr.user === user;
+        });
+        const distinctUserExps = _.uniq(_.pluck(expUser, 'experimentDate')).sort();
+        const expUserGroup: any[] = [];
+        distinctUserExps.forEach((exp) => {
+          const expUs = expUser.filter((data) => {
+            return data.experimentDate === exp && data.batch === batch;
+          });
+          let totalDistanceOutside = 0;
+          expUs.forEach((ss) => {
+            totalDistanceOutside = ss.totalDistanceOutside;
+          });
+          expUserGroup.push({
+            experimentDate: exp,
+            totalDistanceOutside: totalDistanceOutside,
+          });
+        });
+        return expUserGroup;
+      })
+  }
 
   getBatchExiting(user, batch) {
 
@@ -101,7 +127,7 @@ export class UserService {
           });
           expUserGroup.push({
             experimentDate: exp,
-            countExitinge: countExiting,
+            countExiting: countExiting,
           });
         });
         return expUserGroup;
@@ -160,7 +186,7 @@ export class UserService {
           const chosen = moment(exp.min_time).format('DD-MM-YYYY' ) ;
           const end = moment(time.end).subtract(1, 'month').add(1, 'days').format('DD-MM-YYYY');
           const start = moment(time.start).subtract(1, 'month').format('DD-MM-YYYY');
-          return chosen >= start && chosen <= end && exp.batch === batch;
+          return chosen >= start && chosen <= end && (exp.batch === batch || batch === '0-24');
           // return moment(exp.min_time).format('DD/MM/YYYY') === moment(time).format('DD/MM/YYYY') && exp.batch === batch;
         });
         let locations: any[] = [];

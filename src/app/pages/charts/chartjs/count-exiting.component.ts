@@ -32,7 +32,7 @@ export class CountExitingComponent implements OnDestroy {
             {
               scaleLabel: {
                 display: true,
-                labelString: 'ExperimentDate'
+                labelString: 'Experiment Day'
               },
               barPercentage: 0.5 ,
               gridLines: {
@@ -73,22 +73,23 @@ export class CountExitingComponent implements OnDestroy {
         const labels: any[] = [],
           exitMorning: any[] = [];
         data.forEach((exp) => {
-          labels.push(exp.experimentDate);
+
           exitMorning.push(exp.countExiting);
         });
         this.userService.getBatchExiting(currentUser, '8-16').subscribe((dada) => {
           const exitAfternoon: any[] = [];
           dada.forEach((exp) => {
-            exitAfternoon.push(exp.experimentDate);
+            exitAfternoon.push(exp.countExiting);
           });
           this.userService.getBatchExiting(currentUser, '16-24').subscribe((daa) => {
             const exitEvening: any[] = [];
             daa.forEach((exp) => {
-              exitEvening.push(exp.experimentDate);
+              exitEvening.push(exp.countExiting);
             });
             this.userService.getUserExpTime(currentUser).subscribe((exps) => {
               const totalExit: any[] = [];
               exps.forEach((exp) => {
+                labels.push(exp.experimentDate + 1);
                 totalExit.push(exp.totalCountExiting);
               });
 

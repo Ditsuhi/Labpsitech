@@ -20,7 +20,8 @@
                     name="mydaterange"
                     [options]="myDateRangePickerOptions"
                     (dateRangeChanged)="onDateRangeChanged($event)"
-                    [(ngModel)]="model" required></my-date-range-picker>
+                    [(ngModel)]="model" required
+                    title="Period"></my-date-range-picker>
                   <span class="input-group-addon" style="padding: 0; border: 0;">
                   <span class="dropdown" placement="Batch" ngbDropdown>
                     <select
@@ -28,7 +29,7 @@
                       ngbDropdownToggle
                       (click)="chooseBatch()"
                       [(ngModel)]="batchValue"
-                      title="Path in batches">
+                      title="Time Interval">
                      <option *ngFor="let batchValue of batch">{{batchValue}}</option>
                     </select>
                   </span>
@@ -48,9 +49,9 @@
         <div class="leaflet-bottom leaflet-left">
           <div class="leaflet-control-zoom leaflet-bar leaflet-control">
             <a class="leaflet-control-btn"
-               (click)="getCurrentLocation($event)" role="button"><i class="fa fa-map-marker"></i></a>
+               (click)="getCurrentLocation($event)" role="button" title="Start Point"><i class="fa fa-map-marker"></i></a>
             <a class="leaflet-control-btn"
-               (click)="getTotalPath($event)" role="button" title="Path"><i class="ion-arrow-graph-up-right"></i></a>
+               (click)="setView($event)" role="button" title="Current Path"><i class="ion-arrow-graph-up-right"></i></a>
             <a class="leaflet-control-btn"
                (click)="drawRadius($event)" role="button" title="Home"><i class="fa fa-dot-circle-o"></i></a>
           </div>
