@@ -12,30 +12,26 @@
           </div>
         </div>
         <div class="col-md-8">
-          <div class="row">
-            <div class="col-md-6 push-md-6">
-              <div class="row">
-                <div class="input-group">
-                  <my-date-range-picker
-                    name="mydaterange"
-                    [options]="myDateRangePickerOptions"
-                    (dateRangeChanged)="onDateRangeChanged($event)"
-                    [(ngModel)]="model" required
-                    title="Period"></my-date-range-picker>
-                  <span class="input-group-addon" style="padding: 0; border: 0;">
-                  <span class="dropdown" placement="Batch" ngbDropdown>
-                    <select
-                      class="btn btn-outline-primary"
-                      ngbDropdownToggle
-                      (click)="chooseBatch()"
-                      [(ngModel)]="batchValue"
-                      title="Time Interval">
-                     <option *ngFor="let batchValue of batch">{{batchValue}}</option>
-                    </select>
-                  </span>
-                </span>
-                </div>
-              </div>
+          <div class="row float-right">
+            <div class="input-group">
+              <my-date-range-picker
+                name="mydaterange"
+                [options]="myDateRangePickerOptions"
+                (dateRangeChanged)="onDateRangeChanged($event)"
+                [(ngModel)]="model" required
+                title="Period"></my-date-range-picker>
+              <span class="input-group-addon" style="padding: 0; border: 0;">
+              <span class="dropdown" placement="Batch" ngbDropdown>
+                <select
+                  class="btn btn-outline-primary"
+                  ngbDropdownToggle
+                  (click)="chooseBatch()"
+                  [(ngModel)]="batchValue"
+                  title="Time Interval">
+                 <option *ngFor="let batchValue of batch">{{batchValue}}</option>
+                </select>
+              </span>
+            </span>
             </div>
           </div>
         </div>
