@@ -20,7 +20,7 @@ import { Subject } from 'rxjs/Subject';
       </button>
       <br>
       <div *ngIf="notAllowed">
-        <p class="text-warning sub-title">This user  does not have permission.
+        <p class="text-danger sub-title">This user  does not have permission.
       <button class="btn btn-block btn-hero-info" (click)="lougOutFromGoogle()">Sign out from Google</button></p></div>
     </nb-auth-block>
   `,

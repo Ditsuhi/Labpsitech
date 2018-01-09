@@ -16,6 +16,7 @@ import { UserService } from '../../@core/data/user.service';
 import { SecondstotimePipe } from './chartjs/secondstotime.pipe';
 import { CountExitingComponent } from './chartjs/count-exiting.component';
 import { ChartjsMixedComponent } from './chartjs/chartjs-mixed.component';
+import { MyDateRangePickerModule } from 'mydaterangepicker';
 
 const components = [
   ChartjsBarComponent,
@@ -29,7 +30,7 @@ const components = [
 ];
 
 @NgModule({
-  imports: [ThemeModule, ChartsRoutingModule, AngularEchartsModule, NgxChartsModule, ChartModule],
+  imports: [ThemeModule, ChartsRoutingModule, AngularEchartsModule, NgxChartsModule, ChartModule,  MyDateRangePickerModule,],
   declarations: [...routedComponents, ...components ],
   providers: [
     LeafletService,

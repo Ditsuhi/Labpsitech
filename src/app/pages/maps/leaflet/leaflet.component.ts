@@ -9,7 +9,13 @@ import { IMyDate, IMyDateRangeModel, IMyDrpOptions } from 'mydaterangepicker';
 
 const openStreetMap = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 20, attribution: '...'});
 const googleHybrid = L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {maxZoom: 20, subdomains: [ 'mt0', 'mt1', 'mt2', 'mt3']});
-
+const LeafIcon = L.Icon.extend({
+  options: {
+    shadowUrl: 'leaf-shadow.png',
+    iconSize:     [38, 95],
+    iconAnchor:   [22, 94]
+  }
+});
 @Component({
   selector: 'ngx-leaflet',
   styleUrls: ['./leaflet.component.scss'],
@@ -46,6 +52,7 @@ export class LeafletComponent implements OnInit, OnDestroy {
     layers: [
       openStreetMap,
     ],
+    // scrollWheelZoom: 'center',
     zoom: 14,
     center: L.latLng({lat: 39.983, lng: -0.033}),
     keyboard: false
@@ -56,8 +63,7 @@ export class LeafletComponent implements OnInit, OnDestroy {
   constructor(public leafletService: LeafletService, private userService: UserService) {
 
     this.currentUser = localStorage.getItem('selectedUser');
-
-    console.log('bbb', this.model);
+    // L.control.scale().addTo(this.map);
   }
 
   ngOnInit() {
@@ -65,7 +71,6 @@ export class LeafletComponent implements OnInit, OnDestroy {
 
   onDateRangeChanged(event: IMyDateRangeModel) {
     const range = {start: event.beginDate, end: event.endDate};
-    console.log(event.beginDate);
     this.userService.setUserTime(range);
     this.getTotalPath();
     this.getCurrentLocation(event);
@@ -73,6 +78,7 @@ export class LeafletComponent implements OnInit, OnDestroy {
 
   onReadyMap(map: L.Map) {
     this.map = map;
+    L.control.scale().addTo(this.map);
     this.drawRadius();
     this.userService.getTime(this.currentUser).subscribe((timeRange) => {
       timeRange.forEach((time) => {
@@ -117,11 +123,11 @@ export class LeafletComponent implements OnInit, OnDestroy {
         this.map.setView(new L.LatLng(result.locations[0].lat, result.locations[0].lon), 16);
         L.marker([this.curLoc[0][0], this.curLoc[0][1]], {
           icon: L.icon({
-            iconSize: [41, 41],
-            iconAnchor: [0, 0],
+            iconSize: [38, 95],
+            iconAnchor: [22, 94],
             iconUrl: 'assets/images/red.png',
           }),
-        }).addTo(this.map);
+        }).addTo(this.map).bindPopup('Starting point');
       }
     });
   }
@@ -191,11 +197,11 @@ export class LeafletComponent implements OnInit, OnDestroy {
         this.map.setView(new L.LatLng(res[0], res[1]), 16);
         L.marker([res[0], res[1]], {
           icon: L.icon({
-            iconSize: [41, 41],
-            iconAnchor: [0, 0],
+            iconSize: [38, 95],
+            iconAnchor: [22, 94],
             iconUrl: 'assets/images/Location.png',
           }),
-        }).addTo(this.map);
+        }).addTo(this.map).bindPopup('Home');
         // L.circle([39.48621581697988, -0.3582797572016716], {radius: 40}).addTo(this.map);
         // this.map.setView(new L.LatLng(39.48621581697988, -0.3582797572016716), 16);
       });

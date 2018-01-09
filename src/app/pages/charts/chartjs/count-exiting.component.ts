@@ -119,7 +119,7 @@ export class CountExitingComponent implements OnDestroy {
                     label: 'Exiting Evening',
                     type: 'line',
                     data: exitEvening,
-                    borderColor: '#8a7fff',
+                    borderColor: '#ffa100',
                     backgroundColor: NbColorHelper.hexToRgbA(colors.primaryLight, 0),
                   },
                 ],

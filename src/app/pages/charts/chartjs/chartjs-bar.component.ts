@@ -64,12 +64,13 @@ export class ChartjsBarComponent implements OnDestroy {
       const currentUser = localStorage.getItem('selectedUser');
       console.log('selectedUser', this.userService.selectedUser);
 
-      this.userService.getUserExpTime(currentUser).subscribe((exps) => {
+      const time = this.userService.getUserTime();
+      this.userService.getTotalDistance(currentUser, time).subscribe((exps) => {
         const labels: any[] = [],
           distIn: any[] = [],
           distOut: any[] = [];
         exps.forEach((exp) => {
-          labels.push(exp.experimentDate + 1);
+          labels.push(exp.experimentDate);
           distOut.push(exp.totalDistanceOutside);
           distIn.push(exp.totalDistanceInside);
         });
@@ -96,7 +97,7 @@ export class ChartjsBarComponent implements OnDestroy {
             {
               label: 'Distance Outside',
               data: distOut,
-              backgroundColor: NbColorHelper.hexToRgbA(colors.primaryLight, 0.8),
+              backgroundColor: NbColorHelper.hexToRgbA(colors.success, 0.8),
             },
             {
               label: 'Distance Morning',
@@ -116,7 +117,7 @@ export class ChartjsBarComponent implements OnDestroy {
               label: 'Distance Evening',
               type: 'line',
               data: distanceEvening,
-              borderColor: '#8a7fff',
+              borderColor: '#ffa100',
               backgroundColor: NbColorHelper.hexToRgbA(colors.primaryLight, 0),
             },
           ],
