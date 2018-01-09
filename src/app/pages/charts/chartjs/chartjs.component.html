@@ -2,27 +2,41 @@
 <div class="row">
   <div class="col-lg-12" *ngIf="currentUser">
     <nb-card>
-      <nb-card-header>{{currentUser | titlecase}}</nb-card-header>
-      <div class="input-group">
-        <my-date-range-picker
-          name="mydaterange"
-          [options]="myDateRangePickerOptions"
-          (dateRangeChanged)="onDateRangeChanged($event)"
-          [(ngModel)]="model" required
-          title="Period"></my-date-range-picker>
-        <span class="input-group-addon" style="padding: 0; border: 0;">
-                  <span class="dropdown" placement="Batch" ngbDropdown>
-                    <select
-                      class="btn btn-outline-primary"
-                      ngbDropdownToggle
-                      (click)="chooseBatch()"
-                      [(ngModel)]="batchValue"
-                      title="Time Interval">
-                     <option *ngFor="let batchValue of batch">{{batchValue}}</option>
-                    </select>
-                  </span>
-                </span>
+      <nb-card-header>
+        <div class="col-12">
+          <div class="row">
+            <div class="col-md-4">
+              <div class="row">
+                <h6 *ngIf="currentUser">{{currentUser | titlecase}}</h6>
+              </div>
             </div>
+            <div class="col-md-8">
+              <div class="row float-right">
+                <div class="input-group">
+                  <my-date-range-picker
+                    name="mydaterange"
+                    [options]="myDateRangePickerOptions"
+                    (dateRangeChanged)="onDateRangeChanged($event)"
+                    [(ngModel)]="model" required
+                    title="Period"></my-date-range-picker>
+                  <span class="input-group-addon" style="padding: 0; border: 0;">
+              <span class="dropdown" placement="Batch" ngbDropdown>
+                <select
+                  class="btn btn-outline-primary"
+                  ngbDropdownToggle
+                  (click)="chooseBatch()"
+                  [(ngModel)]="batchValue"
+                  title="Time Interval">
+                 <option *ngFor="let batchValue of batch">{{batchValue}}</option>
+                </select>
+              </span>
+            </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nb-card-header>
     </nb-card>
   </div>
   <div class="col-lg-6">

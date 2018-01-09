@@ -25,7 +25,7 @@ export class ChartjsComponent implements OnInit {
   currentUser: string;
   timeInOut: any[] = [];
 
-  constructor(private leafletService: LeafletService,private userService: UserService) {
+  constructor(private leafletService: LeafletService, private userService: UserService) {
     this.currentUser = localStorage.getItem('selectedUser');
     this.userService.getTime(this.currentUser).subscribe((timeRange) => {
       timeRange.forEach((time) => {
@@ -39,7 +39,6 @@ export class ChartjsComponent implements OnInit {
   }
 
   ngOnInit() {
-
     const currentUser = localStorage.getItem('selectedUser');
     this.leafletService.getUsersConfigData(currentUser)
       .subscribe((result) => {
