@@ -115,20 +115,20 @@ export class ChartjsBarComponent implements OnDestroy, OnChanges {
         distOut.push(exp.totalDistanceOutside);
       });
 
-      this.userService.getBatchCalendar(currentUser, '0-8').subscribe((dada) => {
+      this.userService.getBatchCalendar(currentUser, range, '0-8').subscribe((dada) => {
         const distanceMorning: any[] = [];
         dada.forEach((exp) => {
           distanceMorning.push(exp.totalDistanceOutside);
         });
         this.batchValue['0-8'].data = distanceMorning;
 
-        this.userService.getBatchCalendar(currentUser, '8-16').subscribe((daa) => {
+        this.userService.getBatchCalendar(currentUser, range, '8-16').subscribe((daa) => {
           const distanceAfternoon: any[] = [];
           daa.forEach((exp) => {
             distanceAfternoon.push(exp.totalDistanceOutside);
           });
           this.batchValue['8-16'].data = distanceAfternoon;
-          this.userService.getBatchCalendar(currentUser, '16-24').subscribe((da) => {
+          this.userService.getBatchCalendar(currentUser, range, '16-24').subscribe((da) => {
             const distanceEvening: any[] = [];
             da.forEach((exp) => {
               distanceEvening.push(exp.totalDistanceOutside);

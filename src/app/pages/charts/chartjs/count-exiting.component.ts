@@ -122,20 +122,20 @@ export class CountExitingComponent implements OnDestroy, OnChanges {
         totalExit.push(exp.totalCountExiting);
       });
 
-      this.userService.getBatchCalendar(currentUser, '0-8').subscribe((dada) => {
+      this.userService.getBatchCalendar(currentUser, range, '0-8').subscribe((dada) => {
         const exitMorning: any[] = [];
         dada.forEach((exp) => {
           exitMorning.push(exp.totalCountExiting);
         });
         this.batchValue['0-8'].data = exitMorning;
 
-        this.userService.getBatchCalendar(currentUser, '8-16').subscribe((daa) => {
+        this.userService.getBatchCalendar(currentUser, range,  '8-16').subscribe((daa) => {
           const exitAfternoon: any[] = [];
           daa.forEach((exp) => {
             exitAfternoon.push(exp.totalCountExiting);
           });
           this.batchValue['8-16'].data = exitAfternoon;
-          this.userService.getBatchCalendar(currentUser, '16-24').subscribe((da) => {
+          this.userService.getBatchCalendar(currentUser, range, '16-24').subscribe((da) => {
             const exitEvening: any[] = [];
             da.forEach((exp) => {
               exitEvening.push(exp.totalCountExiting);

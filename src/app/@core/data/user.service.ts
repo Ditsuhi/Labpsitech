@@ -77,15 +77,22 @@ export class UserService {
       })
   }
 
-  getBatchCalendar(user, batch) {
+  getBatchCalendar(user, time, batch) {
 
     return this.getAllUsers()
       .map((users) => {
         const expUser = users.filter((usr) => {
           return usr.user === user;
         });
+        const expDate = expUser.filter((exp) => {
+          const chosenMax = moment.utc(exp.max_time).format('DD-MM-YYYY' ) ;
+          const chosenMin = moment.utc(exp.min_time).format('DD-MM-YYYY' ) ;
+          const end = moment(time.end).subtract(1, 'month').add(1, 'days').format('DD-MM-YYYY');
+          const start = moment(time.start).subtract(1, 'month').format('DD-MM-YYYY');
+          return chosenMin >= start && chosenMax < end;
+        });
         const timeArr = [];
-        const timePluck = _.pluck(expUser, 'min_time');
+        const timePluck = _.pluck(expDate, 'min_time');
         timePluck.forEach((timee) => {
           const form = moment(timee).format('DD-MM-YYYY');
           timeArr.push(form);

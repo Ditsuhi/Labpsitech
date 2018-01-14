@@ -280,7 +280,7 @@ export class ChartjsTimeComponent implements OnDestroy, OnChanges {
         dataOutside.push(exp.totalTimeOutside);
       });
 
-      this.userService.getBatchCalendar(currentUser, '0-8').subscribe((dada) => {
+      this.userService.getBatchCalendar(currentUser, range,  '0-8').subscribe((dada) => {
         const timeInsideMorning: any[] = [],
               timeOutsideMorning: any[] = [];
         dada.forEach((exp) => {
@@ -290,7 +290,7 @@ export class ChartjsTimeComponent implements OnDestroy, OnChanges {
         this.batchValue['0-8'].timeIn.data = timeInsideMorning;
         this.batchValue['0-8'].timeOut.data = timeOutsideMorning;
 
-        this.userService.getBatchCalendar(currentUser, '8-16').subscribe((daa) => {
+        this.userService.getBatchCalendar(currentUser, range, '8-16').subscribe((daa) => {
           const timeInsideAfternoon: any[] = [],
                 timeOutsideAfternoon: any[] = [];
           daa.forEach((exp) => {
@@ -300,7 +300,7 @@ export class ChartjsTimeComponent implements OnDestroy, OnChanges {
           this.batchValue['8-16'].timeIn.data = timeInsideAfternoon;
           this.batchValue['8-16'].timeOut.data = timeOutsideAfternoon;
 
-          this.userService.getBatchCalendar(currentUser, '16-24').subscribe((da) => {
+          this.userService.getBatchCalendar(currentUser, range,  '16-24').subscribe((da) => {
             const timeInsideEvening: any[] = [],
                   timeOutsideEvening: any[] = [];
             da.forEach((exp) => {
