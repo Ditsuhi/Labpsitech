@@ -38,22 +38,16 @@ export class NgxLoginComponent implements OnInit {
   constructor(
               private auth: AuthService,
               public db: AngularFireDatabase,
-              public nbToken: NbTokenService,
-              public router: Router,
-              public usersService: UsersService) {
+              public router: Router) {
   }
 
   ngOnInit() {
     this.auth.getAuthState().subscribe(
       (user) => this.user = user);
     this.topics = this.db.list('/mails', { preserveSnapshot: true });
-    console.log(this.topics);
     this.item = this.db.object('/mails', { preserveSnapshot: true });
-    console.log(this.item);
     this.item.subscribe(snapshot => {
-      console.log(snapshot);
       this.allowedEmails = snapshot.val().split(',');
-      console.log(this.allowedEmails);
       this.emailsSubject.next(this.allowedEmails);
       this.receivedEmails = true;
     })
@@ -62,9 +56,7 @@ export class NgxLoginComponent implements OnInit {
   loginWithGoogle() {
     this.auth.loginWithGoogle()
       .then((data) => {
-        console.log(data);
         localStorage.setItem('userName', data.user.displayName);
-        console.log(data);
         if (this.allowedEmails.includes(data.user.email)) {
           this.router.navigate(['/pages/dashboard']);
         }else { return this.notAllowed = true; }
@@ -72,7 +64,6 @@ export class NgxLoginComponent implements OnInit {
   }
 
   lougOutFromGoogle() {
-
     window.open('https://accounts.google.com/Logout', '_blank');
     this.router.navigate(['auth/login']);
     localStorage.clear();

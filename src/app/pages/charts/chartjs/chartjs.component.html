@@ -24,7 +24,6 @@
                 <select
                   class="btn btn-outline-primary"
                   ngbDropdownToggle
-                  (click)="chooseBatch()"
                   [(ngModel)]="batchValue"
                   title="Time Interval">
                  <option *ngFor="let batchValue of batch">{{batchValue}}</option>
@@ -43,7 +42,7 @@
     <nb-card>
       <nb-card-header>Total Distance</nb-card-header>
       <nb-card-body>
-        <ngx-chartjs-bar></ngx-chartjs-bar>
+        <ngx-chartjs-bar *ngIf="isDataAvailable" [range]="range" [batch]="batchValue"></ngx-chartjs-bar>
       </nb-card-body>
     </nb-card>
   </div>
@@ -51,7 +50,7 @@
     <nb-card>
       <nb-card-header>Time Inside/Outside</nb-card-header>
       <nb-card-body>
-        <ngx-chartjs-pie></ngx-chartjs-pie>
+        <ngx-chartjs-pie *ngIf="isDataAvailable" [range]="range" [batch]="batchValue"></ngx-chartjs-pie>
       </nb-card-body>
     </nb-card>
   </div>
@@ -59,7 +58,7 @@
     <nb-card>
       <nb-card-header>Count Exiting</nb-card-header>
       <nb-card-body>
-        <ngx-chartjs-radar></ngx-chartjs-radar>
+        <ngx-chartjs-radar *ngIf="isDataAvailable" [range]="range" [batch]="batchValue"></ngx-chartjs-radar>
       </nb-card-body>
     </nb-card>
   </div>

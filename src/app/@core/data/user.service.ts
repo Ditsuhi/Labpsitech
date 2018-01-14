@@ -3,6 +3,7 @@ import { Http } from '@angular/http';
 import * as _ from 'underscore';
 import * as moment from 'moment';
 import { LeafletService } from '../../pages/maps/leaflet/leaflet.service';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 interface FormatedDate {
   year: number,
@@ -32,71 +33,88 @@ export class UserService {
       .map((data) => data[0].value);
   }
 
-  getUserData(user) {
-    return this.getAllUsers()
-      .map((users) => {
-        users.filter((usr) => {
-          return usr.user === user;
-        })
-      })
-  }
-
-  getUsersTable() {
-    return this.getAllUsers()
-      .subscribe((users) => {
-        const distinctUserNames = _.uniq(_.pluck(users, 'user'))
-      })
-  }
-  getUserCalendarTime(user) {
+  getUserCalendarTime(user, time) {
     return this.getAllUsers()
       .map((users) => {
         const expUser = users.filter((usr) => {
           return usr.user === user;
         });
-
-        const formatedTime: FormatedDate[] = [];
-        const formatedTimeT: FormatedDate[] = [];
-        const distinctUserExps = _.uniq(_.pluck(expUser, 'min_time')).sort();
-        console.log('please', distinctUserExps);
+        const expDate = expUser.filter((exp) => {
+          const chosenMax = moment.utc(exp.max_time).format('DD-MM-YYYY' ) ;
+          const chosenMin = moment.utc(exp.min_time).format('DD-MM-YYYY' ) ;
+          const end = moment(time.end).subtract(1, 'month').add(1, 'days').format('DD-MM-YYYY');
+          const start = moment(time.start).subtract(1, 'month').format('DD-MM-YYYY');
+          return chosenMin >= start && chosenMax < end;
+        });
+        const timeArr = [];
+        const timePluck = _.pluck(expDate, 'min_time');
+        timePluck.forEach((timee) => {
+          const form = moment(timee).format('DD-MM-YYYY');
+          timeArr.push(form);
+        });
+        const distinctUserExps = _.uniq(timeArr);
         const expUserGroup: any[] = [];
         distinctUserExps.forEach((exp) => {
-         const form = moment.utc(exp).zone(-120).format('DD-MM-YYYY'
-         );
-          console.log(form);
           const expUs = expUser.filter((data) => {
-            // const day = moment(data).date();
-            // const month = moment(data).month() + 1;
-            // const year = moment(data).year();
-            // formatedTime.push({year, month, day});
-            // // return formatedTime
-            // const dayT = moment(moment.utc(data.min_time).zone(-120).format()).date();
-            // const monthT = moment( moment.utc(data.min_time).zone(-120).format()).month() + 1;
-            // const yearT = moment( moment.utc(data.min_time).zone(-120).format()).year();
-            // formatedTimeT.push({ yearT, monthT, dayT});
-            return moment.utc(data.min_time).zone(-120).format() === form;
+            return moment(data.min_time).format('DD-MM-YYYY') === exp;
           });
-          let timeIn = 0, timeOut = 0, countExit = 0, totalDistanceIn = 0, totalDistanceOut = 0;
+          let totalDistanceOut = 0, timeIn = 0, timeOut = 0, countExit = 0;
           expUs.forEach((ss) => {
+            totalDistanceOut += ss.totalDistanceOutside;
             timeIn += ss.timeInside;
             timeOut += ss.timeOutside;
             countExit += ss.countExiting;
-            totalDistanceIn += ss.totalDistanceInside;
-            totalDistanceOut += ss.totalDistanceOutside;
           });
           expUserGroup.push({
-            experimentDate: form,
+            experimentDate: exp,
+            totalDistanceOutside: totalDistanceOut,
             totalTimeInside: timeIn,
             totalTimeOutside: timeOut,
             totalCountExiting: countExit,
-            totalDistanceInside: totalDistanceIn,
-            totalDistanceOutside: totalDistanceOut
           });
-          console.log(timeIn, 'timeIn');
-          console.log(timeOut, 'timeOut');
         });
         return expUserGroup;
       })
   }
+
+  getBatchCalendar(user, batch) {
+
+    return this.getAllUsers()
+      .map((users) => {
+        const expUser = users.filter((usr) => {
+          return usr.user === user;
+        });
+        const timeArr = [];
+        const timePluck = _.pluck(expUser, 'min_time');
+        timePluck.forEach((timee) => {
+          const form = moment(timee).format('DD-MM-YYYY');
+          timeArr.push(form);
+        });
+        const distinctUserExps = _.uniq(timeArr);
+        const expUserGroup: any[] = [];
+        distinctUserExps.forEach((exp) => {
+          const expUs = expUser.filter((data) => {
+            return moment(data.min_time).format('DD-MM-YYYY') === exp && data.batch === batch;
+          });
+          let totalDistanceOutside = 0, timeIn = 0, timeOut = 0,  countExit = 0;
+          expUs.forEach((ss) => {
+            totalDistanceOutside = ss.totalDistanceOutside;
+            timeIn = ss.timeInside;
+            timeOut = ss.timeOutside;
+            countExit = ss.countExiting;
+          });
+          expUserGroup.push({
+            experimentDate: exp,
+            totalDistanceOutside: totalDistanceOutside,
+            totalTimeInside: timeIn,
+            totalTimeOutside: timeOut,
+            totalCountExiting: countExit,
+          });
+        });
+        return expUserGroup;
+      })
+  }
+
 
   getUserExpTime(user) {
     return this.getAllUsers()
@@ -132,57 +150,6 @@ export class UserService {
         return expUserGroup;
       })
   };
-  getBatchDistance(user, batch) {
-
-    return this.getAllUsers()
-      .map((users) => {
-        const expUser = users.filter((usr) => {
-          return usr.user === user;
-        });
-        const distinctUserExps = _.uniq(_.pluck(expUser, 'experimentDate')).sort();
-        const expUserGroup: any[] = [];
-        distinctUserExps.forEach((exp) => {
-          const expUs = expUser.filter((data) => {
-            return data.experimentDate === exp && data.batch === batch;
-          });
-          let totalDistanceOutside = 0;
-          expUs.forEach((ss) => {
-            totalDistanceOutside = ss.totalDistanceOutside;
-          });
-          expUserGroup.push({
-            experimentDate: exp,
-            totalDistanceOutside: totalDistanceOutside,
-          });
-        });
-        return expUserGroup;
-      })
-  }
-
-  getBatchExiting(user, batch) {
-
-    return this.getAllUsers()
-      .map((users) => {
-        const expUser = users.filter((usr) => {
-          return usr.user === user;
-        });
-        const distinctUserExps = _.uniq(_.pluck(expUser, 'experimentDate')).sort();
-        const expUserGroup: any[] = [];
-        distinctUserExps.forEach((exp) => {
-          const expUs = expUser.filter((data) => {
-            return data.experimentDate === exp && data.batch === batch;
-          });
-          let countExiting = 0;
-          expUs.forEach((ss) => {
-            countExiting = ss.countExiting;
-          });
-          expUserGroup.push({
-            experimentDate: exp,
-            countExiting: countExiting,
-          });
-        });
-        return expUserGroup;
-      })
-  }
 
   // get time for certain user; for using in calendar;
   getTime(user) {
@@ -249,37 +216,7 @@ export class UserService {
       })
 
   }
-  getTotalDistance(user, time) {
-    return this.getAllUsers()
-      .map((users) => {
-        const expUser = users.filter((usr) => {
-          return usr.user === user;
-        });
-        const expDate = expUser.filter((exp) => {
-          const chosen = moment.utc(exp.min_time).zone(-120).format('DD-MM-YYYY' ) ;
-          const end = moment(time.end).subtract(1, 'month').add(1, 'days').format('DD-MM-YYYY');
-          const start = moment(time.start).subtract(1, 'month').format('DD-MM-YYYY');
-          return chosen >= start && chosen <= end;
-        });
-        const expUserGroup: any[] = [];
-        let totalDistanceOutside = 0 ;
-        const totalDistanceOut = _.pluck(expDate, 'totalDistanceOutside');
-        totalDistanceOut.forEach((data) => {
-          totalDistanceOutside += data.totalDistanceOutside;
-        });
-        expUserGroup.push({
-          experimentDate: time,
-          totalDistanceOutside: totalDistanceOut
-        });
-        console.log('distance', totalDistanceOutside);
-        console.log(time);
-        console.log('klklkl', expUserGroup);
-        return expUserGroup
-      })
-  }
 
-
-  //  Below methods are for drawing radius;
   getUsersRadius(user) {
     let radius: number;
     return this.leafletService.getUsersConfigs().map((users) => {
@@ -310,6 +247,4 @@ export class UserService {
   setUserTime(time) {
     this.time = time;
   }
-
-
 }

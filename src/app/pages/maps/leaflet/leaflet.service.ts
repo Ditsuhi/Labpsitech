@@ -19,23 +19,17 @@ export class LeafletService {
 
   getUsersConfigs() {
     return this.http.get(`${this.apiUrl}/variable-data/${this.appId}/userConfig`)
-      .map((res) => res.json().result.results)
+      .map((res) => res.json().result.results);
   }
   getUsersConfig() {
     return this.http.get(`${this.apiUrl}/metrics-data/${this.appId}/calculateMetrics?application=${this.appId}&session=session1&user=admin`)
-      .map((res) => {
-        const results = res.json().result.results;
-        return results;
-      })
+      .map((res) => res.json().result.results);
   }
 
  getFromFile() {
 
    return this.http.get('assets/data/calculateMetrics.json')
-     .map(res => {
-       const results = res.json().result.results;
-       return results;
-     })
+     .map(res => res.json().result.results);
  }
   getUsersConfigData(user) {
     return this.http.get('assets/data/calculateMetrics.json')

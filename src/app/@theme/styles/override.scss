@@ -6,9 +6,10 @@ my-date-range-picker {
   .mydrp {
     border-color: #9a91ff;
     border-width: 2px;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-    border-right: transparent;
+    //border-top-right-radius: 0;
+    //border-bottom-right-radius: 0;
+    right: 2px;
+    //border-right: transparent;
 
   }
 }

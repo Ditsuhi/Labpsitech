@@ -1,11 +1,11 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import * as L from 'leaflet';
 
 import * as _ from 'underscore';
 import 'style-loader!leaflet/dist/leaflet.css';
 import { LeafletService } from './leaflet.service';
 import { UserService } from '../../../@core/data/user.service';
-import { IMyDate, IMyDateRangeModel, IMyDrpOptions } from 'mydaterangepicker';
+import { IMyDateRangeModel, IMyDrpOptions } from 'mydaterangepicker';
 
 const openStreetMap = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 20, attribution: '...'});
 const googleHybrid = L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {maxZoom: 20, subdomains: [ 'mt0', 'mt1', 'mt2', 'mt3']});
@@ -22,9 +22,8 @@ const LeafIcon = L.Icon.extend({
   templateUrl: './leaflet.component.html',
 })
 
-export class LeafletComponent implements OnInit, OnDestroy {
+export class LeafletComponent implements OnDestroy {
   public myDateRangePickerOptions: IMyDrpOptions = {
-    // other options...
     dateFormat: 'dd.mm.yyyy',
     showSelectDateText: true,
     height: '34px',
@@ -52,7 +51,6 @@ export class LeafletComponent implements OnInit, OnDestroy {
     layers: [
       openStreetMap,
     ],
-    // scrollWheelZoom: 'center',
     zoom: 14,
     center: L.latLng({lat: 39.983, lng: -0.033}),
     keyboard: false
@@ -63,10 +61,6 @@ export class LeafletComponent implements OnInit, OnDestroy {
   constructor(public leafletService: LeafletService, private userService: UserService) {
 
     this.currentUser = localStorage.getItem('selectedUser');
-    // L.control.scale().addTo(this.map);
-  }
-
-  ngOnInit() {
   }
 
   onDateRangeChanged(event: IMyDateRangeModel) {
@@ -97,8 +91,6 @@ export class LeafletComponent implements OnInit, OnDestroy {
 
     this.leafletService.getUsersConfigData(this.currentUser).subscribe((result) => {
       _.sortBy(result.locations, 'time');
-
-
       if (result.locations.length) {
         for (let i = 0; i < result.locations.length; i++) {
           this.latlngs.push([
@@ -123,7 +115,7 @@ export class LeafletComponent implements OnInit, OnDestroy {
         this.map.setView(new L.LatLng(result.locations[0].lat, result.locations[0].lon), 16);
         L.marker([this.curLoc[0][0], this.curLoc[0][1]], {
           icon: L.icon({
-            iconSize: [38, 95],
+            iconSize: [55, 95],
             iconAnchor: [22, 94],
             iconUrl: 'assets/images/red.png',
           }),
@@ -197,8 +189,8 @@ export class LeafletComponent implements OnInit, OnDestroy {
         this.map.setView(new L.LatLng(res[0], res[1]), 16);
         L.marker([res[0], res[1]], {
           icon: L.icon({
-            iconSize: [38, 95],
-            iconAnchor: [22, 94],
+            iconSize: [38, 75],
+            iconAnchor: [22, 90],
             iconUrl: 'assets/images/Location.png',
           }),
         }).addTo(this.map).bindPopup('Home');

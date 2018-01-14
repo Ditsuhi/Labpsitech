@@ -13,14 +13,15 @@
         </div>
         <div class="col-md-8">
           <div class="row float-right">
-            <div class="input-group">
+            <div class="picker">
               <my-date-range-picker
                 name="mydaterange"
                 [options]="myDateRangePickerOptions"
                 (dateRangeChanged)="onDateRangeChanged($event)"
                 [(ngModel)]="model" required
                 title="Period"></my-date-range-picker>
-              <span class="input-group-addon" style="padding: 0; border: 0;">
+              </div>
+            <div class="drp">
               <span class="dropdown" placement="Batch" ngbDropdown>
                 <select
                   class="btn btn-outline-primary"
@@ -31,7 +32,6 @@
                  <option *ngFor="let batchValue of batch">{{batchValue}}</option>
                 </select>
               </span>
-            </span>
             </div>
           </div>
         </div>
@@ -47,7 +47,7 @@
             <a class="leaflet-control-btn"
                (click)="getCurrentLocation($event)" role="button" title="Starting point"><i class="fa fa-map-marker"></i></a>
             <a class="leaflet-control-btn"
-               (click)="setView($event)" role="button" title="Area of Interest"><i class="fa fa-plus-square" aria-hidden="true"></i></a>
+               (click)="setView($event)" role="button" title="Area of Interest"><i class="fa fa-compress" aria-hidden="true"></i></a>
             <a class="leaflet-control-btn"
                (click)="drawRadius($event)" role="button" title="Home"><i class="fa fa-dot-circle-o"></i></a>
           </div>
